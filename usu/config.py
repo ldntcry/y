@@ -21,9 +21,9 @@ USERNAME = os.getenv("USERNAME", "Khoccak")
 
 FSUB = os.getenv("FSUB", "LmodeStore MahaEsaInHere").split()
 
-LOGS_CHAT = int(os.getenv("LOGS_CHAT", "-1002547434184"))
+LOGS_CHAT = int(os.getenv("LOGS_CHAT", "-1002167927362"))
 
-BLACKLIST_CHAT = list(map(int, os.getenv("BLACKLIST_CHAT", "-1002579277466 -1002501848632").split()))
+BLACKLIST_CHAT = list(map(int, os.getenv("BLACKLIST_CHAT", "-1002579277466 -1002501848632 -1002167927362").split()))
 
 IMGBB_API_KEY = os.getenv("IMGBB_API_KEY", "1b54fa62c533c2eeca60e50dadce6c0b")
 
