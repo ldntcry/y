@@ -35,6 +35,6 @@ RMBG_API = os.getenv("RMBG_API", "HgrmjXeGacBNXHnUGuw4msC1")
 
 GEMINI_API = os.getenv("GEMINI_API", "AIzaSyAkHiriJ43kxfb4mIfxocF60mnN9wnIGZo")
 
-DATABASE = os.getenv("DATABASE", "namadb")
+DATABASE = os.getenv("DATABASE", "ell")
 
 STRING = os.getenv("STRING", "isi")
