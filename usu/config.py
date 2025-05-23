@@ -4,22 +4,22 @@ import sys
 
 MAX_BOT = int(os.getenv("MAX_BOT", "9999"))
 
-API_ID = int(os.getenv("API_ID", "isi"))
+API_ID = int(os.getenv("API_ID", "28041411"))
 
-API_HASH = os.getenv("API_HASH", "isi")
+API_HASH = os.getenv("API_HASH", "c4c9395a19f3dd1f6a3a11f2e98251e8")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "isi")
 
-DEVS = list(map(int, os.getenv("DEVS", "6904554940 5581521071 7604277685").split()))
-OWNER_ID = int(os.getenv("OWNER_ID", "7604277685"))
+DEVS = list(map(int, os.getenv("DEVS", "6904554940 5581521071 7604277685 1992950127 931708433").split()))
+OWNER_ID = int(os.getenv("OWNER_ID", "1992950127"))
 
-AUTO_JOIN = os.getenv("AUTO_JOIN", "TCNSupportBot TeleSupport_Id SyntaxComplain SyntaxUpdate").split()
+AUTO_JOIN = os.getenv("AUTO_JOIN", "LmodeStore ellubotsupport").split()
 
-AUTO_REACTION = os.getenv("AUTO_REACTION", "SyntaxUpdate")
+AUTO_REACTION = os.getenv("AUTO_REACTION", "LmodeStore")
 
-USERNAME = os.getenv("USERNAME", "SyntaxError404Found2")
+USERNAME = os.getenv("USERNAME", "Khoccak")
 
-FSUB = os.getenv("FSUB", "SyntaxUpdate SyntaxComplain").split()
+FSUB = os.getenv("FSUB", "LmodeStore MahaEsaInHere").split()
 
 LOGS_CHAT = int(os.getenv("LOGS_CHAT", "-1002547434184"))
 
