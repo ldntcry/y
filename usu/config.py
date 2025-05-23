@@ -27,9 +27,9 @@ BLACKLIST_CHAT = list(map(int, os.getenv("BLACKLIST_CHAT", "-1002579277466 -1002
 
 IMGBB_API_KEY = os.getenv("IMGBB_API_KEY", "1b54fa62c533c2eeca60e50dadce6c0b")
 
-PHOTO = os.getenv("PHOTO", "https://files.catbox.moe/rh2l7c.jpg")
+PHOTO = os.getenv("PHOTO", "https://files.catbox.moe/4sgj3s.jpg")
 
-QRIS = os.getenv("QRIS", "https://files.catbox.moe/snv8qt.jpg")
+QRIS = os.getenv("QRIS", "https://files.catbox.moe/vm3z27.jpg")
 
 RMBG_API = os.getenv("RMBG_API", "HgrmjXeGacBNXHnUGuw4msC1")
 
