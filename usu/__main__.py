@@ -7,7 +7,7 @@ import tornado.platform.asyncio
 import os
 import sys
 
-async def auto_reaction_task(client, channel_username, reactions):
+async def auto_reaction_task(client, AUTO_REACTION, reactions):
     random_emoji = random.choice(reactions)
     reacted = set()
     try:
