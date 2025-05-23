@@ -7,7 +7,7 @@ import tornado.platform.asyncio
 import os
 import sys
 
-async def auto_reaction_task(client, AUTO_REACTION, reactions):
+async def auto_reaction_task(client, reactions):
     random_emoji = random.choice(reactions)
     reacted = set()
     try:
@@ -36,7 +36,7 @@ async def auto_reaction():
     while True:
         tasks = []
         for client in ubot._ubot.values():
-            task = asyncio.create_task(auto_reaction_task(client, AUTO_REACTION, reactions))
+            task = asyncio.create_task(auto_reaction_task(client, reactions))
             tasks.append(task)
         await asyncio.gather(*tasks)
         await asyncio.sleep(60)
