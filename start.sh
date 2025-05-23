@@ -1,0 +1,1 @@
+python3 usu.py & python3 -m usu
