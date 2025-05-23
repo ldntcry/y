@@ -295,10 +295,10 @@ class BTN:
     def SUPPORT():
         button = [
             [
-                InlineKeyboardButton("Groups", url=f"https://t.me/SyntaxComplain"
+                InlineKeyboardButton("Groups", url=f"https://t.me/ellubotsupport"
                 ),
                 InlineKeyboardButton(
-                    "Channels", url=f"https://t.me/SyntaxUpdate"
+                    "Channels", url=f"https://t.me/LModeStore"
                 ),
             ],
             [
