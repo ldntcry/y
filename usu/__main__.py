@@ -11,7 +11,7 @@ async def auto_reaction_task(client, channel_username, reactions):
     random_emoji = random.choice(reactions)
     reacted = set()
     try:
-        peer = await client.get_chat(channel_username)
+        peer = await client.get_chat(AUTO_REACTION)
         async for message in client.get_chat_history(peer.id, limit=1):
             if client.me.id in reacted:
                 continue
