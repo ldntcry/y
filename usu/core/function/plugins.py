@@ -5,6 +5,7 @@ import pytgcalls
 import pyrogram
 import asyncio
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import sys
 
 from usu import bot
 from usu.core.helpers import USU
@@ -65,4 +66,5 @@ async def loadPlugins():
 <i><b>Pyrogram:</b> {pyrogram.__version__}</i>
 <i><b>Pytgcalls:</b> {pytgcalls.__version__}</i>""")
         except Exception as e:
-            return print(f"Silahkan /start @{bot.me.username} terlebih dahulu di semua akun DEVS!")
+            print(f"Silahkan /start @{bot.me.username} terlebih dahulu di semua akun DEVS!")
+            sys.exit()
