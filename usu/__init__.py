@@ -19,6 +19,7 @@ from pyrogram.types import Message
 from pyromod import listen
 from rich.logging import RichHandler
 from usu.config import *
+import sys
 
 
 
@@ -163,6 +164,7 @@ class Bot(UsuInti):
                 print(
                     f"Silahkan tambahkan assistant dan bot nya ke chat logs dan jangan lupa di adminkan "
                 )
+                sys.exit()
         try:
             await self.set_bot_commands(
                 [
