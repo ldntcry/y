@@ -64,7 +64,7 @@ async def _(client, callback_query):
                 continue
             sel.append(InlineKeyboardButton(f"{first} {last or ''}", url=f"tg://openmessage?user_id={user_id}"))
             if len(sel) == 2:
-                    button.inline_keyboard.append(sel)
+                button.inline_keyboard.append(sel)
                 sel = []
     if sel:
         button.inline_keyboard.append(sel)
