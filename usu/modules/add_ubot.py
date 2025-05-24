@@ -53,13 +53,18 @@ async def _(client, callback_query):
         for id in seles_users:
             if id in DEVS:
                 continue
-            user = await client.get_users(id)
-            first = user.first_name
-            last = user.last_name
-            user_id = user.id
+            try:
+                user = await client.get_users(id)
+                first = user.first_name
+                last = user.last_name
+                user_id = user.id
+            except PeerIdInvalid:
+                continue
+            except Exception as e:
+                continue
             sel.append(InlineKeyboardButton(f"{first} {last or ''}", url=f"tg://openmessage?user_id={user_id}"))
             if len(sel) == 2:
-                button.inline_keyboard.append(sel)
+                    button.inline_keyboard.append(sel)
                 sel = []
     if sel:
         button.inline_keyboard.append(sel)
