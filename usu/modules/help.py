@@ -67,7 +67,7 @@ async def user_help_inline(client, inline_query):
                 if button["text"].lower() == module:
                     prefix = await ubot.get_prefix(client.me.id)
                     hsl = button["teks"].format(next((usu) for usu in prefix))
-                    text = hsl + f"\n\n<i><b>@SyntaxUpdate</b></i>"
+                    text = hsl + f"\n\n<i><b>@LModeStore</b></i>"
                     if user_id not in usu_back:
                         usu_back[user_id] = 0
                     back = [[InlineKeyboardButton(text="Kembali", callback_data=f"back_{utama}"), InlineKeyboardButton(text="Home", callback_data="kembali")]]
