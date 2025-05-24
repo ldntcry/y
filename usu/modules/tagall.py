@@ -170,11 +170,11 @@ async def _(client, message):
         anu = "\n".join(output)
         try:
             await asyncio.sleep(2)
-            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@SyntaxUpdate</blockquote></b>", quote=False)
+            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@LModeStore</blockquote></b>", quote=False)
         except FloodWait as e:
             await asyncio.sleep(e.value)
             await asyncio.sleep(2)
-            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@SyntaxUpdate</blockquote></b>", quote=False)
+            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@LModeStore</blockquote></b>", quote=False)
     try:
         tagallgcid.remove(message.chat.id)
     except Exception:
