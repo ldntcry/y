@@ -58,8 +58,6 @@ async def _(client, callback_query):
                 first = user.first_name
                 last = user.last_name
                 user_id = user.id
-            except PeerIdInvalid:
-                continue
             except Exception as e:
                 continue
             sel.append(InlineKeyboardButton(f"{first} {last or ''}", url=f"tg://openmessage?user_id={user_id}"))
