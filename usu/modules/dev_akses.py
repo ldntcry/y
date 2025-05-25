@@ -65,7 +65,6 @@ async def _(client, message):
             await X.unblock_user(bot.me.username)
             await remove_ubot(user.id)
             await rem_expired_date(user.id)
-            await X.log_out()
             del X
             await msg.edit(f"<i><b>{sks}Successfully removed!</b></i>")
         except Exception as e:
