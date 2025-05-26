@@ -508,7 +508,7 @@ async def _(client, message):
     failed = 0
     chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
     for dialog in chat:
-        if not str(dialog).startswith("-100"):
+        if not str(dialog).startswith("-"):
             continue
         if user.id == client.me.id:
             return await Tm.edit(f"<i><b>{ggl}Anda tidak bisa gmute diri sendiri!</b><i>")
@@ -556,7 +556,7 @@ async def _(client, message):
     failed = 0
     chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
     for dialog in chat:
-        if not str(dialog).startswith("-100"):
+        if not str(dialog).startswith("-"):
             continue
         try:
             await client.unban_chat_member(dialog, user.id)
@@ -600,7 +600,7 @@ async def _(client, message):
     failed = 0
     chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
     for dialog in chat:
-        if not str(dialog).startswith("-100"):
+        if not str(dialog).startswith("-"):
             continue
         if user.id == client.me.id:
             return await Tm.edit(f"<i><b>{ggl}Anda tidak bisa gban diri sendiri!</b><i>")
@@ -648,7 +648,7 @@ async def _(client, message):
     failed = 0
     chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
     for dialog in chat:
-        if not str(dialog).startswith("-100"):
+        if not str(dialog).startswith("-"):
             continue
         try:
             await client.unban_chat_member(dialog, user.id)
@@ -692,7 +692,7 @@ async def _(client, message):
     failed = 0
     chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
     for dialog in chat:
-        if not str(dialog).startswith("-100"):
+        if not str(dialog).startswith("-"):
             continue
         if user.id == client.me.id:
             return await Tm.edit(f"<i><b>{ggl}Anda tidak bisa gkick diri sendiri!</b><i>")
