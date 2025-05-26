@@ -515,7 +515,7 @@ async def _(client, message):
     done = 0
     for chat_id in susers:
         if message.chat.type in [ChatType.SUPERGROUP, ChatType.GROUP]:
-            if str(chat_id).startswith("-100"):
+            if str(chat_id).startswith("-"):
                 try:
                     if message.reply_to_message:
                         if message.reply_to_message.photo:
@@ -564,7 +564,7 @@ caption_entities=message.reply_to_message.caption_entities, reply_markup=message
                 except Exception as e:
                     pass
         elif message.chat.type == ChatType.PRIVATE:
-            if not str(chat_id).startswith("-100"):
+            if not str(chat_id).startswith("-"):
                 try:
                     if message.reply_to_message:
                         if message.reply_to_message.photo:
