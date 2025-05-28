@@ -11,8 +11,8 @@ from usu.core.helpers.tools import list_admins
 async def if_sudo(_, client, message):
     sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
     is_user = message.from_user if message.from_user else message.sender_chat
-    saya = message.from_user and (message.from_user.is_self or message.outgoing or message.from_user.id == client.me.id)
-    return bool(is_user.id in sudo_users or saya)
+    saya = bool(message.from_user and message.from_user.is_self or getattr(message, "outgoing", False))
+    return is_user.id in sudo_users or saya
 
 async def if_filter_gc(_, client, message):
     on_off = await get_vars(client.me.id, "FILTERS_GC_ON_OFF")
