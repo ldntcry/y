@@ -117,6 +117,8 @@ class Bot(UsuInti):
         self.assistant = PyTgCalls(
             self.usu
         )
+        self.device_model = DEVICE_NAME
+        self.app_version = DEVICE_VERSION
 
     def on_message(self, filters=None, group=-1):
         def decorator(func):
@@ -265,8 +267,8 @@ class Ubot(UsuInti):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.call_py = PyTgCalls(self)
-        self.device_model = "Syntax-Device"
-        self.app_version = "1.2"
+        self.device_model = DEVICE_NAME
+        self.app_version = DEVICE_VERSION
 
     def on_message(self, filters=None, group=-1):
         def decorator(func):
