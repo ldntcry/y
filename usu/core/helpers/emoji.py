@@ -39,7 +39,7 @@ class EMO:
     async def PROSES(client):
         varss = await get_vars(client.me.id, "switch")
         emot_4 = await get_vars(client.me.id, "EMOJI_PROSES")
-        emot_prs = emot_4 if emot_4 else "5201877502003258204"
+        emot_prs = emot_4 if emot_4 else "6010111371251815589"
         if varss:
             _prses = f"<emoji id={emot_prs}>⏳</emoji>"
         else:
@@ -50,7 +50,7 @@ class EMO:
     async def SUKSES(client):
         varss = await get_vars(client.me.id, "switch")
         emot_5 = await get_vars(client.me.id, "EMOJI_SUKSES")
-        emot_brhsl = emot_5 if emot_5 else "5226799273076597250"
+        emot_brhsl = emot_5 if emot_5 else "5208727996315220567"
         if varss:
             _berhasil = f"<emoji id={emot_brhsl}>✅</emoji>"
         else:
@@ -61,7 +61,7 @@ class EMO:
     async def GAGAL(client):
         varss = await get_vars(client.me.id, "switch")
         emot_6 = await get_vars(client.me.id, "EMOJI_GAGAL")
-        emot_ggl = emot_6 if emot_6 else "5224269962541016225"
+        emot_ggl = emot_6 if emot_6 else 6186194164120554617"
         if varss:
             _gagal = f"<emoji id={emot_ggl}>❌</emoji>"
         else:
@@ -72,7 +72,7 @@ class EMO:
     async def BROADCAST(client):
         varss = await get_vars(client.me.id, "switch")
         emot_7 = await get_vars(client.me.id, "EMOJI_BROADCAST")
-        emot_gcs = emot_7 if emot_7 else "5803175856905917502"
+        emot_gcs = emot_7 if emot_7 else "5888773459898536408"
         if varss:
             _bc = f"<emoji id={emot_gcs}>📣</emoji>"
         else:
