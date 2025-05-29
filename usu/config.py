@@ -1,6 +1,9 @@
 import os
 import sys
 
+DEVICE_NAME = os.getenv("DEVICE_NAME", "AIO-Device") #Nama device bebas di ubah sesuka hati
+
+DEVICE_VERSION = os.getenv("DEVICE_VERSION", "1.1.2") #Versi bebas di ubah sesuka hati
 
 MAX_BOT = int(os.getenv("MAX_BOT", "9999"))
 
