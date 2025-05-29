@@ -24,6 +24,9 @@ Saya adalah [{bot.me.first_name}]({PHOTO})..!!
 Bot Hidup:</i></b> {usu_time}
 <i><b>Koneksi Userbot:</b> {len(ubot._ubot)}</i>
 <i><b>Koneksi Group:</b> {gc}</i>
+
+<i><b>{bot.device_model}</b>
+Version {bot.app_version}</i>
 """
 
     async def START():
