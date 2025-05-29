@@ -61,7 +61,7 @@ class EMO:
     async def GAGAL(client):
         varss = await get_vars(client.me.id, "switch")
         emot_6 = await get_vars(client.me.id, "EMOJI_GAGAL")
-        emot_ggl = emot_6 if emot_6 else 6186194164120554617"
+        emot_ggl = emot_6 if emot_6 else "6186194164120554617"
         if varss:
             _gagal = f"<emoji id={emot_ggl}>❌</emoji>"
         else:
