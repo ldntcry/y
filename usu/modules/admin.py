@@ -13,8 +13,7 @@ from usu import *
  
 
 
-MUTES = """
-Command for <b>Mutes</b>
+MUTES = """Command for <b>Mutes</b>
 
 <b>Mutes</b>
  <i>bisukan anggota group</i>
@@ -31,22 +30,19 @@ Command for <b>Bans</b>
  <i>membuka blokir anggota group</i>
     <code>{0}unban</code>"""
 
-ZOMBIES = """
-Command for <b>Zombies</b>
+ZOMBIES = """Command for <b>Zombies</b>
 
 <b>Zombies</b>
  <i>mengeluarkan akun terhapus</i>
     <code>{0}zombies</code>"""
 
-KICKS = """
-Command for <b>Kicks</b>
+KICKS = """Command for <b>Kicks</b>
 
 <b>Kicks</b>
  <i>mendang anggota group</i>
     <code>{0}kick</code>"""
 
-PINS = """
-Command for <b>Pins</b>
+PINS = """Command for <b>Pins</b>
 
 <b>Pins</b>
  <i>sematkan pesan</i>
@@ -54,8 +50,7 @@ Command for <b>Pins</b>
  <i>lepas sematan pesan</i>
     <code>{0}unpin</code>"""
 
-PROMOTE = """
-Command for <b>Promote</b>
+PROMOTE = """Command for <b>Promote</b>
  
 <b>Promote</b>
  <i>adminkan anggota group</i>
@@ -63,8 +58,7 @@ Command for <b>Promote</b>
  <i>turunkan admin anggota group</i>
     <code>{0}unadmin</code>"""
 
-ANTIUSER = """
-Command for <b>Anti-User</b>
+ANTIUSER = """Command for <b>Anti-User</b>
 
 <b>Blacklist user</b>
  <i>mengaktifkan/nonaktifkan antiuser</i>
@@ -80,8 +74,7 @@ Command for <b>Anti-User</b>
 <i>pengguna yang di tambahkan tidak bisa 
 mengirim pesan digroup yang anda admin</i>"""
 
-ANTIGCAST = """
-Command for <b>Antigcast</b>
+ANTIGCAST = """Command for <b>Antigcast</b>
 
 <b>Antigcast</b>
  <i>mengaktifkan/nonaktifkan antigcast</i>
@@ -103,8 +96,7 @@ Command for <b>Antigcast</b>
 kata-kata yang di tambahkan tidak bisa 
 mengirim pesan digroup yang anda admin</i>"""
 
-DEL = """
-Command for <b>Del</b>
+DEL = """Command for <b>Del</b>
 
 <b>Delete</b>
  <i>menghapus pesan yang di reply</i>

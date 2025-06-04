@@ -1,5 +1,6 @@
 httpx[http2]==0.27.2
 git+https://github.com/midharma/pyrogram
+pyrofork
 tgcrypto
 pyromod==1.0
 py-tgcalls==2.0.2
@@ -31,6 +32,7 @@ telegraph[aio]
 youtube-search-python
 pymongo
 yt-dlp
+aiorun
 wget
 python-dateutil
 emoji
@@ -45,5 +47,4 @@ speedtest-cli
 search-engine-parser
 ffmpeg-python
 meval
-tornado
 MukeshAPI

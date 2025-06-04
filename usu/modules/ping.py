@@ -64,9 +64,9 @@ async def pingu(client, message):
     tion = await EMO.MENTION(client)
     alive = await usu_alive()
     _ping = f"""
-<blockquote><i><b>{pong}Pong -</b> {str(delta_ping)} ms</i>
+<i><b>{pong}Pong -</b> {str(delta_ping)} ms</i>
 <i><b>{tion}Client -</b> {client.me.mention}</i>
-<i><b>{up}Alive -</b></i> {alive}</blockquote>
+<i><b>{up}Alive -</b></i> {alive}
 """
     await message.reply(_ping)
 

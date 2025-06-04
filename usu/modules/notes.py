@@ -4,8 +4,7 @@ from usu import *
 
 
 
-DELETE = """
-Command for <b>Delete Note</b>
+DELETE = """Command for <b>Delete Note</b>
 
 <b>Delete Note</b>
  <i>menghapus catatan yang di simpan</i>
@@ -13,8 +12,7 @@ Command for <b>Delete Note</b>
  <i>menghapus callback yang di simpan</i
     <code>{0}delcb</code> [title cb]"""
 
-LIST = """
-Command for <b>List Note</b>
+LIST = """Command for <b>List Note</b>
 
 <b>List Note</b>
  <i>melihat daftar catatan yang di simpan</i>
@@ -23,16 +21,14 @@ Command for <b>List Note</b>
     <code>{0}listcb</code> [title cb]"""
 
 
-GET = """
-Command for <b>Get Note</b>
+GET = """Command for <b>Get Note</b>
 
 <b>Get Note</b>
  <i>mendapatkan catatan yang di simpan</i>
     <code>{0}get</code> [title note/cb]"""
 
 
-SAVE = """
-Command for <b>Add Note</b>
+SAVE = """Command for <b>Add Note</b>
 
 <b>Add Note</b>
  <i>menyimpan sebuah catatan</i>
@@ -41,9 +37,10 @@ Command for <b>Add Note</b>
    <code>{0}addcb</code> [title]"""
 
 
-FORMAT = """
-<b>Example note button</b>
- <code>text bebas | nama button - link/callback |</code>"""
+FORMAT = """Command for <b>Format Notes</b>
+
+<b>Example notes button</b>
+ <code>{0}addnote</code> text bebas | nama button - link/callback |"""
 
 
 __UTAMA__ = "Notes"

@@ -9,14 +9,13 @@ from pytz import timezone
 
 
 langganan_info = {}
-HARGA_PER_BULAN = 20
 
 @USU.CALLBACK("beli")
 async def beli_langganan(client, callback_query):
     user_id = callback_query.from_user.id
     langganan_info[user_id] = 1
     return await callback_query.edit_message_text(
-        f"<i><b>Silakan pilih jumlah masa aktif [Userbot]({QRIS}) yang anda inginkan:</b>\n1 Bulan - Rp {HARGA_PER_BULAN}.000",
+        f"<i><b>Silakan pilih jumlah masa aktif [Userbot]({QRIS}) yang anda inginkan:</b>\n1 Bulan - Rp {HARGA_USERBOT}.000",
         reply_markup=InlineKeyboardMarkup(BTN.PAY(1))
     )
 
@@ -28,7 +27,7 @@ async def prev_bulan(client, callback_query):
         if bulan_saat_ini > 1:
             langganan_info[user_id] = bulan_saat_ini - 1
             jumlah_bulan = langganan_info[user_id]
-            total_harga = jumlah_bulan * HARGA_PER_BULAN
+            total_harga = jumlah_bulan * HARGA_USERBOT
             await callback_query.edit_message_text(
                 f"<i><b>Silakan pilih jumlah masa aktif [Userbot]({QRIS}) yang anda inginkan:</b>\n{jumlah_bulan} Bulan - Rp {total_harga}.000",
                 reply_markup=InlineKeyboardMarkup(BTN.PAY(jumlah_bulan))
@@ -46,7 +45,7 @@ async def next_bulan(client, callback_query):
         bulan_saat_ini = int(callback_query.data.split("_")[1])
         langganan_info[user_id] = bulan_saat_ini + 1
         jumlah_bulan = langganan_info[user_id]
-        total_harga = jumlah_bulan * HARGA_PER_BULAN
+        total_harga = jumlah_bulan * HARGA_USERBOT
         await callback_query.edit_message_text(
             f"<i><b>Silakan pilih jumlah masa aktif [Userbot]({QRIS}) yang anda inginkan:</b>\n{jumlah_bulan} Bulan - Rp {total_harga}.000",
             reply_markup=InlineKeyboardMarkup(BTN.PAY(jumlah_bulan))
@@ -82,7 +81,7 @@ async def proses_bayar(client, callback_query):
     user_id = callback_query.from_user.id
     if user_id in langganan_info:
         jumlah_bulan = langganan_info[user_id]
-        total_harga = jumlah_bulan * HARGA_PER_BULAN
+        total_harga = jumlah_bulan * HARGA_USERBOT
         btns = [[InlineKeyboardButton(f"Akses {jumlah_bulan} bulan", callback_data=f"tambahkan {jumlah_bulan} {user_id}")], [InlineKeyboardButton(f"Kirim Pesan", callback_data=f"jawab_pesan {user_id}")]]
         batal = [[InlineKeyboardButton("Kembali", callback_data=f"beli")]]
         try:

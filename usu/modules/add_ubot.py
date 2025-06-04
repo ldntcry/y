@@ -15,7 +15,6 @@ from pyrogram import Client
 from usu import *
 
 langganan = {}
-PER_BULAN = 20
 
 @USU.BOT("start")
 @USU.PRIVATE
@@ -55,11 +54,14 @@ async def _(client, callback_query):
                 continue
             try:
                 user = await client.get_users(id)
-                first = user.first_name
-                last = user.last_name
-                user_id = user.id
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                user = await client.get_users(id)
             except Exception as e:
                 continue
+            first = user.first_name
+            last = user.last_name
+            user_id = user.id
             sel.append(InlineKeyboardButton(f"{first} {last or ''}", url=f"tg://openmessage?user_id={user_id}"))
             if len(sel) == 2:
                 button.inline_keyboard.append(sel)
@@ -132,7 +134,7 @@ async def prev_bulan(client, callback_query):
         if bulan_saat_ini > 1:
             langganan[user_id] = bulan_saat_ini - 1
             jumlah_bulan = langganan[user_id]
-            total_harga = jumlah_bulan * PER_BULAN
+            total_harga = jumlah_bulan * HARGA_USERBOT
             return await callback_query.edit_message_text(
                 f"""<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:</b>\nRp {teks}\n\n<b>Catatan:</b> membeli userbot otomatis mengurangi saldo anda sebesar Rp {total_harga}.000</i>""", reply_markup=InlineKeyboardMarkup(BTN.KONFIR(jumlah_bulan)))
         else:
@@ -151,7 +153,7 @@ async def next_bulan(client, callback_query):
         bulan_saat_ini = int(callback_query.data.split("_")[1])
         langganan[user_id] = bulan_saat_ini + 1
         jumlah_bulan = langganan[user_id]
-        total_harga = jumlah_bulan * PER_BULAN
+        total_harga = jumlah_bulan * HARGA_USERBOT
         return await callback_query.edit_message_text(
             f"""<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:</b>\nRp {teks}\n\n<b>Catatan:</b> membeli userbot otomatis mengurangi saldo anda sebesar Rp {total_harga}.000</i>""", reply_markup=InlineKeyboardMarkup(BTN.KONFIR(jumlah_bulan)))
     except Exception as e:
@@ -163,7 +165,7 @@ async def setuju(c, cq):
     vars = await get_vars(user_id, "SALDO")
     saldo = vars if vars else 0
     jumlah_bulan = langganan[user_id]
-    total_harga = jumlah_bulan * PER_BULAN * 1000
+    total_harga = jumlah_bulan * HARGA_USERBOT * 1000
     if saldo < total_harga:
         return await cq.answer(f"Saldo anda tidak mencukupi!", True)       
     if user_id in await get_list_from_vars(c.me.id, "AKSES") or user_id in ubot._ubot:
@@ -189,7 +191,7 @@ async def hajar(c, cq):
     teks = f"{int(saldo):,}".replace(",", ".")
     langganan[user_id] = 1
     return await cq.edit_message_text(
-        f"""<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:</b>\nRp {teks}\n\n<b>Catatan:</b> membeli userbot otomatis mengurangi saldo anda sebesar Rp {PER_BULAN}.000</i>""", reply_markup=InlineKeyboardMarkup(BTN.KONFIR(langganan[user_id])))
+        f"""<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:</b>\nRp {teks}\n\n<b>Catatan:</b> membeli userbot otomatis mengurangi saldo anda sebesar Rp {HARGA_USERBOT}.000</i>""", reply_markup=InlineKeyboardMarkup(BTN.KONFIR(langganan[user_id])))
 
 
 @USU.CALLBACK("metode_beli")

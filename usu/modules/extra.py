@@ -1,7 +1,6 @@
 from usu import *
 
-DOWN = """
-Command for <b>Songs</b>
+DOWN = """Command for <b>Songs</b>
 
 <b>Songs</b>
  <i>mendownload music youtube yang di inginkan</i>
@@ -9,16 +8,14 @@ Command for <b>Songs</b>
  <i>mendownload video youtube yang di inginkan</i>
     <code>{0}vsong</code> [title]"""
 
-CONVERT = """
-Command for <b>Convert</b>
+CONVERT = """Command for <b>Convert</b>
 
 <b>Convert</b>
  <i>untuk merubah video menjadi audio mp3</i>
     <code>{0}toaudio</code>"""
 
 
-EMO = """
-Command for <b>Emoji</b>
+EMO = """Command for <b>Emoji</b>
 
 <b>Query:</b>
   <code>|pong |alive |client</code>
@@ -33,8 +30,7 @@ Command for <b>Emoji</b>
     <code>{0}emoji</code> [on/off]"""
 
 
-RESELLER = """
-Command for <b>Reseller Userbot</b>
+RESELLER = """Command for <b>Reseller Userbot</b>
 
 <b>Reseller</b>
  <i>memberikan akses bot</i>
@@ -47,15 +43,13 @@ Command for <b>Reseller Userbot</b>
 <i>Perintah ini untuk seller userbot</i>"""
 
 
-ADZAN = """
-Command for <b>Adzan</b>
+ADZAN = """Command for <b>Adzan</b>
 
 <b>Time</b>
  <i>melihat jadwal adzan di lokasi anda</i>
     <code>{0}adzan</code> [nama kota]"""
 
-ABSEN = """
-Command for <b>Absen</b>
+ABSEN = """Command for <b>Absen</b>
 
 <b>Absen</b>
  <i>Menampilkan absen bot</i>
@@ -64,8 +58,7 @@ Command for <b>Absen</b>
  <i>Menghapus absen bot</i>
     <code>{0}clearabsen</code>"""
 
-AFK = """
-Command for AFK
+AFK = """Command for AFK
 
 mengaktifkan away from keyboard
    {0}afk [alasan]
@@ -77,8 +70,7 @@ Notes:
 jika afk aktif bot akan otomatis merespon
 dimana anda di tandai seseorang"""
 
-ANIMASI = """
-Command for <b>Animasi</b>
+ANIMASI = """Command for <b>Animasi</b>
 
 <b>Animals Text</b>
  <i>melakukan text animasi bergerak</i>
@@ -94,8 +86,7 @@ Command for <b>Animasi</b>
     <code>{0}piss |{0}hmm |{0}bundir</code>
     <code>{0}tank |{0}awk |{0}y</code>"""
 
-ARCHIVE = """
-Command for <b>Archive</b>
+ARCHIVE = """Command for <b>Archive</b>
 
 <b>Type</b>
  <code>'users'</code> , arsip semua pm
@@ -109,8 +100,7 @@ Command for <b>Archive</b>
  <i>menghapus arsip obrolan group/users/bot</i>
     <code>{0}unarchiveall</code> [type]"""
 
-BACA = """
-Command for <b>Baca</b>
+BACA = """Command for <b>Baca</b>
 
 <b>Type</b>
  <code>'group'</code> , baca semua group
@@ -123,8 +113,7 @@ Command for <b>Baca</b>
     <code>{0}read or {0}baca</code> [type]"""
 
 
-BUTTON = """
-Command for <b>Button</b>
+BUTTON = """Command for <b>Button</b>
 
 <b>Create Button</b>
  <i>Membuat button</i>
@@ -134,8 +123,7 @@ Command for <b>Button</b>
 <code>{0}button</code> text ~> button_text:button_link"""
 
 
-CREAT = """
-Command for <b>Creat</b>
+CREAT = """Command for <b>Creat</b>
 
 <b>Type:</b>
 <code>'channel'</code> , membuat channel
@@ -145,29 +133,25 @@ Command for <b>Creat</b>
  <i>membuat sebuah group/channel baru</i>
     <code>{0}creat</code> [type]"""
 
-BIO = """
-Command for <b>Set-Bio</b>
+BIO = """Command for <b>Set-Bio</b>
 
 <b>Bio</b>
  <i>mengubah bio pada akun anda</i>
     <code>{0}setbio</code> [text]"""
 
-NAME = """
-Command for <b>Set-Name</b>
+NAME = """Command for <b>Set-Name</b>
 
 <b>Name</b>
  <i>mengubah nama pada akun anda:</i>
     <code>{0}setname</code> [name]"""
 
-PP = """
-Command for <b>Set-Profile</b>
+PP = """Command for <b>Set-Profile</b>
 
 <b>Profile</b>
  <i>mengubah foto pada akun anda:</i>
     <code>{0}setpp</code> [reply]"""
 
-BLOCKS = """
-Command for <b>Blocks</b>
+BLOCKS = """Command for <b>Blocks</b>
 
 <b>Blocks</b>
  <i>memblokir pengguna</i>
@@ -176,8 +160,7 @@ Command for <b>Blocks</b>
     <code>{0}unblock</code>"""
 
 
-ASK = """
-Command for <b>Chat-GPT</b>
+ASK = """Command for <b>Chat-GPT</b>
 
 <b>AI</b>
  <i>mengajukan pertanyaan ke AI</i>
@@ -186,8 +169,7 @@ Command for <b>Chat-GPT</b>
 <b>Example:</b>
 <code>{0}ask</code> kapan indonesia merdeka?"""
 
-GEMINI = """
-Command for <b>Gemini-AI</b>
+GEMINI = """Command for <b>Gemini-AI</b>
 
 <b>Gemini</b>
  <i>mengajukan pertanyaan ke AI</i>
@@ -196,8 +178,7 @@ Command for <b>Gemini-AI</b>
 <b>Example:</b>
 <code>{0}gemini</code> kapan indonesia merdeka?"""
 
-PREFIX = """
-Command for <b>Prefix</b>
+PREFIX = """Command for <b>Prefix</b>
 
 <b>Prefix Handler</b>
  <i>Mengganti handler perintah</i>
@@ -206,8 +187,7 @@ Command for <b>Prefix</b>
  <i>Jika lupa handler perintah, bisa reset di bot nya</i>  """
 
 
-REP = """
-Command for <b>Filters</b>
+REP = """Command for <b>Filters</b>
 
 <b>Command Filters in group</b>
  <i>Mengaktifkan filter </i>
@@ -225,8 +205,7 @@ Command for <b>Filters</b>
  <i>Menghapus semua kata yang di filter</i>
   <code>{0}clearfilter</code>"""
 
-GAME = """
-Document for <b>Game</b>
+GAME = """Document for <b>Game</b>
 
 <b>Games</b>
  <i>permainan catur</i>
@@ -238,8 +217,7 @@ Document for <b>Game</b>
 <i>jumlah game yang akan di munculkan 500+ jenis game yang keluar berbeda - beda </i>"""
 
 
-INVITE = """
-Command for <b>Invite</b>
+INVITE = """Command for <b>Invite</b>
 
 <b>Inviting</b>
  <i>mengundang anggota ke group</i>
@@ -250,8 +228,7 @@ Command for <b>Invite</b>
     <code>{0}cancel</code>"""
 
 
-JOINLEAVE = """
-Command for <b>JoinLeave</b>
+JOINLEAVE = """Command for <b>JoinLeave</b>
 
 <b>Joinned</b>
  <i>bergabung group</i>
@@ -267,8 +244,7 @@ Command for <b>JoinLeave</b>
  <i>keluar dari semua channel</i>
     <code>{0}leaveallch</code>"""
 
-LOCKS = """
-Command for <b>Locks</b>
+LOCKS = """Command for <b>Locks</b>
 
 <b>Type</b>
   <code>|msg |media |stickers |polls |info</code>
@@ -283,29 +259,25 @@ Command for <b>Locks</b>
     <code>{0}locks</code>"""
 
 
-LOGGER = """
-Document for <b>Logger</b>
+LOGGER = """Document for <b>Logger</b>
 
 <b>Logger</b>
  <i>mengaktifkan atau menonaktifkan logger</i>
     <code>{0}logger</code> [on/off]"""
 
-FONTS = """
-Command for <b>Fonts</b>
+FONTS = """Command for <b>Fonts</b>
 
 <b>Fonts</b>
  <i>merubah text menjadi berbeda</b>
     <code>{0}font</code>"""
 
-CARBONS = """
-Command for <b>Carbons</b>
+CARBONS = """Command for <b>Carbons</b>
 
 <b>Carbons</b>
  <i>membuat text carbonara</i>
     <code>{0}carbon</code>"""
 
-BAR = """
-Command for <b>BarCodes</b>
+BAR = """Command for <b>BarCodes</b>
     
 <b>BarCodes</b>
  <i>merubah qrcode text menjadi gambar</i>
@@ -314,8 +286,7 @@ Command for <b>BarCodes</b>
     <code>{0}qrRead</code>"""
 
 
-PURGE = """
-Command for <b>Purge</b>
+PURGE = """Command for <b>Purge</b>
 
 <b>Delete message</b>
  <i>hapus semua pesan dari pesan yang di reply</i>
@@ -324,8 +295,7 @@ Command for <b>Purge</b>
     <code>{0}purgeme</code> [jumlah]"""
 
 
-REACT = """
-Command for <b>Reaction</b>
+REACT = """Command for <b>Reaction</b>
 
 <i>memberikan reaction emoji</i>
    <code>{0}react</code> [username]
@@ -337,8 +307,7 @@ Command for <b>Reaction</b>
 <i>hanya bisa emot bukan emoji dan dapat di lakukan menggunakan username group/user</i>"""
 
 
-TAGALL = """
-Command for <b>TagAll</b>
+TAGALL = """Command for <b>TagAll</b>
 
 <b>Mentions</b>
  <i>mention semua anggota group</i>
@@ -347,8 +316,7 @@ Command for <b>TagAll</b>
     <code>{0}batal</code>"""
 
 
-KASAR = """
-Command for <b>Animasi</b>
+KASAR = """Command for <b>Animasi</b>
 
 <b>Animals text hatred</b>
  <i>melakukan animasi text bergerak kata kasar</i>
@@ -357,8 +325,7 @@ Command for <b>Animasi</b>
     <code>{0}ngaca |{0}alay |{0}santet</code>"""
 
 
-TR = """
-Command for <b>Translate</b>
+TR = """Command for <b>Translate</b>
 
 <b>Change language</b>
  <i>menerjemahkan pesan/text</i>
@@ -367,15 +334,13 @@ Command for <b>Translate</b>
     <code>{0}tts</code> [text]"""
 
 
-SECRET = """
-Command for <b>Secret</b>
+SECRET = """Command for <b>Secret</b>
 
 <b>Anonims</b>
  <i>mengirim pesan secara rahasia</i>
     <code>{0}msg</code> [reply to user - text]"""
 
-SPAM = """
-Command for <b>Spam</b>
+SPAM = """Command for <b>Spam</b>
 
 <b>Spams</b>
  <i>melakukan spam pesan</i>
@@ -386,29 +351,25 @@ Command for <b>Spam</b>
     <code>{0}cancelspam</code>"""
 
 
-ADMINLIST = """
-Command for <b>Adminlist</b>
+ADMINLIST = """Command for <b>Adminlist</b>
 
 <b>Adminlist</b>
  <i>cek admin group</i> 
     <code>{0}adminlist</code>"""
 
-BOTLIST = """
-Command for <b>Botlist</b>
+BOTLIST = """Command for <b>Botlist</b>
 
 <b>Botlist</b>
  <i>cek bot group</i> 
     <code>{0}botlist</code>"""
 
-TWOFACTOR = """
-Command for <b>2FA</b>
+TWOFACTOR = """Command for <b>2FA</b>
 
 <b>2FA</b>
  <i>ganti password akun telegram anda</i> 
     <code>{0}2fa</code> [pw old] - [pw new]"""
 
-NULIS = """
-Command for <b>Nulis</b>
+NULIS = """Command for <b>Nulis</b>
 
 <b>Nulis</b>
  <i>menulis sesuatu</i>

@@ -20,51 +20,44 @@ from usu import *
 
 
 
-JOINVC = """
-Command for <b>Join-VC</b>
+JOINVC = """Command for <b>Join-VC</b>
 
 <b>Join-VC</b>
  <i>bergabung ke obrolan suara</i>
     <code>{0}joinvc</code>"""
 
-LEAVEVC = """
-Command for <b>Leave-VC</b>
+LEAVEVC = """Command for <b>Leave-VC</b>
 
 <b>Leave-VC</b>
  <i>meninggalkan obrolan suara</i>
     <code>{0}leavevc</code>"""
 
-SETVC = """
-Command for <b>Set-VC</b>
+SETVC = """Command for <b>Set-VC</b>
 
 <b>Set-VC</b>
  <i>mengganti judul obrolan suara</i>
     <code>{0}setvc</code> [judul]"""
 
-LISTVC = """
-Command for <b>List-VC</b>
+LISTVC = """Command for <b>List-VC</b>
 
 <b>List-VC</b>
  <i>cek peserta obrolan suara</i>
     <code>{0}listvc</code>"""
 
-STARTVC = """
-Command for <b>Start-VC</b>
+STARTVC = """Command for <b>Start-VC</b>
 
 <b>Start-VC</b>
  <i>memulai obrolan suara</i>
     <code>{0}startvc</code>"""
 
-STOPVC = """
-Command for <b>Stop-VC</b>
+STOPVC = """Command for <b>Stop-VC</b>
 
 <b>Stop-VC</b>
  <i>mengakhiri obrolan suara</i>
     <code>{0}stopvc</code>"""
 
 
-PLAY = """
-Command for <b>Play-Music/Video</b>
+PLAY = """Command for <b>Play-Music/Video</b>
 
 <b>Play-Music/Video</b>
  <i>Play music di obrolan suara</i> 
@@ -72,36 +65,31 @@ Command for <b>Play-Music/Video</b>
  <i>Play video di obrolan suara</i> 
     <code>{0}vplay</code> [judul]"""
 
-PAUSEMUSIC = """
-Command for <b>Pause-Music</b>
+PAUSEMUSIC = """Command for <b>Pause-Music</b>
 
 <b>Pause-Music</b>
  <i>Pause music/video di obrolan suara</i>
     <code>{0}pause</code>"""
 
-RESUMEMUSIC = """
-Command for <b>Resume-Music</b>
+RESUMEMUSIC = """Command for <b>Resume-Music</b>
 
 <b>Resume-Music</b>
  <i>Resume music/video di obrolan suara</i>
     <code>{0}resume</code>"""
 
-SKIPMUSIC = """
-Command for <b>Skip-Music</b>
+SKIPMUSIC = """Command for <b>Skip-Music</b>
 
 <b>Skip-Music</b>
  <i>Skip music/video di obrolan suara</i>
     <code>{0}skip</code>"""
 
-PLAYLISTMUSIC = """
-Command for <b>Playlist-Music</b>
+PLAYLISTMUSIC = """Command for <b>Playlist-Music</b>
 
 <b>Playlist-Music</b>
   <i>Playlist music/video di obrolan suara</i>
     <code>{0}playlist</code>"""
 
-ENDMUSIC = """
-Command for <b>End-Music</b>
+ENDMUSIC = """Command for <b>End-Music</b>
 
 <b>End-Music</b>
   <i>End music/video di obrolan suara</i>
@@ -158,7 +146,7 @@ async def _(client, message):
             if if_chat:
                 continue
             await x_.call_py.play(chat_id)
-            await x_.call_py.mute_strem(chat_id)
+            await x_.call_py.mute_stream(chat_id)
             await asyncio.sleep(5)
         except NoActiveGroupCall as e:
             pass
@@ -543,6 +531,7 @@ async def tampilkan_peserta_obrolan_suara(c, m):
     return await m.reply(f"<i>{text}</i>", disable_web_page_preview=True)
 
 @USU.BOT("activevc")
+@USU.SUDO
 @USU.DEVS
 async def tampilkan_peserta_obrolan_suara(c, m):
     chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
@@ -559,7 +548,7 @@ async def tampilkan_peserta_obrolan_suara(c, m):
             try:
                 peserta = await c.assistant.get_participants(gbt)
                 anu = await c.get_chat(gbt)
-                asu = f"[{anu.title}]({anu.invite_link})" if anu.invite_link else anu.id
+                asu = f"[{anu.title}]({anu.invite_link})" if anu.invite_link else f"[{anu.title}](https://t.me/{anu.username})" if anu.username else anu.id
                 hasil.append(f"<b>{angka}.Name:</b> {asu} <b>| Total Peserta:</b> {len(peserta)}")
             except Exception as e:
                 print(e)

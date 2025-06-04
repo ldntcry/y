@@ -13,14 +13,14 @@ from aiohttp import ClientSession
 from pytgcalls import PyTgCalls
 from pytgcalls import filters as fl
 from pyrogram import Client, filters
-from pyrogram.enums import ParseMode
+from pyrogram.enums import ParseMode, ChatMemberStatus
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.types import Message
 from pyromod import listen
 from rich.logging import RichHandler
 from usu.config import *
 import sys
-
+import importlib 
 
 
 class ConnectionHandler(logging.Handler):
@@ -142,6 +142,28 @@ class Bot(UsuInti):
 
     async def start(self):
         await super().start()
+        for mod in loadModule():
+            try:
+                imported_module = importlib.import_module(f"usu.modules.{mod}")
+                utama = getattr(imported_module, "__UTAMA__", None)
+                button_labels = getattr(imported_module, "__BUTTON__", None)
+                text = getattr(imported_module, "__TEXT__", None)
+                hasil = getattr(imported_module, "__HASIL__", None)
+
+                if utama and button_labels and text and hasil:
+                    if utama not in tombol_utama:
+                        tombol_utama[utama] = {"text": utama, "callback_data": f"usu {utama}", "__TEXT__": text, "HASIL": hasil}
+                    if utama not in tombol_anak:
+                        tombol_anak[utama] = []
+
+                    buttons = []
+                    for label, hasil_labels in zip(button_labels, hasil):
+                        callback_data = f"tousu {utama.lower()}_{label.replace(' ', '_').lower()}"
+                        buttons.append({"text": label, "teks": hasil_labels, "callback_data": callback_data})
+
+                    tombol_anak[utama].extend(buttons)
+            except Exception as e:
+                print(f"Client - Error loading module {mod}: {e}")
         try:
             with redirect_stdout(io.StringIO()):
                 await self.assistant.start()
@@ -155,9 +177,9 @@ class Bot(UsuInti):
             except FloodWait as e:
                 await asyncio.sleep(e.value)
                 try:
-                    await self.send_message(LOGS_CHAT, f"<b><i>Bot music aktif!</i></b>")
+                    await self.send_message(LOGS_CHAT, f"<b><i>Bot music started!</i></b>")
                     await self.usu.send_message(LOGS_CHAT, f"<b><i>Assistant started!</i></b>")
-                    print(f"Assistant started!")
+                    print(f"Assistant - {self.usu.me.id} started!")
                 except:
                     print(
                         f"Silahkan tambahkan assistant dan bot nya ke chat logs dan jangan lupa di adminkan "
@@ -167,6 +189,10 @@ class Bot(UsuInti):
                     f"Silahkan tambahkan assistant dan bot nya ke chat logs dan jangan lupa di adminkan "
                 )
                 sys.exit()
+        get = await self.get_chat_member(LOGS_CHAT, self.me.id)
+        if get.status != ChatMemberStatus.ADMINISTRATOR:
+            print("Tolong promosikan bot sebagai admin di logs chat")
+            sys.exit()
         try:
             await self.set_bot_commands(
                 [

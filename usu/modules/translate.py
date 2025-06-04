@@ -60,7 +60,7 @@ async def _(client, message):
     text = message.reply_to_message.text or message.reply_to_message.caption
 
     if not text:
-        return await message.reply("<i><b>{ggl}No text found in the message.</b></i>")
+        return await message.reply(f"<i><b>{ggl}No text found in the message.</b></i>")
 
     input_str = message.text.split(None, 1)[1] if len(message.command) > 1 else None
     target = input_str or "id"

@@ -36,6 +36,18 @@ async def get_private_and_group_chats(client):
                 gb.append(dialog.chat.id)
             elif dialog.chat.type in chat_type.get("all"):
                 all.append(dialog.chat.id)
+        except FloodWait as e:
+            await asyncio.sleep(e.value)
+            if dialog.chat.type in chat_type.get("users"):
+                user.append(dialog.chat.id)
+            elif dialog.chat.type in chat_type.get("group"):
+                group.append(dialog.chat.id)
+            elif dialog.chat.type in chat_type.get("channel"):
+                channel.append(dialog.chat.id)
+            elif dialog.chat.type in chat_type.get("global"):
+                gb.append(dialog.chat.id)
+            elif dialog.chat.type in chat_type.get("all"):
+                all.append(dialog.chat.id)
         except Exception as e:
             print(f"[INFO]: {e}")
 

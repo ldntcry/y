@@ -28,13 +28,16 @@ async def _(client, message):
     user_list = user_s_to_add.split(" ")
     try:
         await client.add_chat_members(message.chat.id, user_list, forward_limit=100)
+    except FloodWait as e:
+        await asyncio.sleep(e.value)
+        await client.add_chat_members(message.chat.id, user_list, forward_limit=100)
     except Exception as e:
         return await mg.edit(f"{e}")
     await mg.edit(f"<i><b>{sks}Success invite!</b></i>")
 
 
 
-invite_id = []
+invite_id = {}
 
 
 @USU.UBOT("inviteall")
@@ -54,13 +57,14 @@ async def _(client, message):
     colldown = message.text.split()[2]
     chat = await client.get_chat(queryy)
     tgchat = message.chat
-    if tgchat.id in invte_id:
+    if client.me.id in invite_id and tgchat.id in invite_id[client.me.id]:
         return await Tm.edit_text(
             f"<i><b>{ggl}Invalid!</b></i>"
         )
     else:
-        invte_id.append(tgchat.id)
-        await Tm.edit_text(f"<i><b>{prs}Invite Processing...</b></i>")
+        if client.me.id not in invite_id:
+            invite_id[client.me.id] = []
+        invite_id[client.me.id].append(tgchat.id)
         done = 0
         async for member in client.get_chat_members(chat.id):
             user = member.user
@@ -75,9 +79,14 @@ async def _(client, message):
                     await client.add_chat_members(tgchat.id, user.id)
                     done += 1
                     await asyncio.sleep(int(colldown))
-                except BaseException:
+                except FloodWait as e:
+                    await asyncio.sleep(e.value)
+                    await client.add_chat_members(tgchat.id, user.id)
+                    done += 1
+                    await asyncio.sleep(int(colldown))
+                except Exception:
                     pass
-        invte_id.remove(tgchat.id)
+        invite_id[client.me.id].remove(tgchat.id)
         await Tm.delete()
         return await eor(
             message,
@@ -93,12 +102,15 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
-    if message.chat.id not in invite_id:
+    if client.me.id not in invite_id and message.chat.id not in invite_id[client.me.id]:
         return await message.reply_text(
             f"<i><b>{ggl}Invalid!</b></i>"
         )
-    try:
-        invite_id.remove(message.chat.id)
-        await message.reply_text(f"<i><b>{sks}Success canceled!</b></i>")
-    except Exception as e:
-        await message.reply_text(e)
+    else:
+        try:
+            invite_id[client.me.id].remove(message.chat.id)
+            await message.reply_text(f"<i><b>{sks}Success canceled!</b></i>")
+        except Exception as e:
+            await message.reply_text(e)
+
+

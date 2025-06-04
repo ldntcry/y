@@ -83,17 +83,18 @@ async def _(client, message):
 
 data = {}
 
-@USU.NO_CMD_UBOT("LOGS_PRIVATE", ubot)
+@USU.NO_CMD("LOGS_PRIVATE", ubot)
 async def _(client, message):
     logs = await get_vars(client.me.id, "ID_LOGS")
     on_logs = await get_vars(client.me.id, "ON_LOGS")
 
     if logs and on_logs:
-        user_link = f"{message.from_user.mention}"
+        user_link = f"{message.from_user.mention}" if message.from_user else f"{message.sender_chat.title}"
+        user_id = f"{message.from_user.id}" if message.from_user else f"{message.sender_chat.id}"
         if message.photo or message.video or message.document or message.voice or message.audio or message.animation:
             message_text = f"""Information Users!
 Name: {user_link}
-ID: {message.from_user.id}
+ID: {user_id}
 
 Chat Name: {message.chat.title}
 Chat ID: {message.chat.id}
@@ -104,7 +105,7 @@ Message: {message.caption}"""
         else:
             message_text = f"""Information Users!
 Name: {user_link}
-ID: {message.from_user.id}
+ID: {user_id}
 
 Chat Name: {message.chat.title}
 Chat ID: {message.chat.id}
@@ -117,17 +118,18 @@ Message: {message.text}"""
             data[client.me.id] = []
         data[client.me.id].append({"chat_id": message.chat.id, "message_id": message.id, "message_text": message_text})
 
-@USU.NO_CMD_UBOT("LOGS_GROUP", ubot)
+@USU.NO_CMD("LOGS_GROUP", ubot)
 async def _(client, message):
     logs = await get_vars(client.me.id, "ID_LOGS")
     on_logs = await get_vars(client.me.id, "ON_LOGS")
 
     if logs and on_logs:
-        user_link = f"{message.from_user.mention}"
+        user_link = f"{message.from_user.mention}" if message.from_user else f"{message.sender_chat.title}"
+        user_id = f"{message.from_user.id}" if message.from_user else f"{message.sender_chat.id}"
         if message.photo or message.video or message.document or message.voice or message.audio or message.animation:
             message_text = f"""Information Users!
 Name: {user_link}
-ID: {message.from_user.id}
+ID: {user_id}
 
 Chat Name: {message.chat.title}
 Chat ID: {message.chat.id}
@@ -138,7 +140,7 @@ Message: {message.caption}"""
         else:
             message_text = f"""Information Users!
 Name: {user_link}
-ID: {message.from_user.id}
+ID: {user_id}
 
 Chat Name: {message.chat.title}
 Chat ID: {message.chat.id}
@@ -154,7 +156,7 @@ Message: {message.text}"""
 
 
 
-@USU.NO_CMD_UBOT("REPLY", ubot)
+@USU.NO_CMD("REPLY", ubot)
 async def _(client, message):
     logs = await get_vars(client.me.id, "ID_LOGS")
     on_logs = await get_vars(client.me.id, "ON_LOGS")

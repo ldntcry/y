@@ -101,7 +101,7 @@ async def _(client, message):
             chat = await client.get_chat(chat_id)
             list += f"{chat.title} | {chat.id}\n"
         except:
-            list += f"{chat_id}\n"
+            pass
 
     list += f"{sks}Total broadcast database {total_bcdb}"
     return await mzg.edit(f"<i><b>{list}</b></i>")

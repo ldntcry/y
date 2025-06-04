@@ -14,8 +14,10 @@ from usu import *
 
 
 
-@USU.NO_CMD_UBOT("PROTECT", ubot)
+@USU.NO_CMD("PROTECT", ubot)
 async def _(client, message):
+    if message.reply_to_message:
+        return
     wl = await get_list_from_vars(client.me.id, "wl")
     if message.from_user and (message.from_user.id in wl or message.from_user.id in DEVS):
         return
@@ -24,7 +26,7 @@ async def _(client, message):
             if message.text:
                 word_split = message.text.lower().split()
                 word_list = await get_vars(client.me.id, "WORD_LIST") or []
-                if not message.outgoing and not message.from_user.is_self:
+                if message.from_user and message.from_user.id:
                     try:
                         await message.delete()
                     except FloodWait as e:
@@ -49,11 +51,13 @@ async def _(client, message):
     except pyrogram.errors.exceptions.forbidden_403.ChatAdminRequired:
         pass
     except Exception as e:
-        print(e)
+        pass
 
 
-@USU.NO_CMD_UBOT("PROTECT_BOT", bot)
+@USU.NO_CMD("PROTECT_BOT", bot)
 async def _(client, message):
+    if message.reply_to_message:
+        return
     wl = await get_list_from_vars(message.chat.id, "wl")
     if message.from_user and (message.from_user.id in wl or message.from_user.id in DEVS):
         return
@@ -62,13 +66,20 @@ async def _(client, message):
             if message.text:
                 word_split = message.text.lower().split()
                 word_list = await get_vars(client.me.id, "WORD_LIST") or []
-                if not message.outgoing and not message.from_user.is_self:
+                mention = f"<b><i>{message.from_user.mention} Teks anda terdeteksi Broadcast!</i></b>"
+                if message.from_user and message.from_user.id:
                     try:
                         await message.delete()
+                        anjay = await bot.send_message(message.chat.id, mention)
+                        await asyncio.sleep(3)
+                        await anjay.delete()
                     except FloodWait as e:
                         await asyncio.sleep(e.value)
                         try:
                             await message.delete()
+                            anjay = await bot.send_message(message.chat.id, mention)
+                            await asyncio.sleep(3)
+                            await anjay.delete()
                         except Exception:
                             pass
                     except Exception:
@@ -76,10 +87,16 @@ async def _(client, message):
                 if word_list and any(x in word_list for x in word_split):
                     try:
                         await message.delete()
+                        anjay = await bot.send_message(message.chat.id, mention)
+                        await asyncio.sleep(3)
+                        await anjay.delete()
                     except FloodWait as e:
                         await asyncio.sleep(e.value)
                         try:
                             await message.delete()
+                            anjay = await bot.send_message(message.chat.id, mention)
+                            await asyncio.sleep(3)
+                            await anjay.delete()
                         except Exception:
                             pass
                     except Exception:
@@ -87,7 +104,7 @@ async def _(client, message):
     except pyrogram.errors.exceptions.forbidden_403.ChatAdminRequired:
         pass
     except Exception as e:
-        print(e)
+        pass
 
 
 @USU.CALLBACK("^ankes")
@@ -114,6 +131,7 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
+    vars = await get_vars(client.me.id, "ON_OFF_WORD")
     if len(message.command) < 2:
         return await message.reply(
             f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[on/off]</b></i>`"
@@ -127,13 +145,18 @@ async def _(client, message):
             f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[on/off]</b></i>"
         )
 
-    txt = (
-        f"<i><b>{sks}Antigcast on!</b></i>"
-        if command == "on"
-        else f"<i><b>{sks}Antigcast off!</b></i>"
-    )
-    await set_vars(client.me.id, "ON_OFF_WORD", query[command])
-    await message.reply(txt)
+    if command == "on":
+        if not vars:
+            await set_vars(client.me.id, "ON_OFF_WORD", query[command])
+            return await message.reply(f"<i><b>{sks}Antigcast on!</b></i>")
+        else:
+            return await message.reply(f"<i><b>{ggl}Antigcast sudah on sebelumnya!</b></i>")
+    else:
+        if vars:
+            await set_vars(client.me.id, "ON_OFF_WORD", query[command])
+            return await message.reply(f"<i><b>{sks}Antigcast off!</b></i>")
+        else:
+            return await message.reply(f"<i><b>{ggl}Antigcast sudah off sebelumnya!</b></i>")
 
 
 @USU.UBOT("addword")
@@ -302,9 +325,7 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
-    susers = await get_list_from_vars(bot.me.id, "SAVED_USERS")
-    if message.chat.id not in susers:
-        await add_to_vars(bot.me.id, "SAVED_USERS", message.chat.id)
+    vars = await get_vars(message.chat.id, "ON_OFF_WORD")
     if len(message.command) < 2:
         return await message.reply(
             f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[on/off]</b></i>`"
@@ -317,14 +338,20 @@ async def _(client, message):
         return await message.reply(
             f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[on/off]</b></i>"
         )
+    await message.delete()
 
-    txt = (
-        f"<i><b>{sks}Antigcast on!</b></i>"
-        if command == "on"
-        else f"<i><b>{sks}Antigcast off!</b></i>"
-    )
-    await set_vars(message.chat.id, "ON_OFF_WORD", query[command])
-    await message.reply(txt)
+    if command == "on":
+        if not vars:
+            await set_vars(message.chat.id, "ON_OFF_WORD", query[command])
+            return await message.reply(f"<i><b>{sks}Antigcast on!</b></i>")
+        else:
+            return await message.reply(f"<i><b>{ggl}Antigcast sudah on sebelumnya!</b></i>")
+    else:
+        if vars:
+            await set_vars(message.chat.id, "ON_OFF_WORD", query[command])
+            return await message.reply(f"<i><b>{sks}Antigcast off!</b></i>")
+        else:
+            return await message.reply(f"<i><b>{ggl}Antigcast sudah off sebelumnya!</b></i>")
 
 
 @USU.BOT("bl")
@@ -366,6 +393,7 @@ async def _(client, message):
     ptr = await EMO.PUTARAN(client)
     admin = await list_admins(message)
     vars = await get_vars(message.chat.id, "WORD_LIST") or []
+    await message.delete()
     if vars:
         msg = f"<b>{broad}Daftar word!</b>\n\n"
         for x in vars:
@@ -419,7 +447,7 @@ async def _(client, message):
         return await msg.edit(
             f"<i><b>{ggl}{message.text} user_id/reply</b></i>"
         )
-
+    await message.delete()
     try:
         user = await client.get_users(user_id)
     except Exception as error:
@@ -449,7 +477,7 @@ async def _(client, message):
         return await msg.edit(
             f"<i><b>{ggl}{message.text} user_id/reply</b></i>"
         )
-
+    await message.delete()
     try:
         user = await client.get_users(user_id)
     except Exception as error:
@@ -474,10 +502,9 @@ async def _(client, message):
     admin = await list_admins(message)
     Sh = await message.reply(f"<i><b>{prs}Processing...</b></i>")
     wl = await get_list_from_vars(message.chat.id, "wl")
-
+    await message.delete()
     if not wl:
         return await Sh.edit(f"<i><b>{ggl}Empty!</b></i>")
-
     wl_list = []
     for user_id in wl:
         try:

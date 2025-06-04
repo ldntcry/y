@@ -12,16 +12,14 @@ from usu import *
 
 FLOOD = {}
 MSG_ID = {}
-PM_TEXT = """
-<i><b>🙋🏻‍♂️ Halo {mention}!
+PM_TEXT = """<i><b>🙋🏻‍♂️ Halo {mention}!
 
 Saya adalah PM-Security akun ini,
 Jangan spam! silahkan tunggu majikan saya online!</b></i>
 """
 
 
-PMPERMIT = """
-Command for <b>PM-Security</b>
+PMPERMIT = """Command for <b>PM-Security</b>
 
 <i>mengaktifkan atau menonaktifkan PM-Security</i>
    <code>{0}pm</code> [on/off]
@@ -34,38 +32,41 @@ Command for <b>PM-Security</b>
     <code>{0}setpm</code> [type]"""
 
 
-OK = """
-Command for <b>Approve</b>
+OK = """Command for <b>Approve</b>
 
 <b>Approve</b>
  <i>menerima seseorang untuk pm anda</i>
     <code>{0}ok</code>"""
 
-NO = """
-Command for <b>Disapprove</b>
+NO = """Command for <b>Disapprove</b>
 
 <b>Disapprove</b>
  <i>menolak seseorang untuk pm anda</i>
     <code>{0}no</code>"""
 
+FORMAT_PM = """
+Command for <b>Format PM</b>
+
+<b>Example:</b>
+<code>{0}setpm text</code> isi_text ~> button_text:button_link"""
 
 __UTAMA__ = "PM-Security"
 
 __TEXT__ = f"Menu Bantuan {__UTAMA__}!"
 
-__BUTTON__ = "Approve", "Set-PM", "Disapprove",
+__BUTTON__ = "Approve", "Set-PM", "Disapprove", "Format PM"
 
-__HASIL__ = OK, PMPERMIT, NO
+__HASIL__ = OK, PMPERMIT, NO, FORMAT_PM
 
 
 
-@USU.NO_CMD_UBOT("PMPERMIT", ubot)
+@USU.NO_CMD("PMPERMIT", ubot)
 async def _(client, message):
     user = message.from_user
     pm_on = await get_vars(client.me.id, "PMPERMIT")
     if pm_on:
         if user.id in MSG_ID:
-            await delete_old_message(message, MSG_ID.get(user.id, 0))
+            await delete_old_message(client, message, MSG_ID.get(user.id))
         check = await get_pm_id(client.me.id)
         if user.id not in check:
             if user.id in FLOOD:
@@ -108,7 +109,7 @@ async def _(client, message):
     query_str = message.text.split(None, 2)[1].lower()
     if query_str not in query:
         return await message.reply(
-            f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[query] [value]</b><i>"
+            f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[type] [value]</b><i>"
         )
     value = query[query_str]
  
@@ -239,7 +240,7 @@ async def _(client, message):
         await add_pm_id(client.me.id, user.id)
         usu = await message.reply(f"<i><b>{sks}Baiklah, {rpk} telah diterima!</b></i>")
         if user.id in MSG_ID:
-            await delete_old_message(message, MSG_ID.get(user.id, 0))
+            await delete_old_message(client, message, MSG_ID.get(user.id))
     else:
         usu = await message.reply(f"<b><i>{ggl}Maaf {rpk} sudah diterima sebelumnya!</i></b>")
     await asyncio.sleep(5)
@@ -268,9 +269,9 @@ async def _(client, message):
         )
 
 
-async def delete_old_message(message, msg_id):
+async def delete_old_message(client, message, msg_id):
     try:
-        await message._client.delete_messages(message.chat.id, msg_id)
+        await client.delete_messages(message.chat.id, msg_id)
     except:
         pass
 

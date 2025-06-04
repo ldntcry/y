@@ -1,23 +1,20 @@
 from usu import *
 
 
-PING = """
-Command for <b>Prefix</b>
+PING = """Command for <b>Prefix</b>
 
 <b>Ping</b>
  <i>Menampilkan ping</i>
     <code>{0}ping</code>"""
 
-ALIVE = """
-Command for <b>Alive</b>
+ALIVE = """Command for <b>Alive</b>
 
 <b>Alive</b>
  <i>Menampilkan status userbot anda</i>
     <code>{0}alive</code>"""
 
 
-INFO = """
-Command for <b>Info</b>
+INFO = """Command for <b>Info</b>
 
 <b>Info</b>
  <i>melihat informasi data akun telegram</i>
@@ -27,8 +24,7 @@ Command for <b>Info</b>
      <code>{0}gcinfo</code> [reply/username]"""
 
 
-ID = """
-Command for <b>ID</b>
+ID = """Command for <b>ID</b>
 
 <b>ID</b>
  <i>memeriksa id pengguna telegram</i>
@@ -37,23 +33,20 @@ Command for <b>ID</b>
     <code>{0}idm</code> [reply emoji]"""
 
 
-SG = """
-Command for <b>SG</b>
+SG = """Command for <b>SG</b>
 
 <b>SG</b>
  <i>memeriksa histori name pengguna telegram</i>
     <code>{0}sg</code> [reply/username]"""
 
 
-LIMIT = """
-Command for <b>Limit</b>
+LIMIT = """Command for <b>Limit</b>
 
 <b>Limit bot</b>
  <i>mengecek status akun apakah terkena limit atau tidak</i>
     <code>{0}limit</code>"""
 
-STATS = """
-Command for <b>Stats</b>
+STATS = """Command for <b>Stats</b>
 
 <b>Status</b>
  <i>melihat status akun anda</i>

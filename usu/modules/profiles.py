@@ -416,11 +416,8 @@ async def _(client, message):
         return await lol.edit(f"<i><b>{ggl}Invalid!</b></i>")
     try:
         user_id = (await client.usu.get_users(get_user)).id
-    except Exception:
-        try:
-            user_id = int(message.command[1])
-        except Exception as error:
-            return await lol.edit(error)
+    except Exception as error:
+        return await lol.edit(error)
     bot = ["@Sangmata_bot", "@SangMata_beta_bot"]
     getbot = random.choice(bot)
     await client.usu.unblock_user(getbot)

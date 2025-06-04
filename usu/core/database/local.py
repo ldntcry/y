@@ -1,5 +1,6 @@
 import sqlite3 
 import os
+import sys
 import dateutil.parser
 import json
 import requests
@@ -37,11 +38,13 @@ def get_connection():
         if conn:
             if conn is not None:
                 conn.close()
-        return None
+        os.execl(sys.executable, sys.executable, "-m", "usu")
 
 
 async def set_vars(user_id, vars_name, value, query="vars"):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     cursor.execute("SELECT vars_data FROM vars WHERE user_id = ?", (user_id,))
@@ -70,6 +73,8 @@ async def set_vars(user_id, vars_name, value, query="vars"):
 
 async def get_vars(user_id, vars_name, query="vars"):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     cursor.execute("SELECT vars_data FROM vars WHERE user_id = ?", (user_id,))
@@ -84,6 +89,8 @@ async def get_vars(user_id, vars_name, query="vars"):
 
 async def remove_vars(user_id, vars_name, query="vars"):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     cursor.execute("SELECT vars_data FROM vars WHERE user_id = ?", (user_id,))
@@ -101,6 +108,8 @@ async def remove_vars(user_id, vars_name, query="vars"):
 
 async def all_vars(user_id, query="vars"):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     cursor.execute("SELECT vars_data FROM vars WHERE user_id = ?", (user_id,))
@@ -114,6 +123,8 @@ async def all_vars(user_id, query="vars"):
 
 async def remove_all_vars(user_id):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
     cursor.execute("DELETE FROM vars WHERE user_id = ?", (user_id,))
     conn.commit()
@@ -161,6 +172,8 @@ async def remove_pm_id(me_id, user_id):
 
 async def add_ubot(user_id, api_id, api_hash, session_string):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     data = {
@@ -180,6 +193,8 @@ async def add_ubot(user_id, api_id, api_hash, session_string):
 
 async def remove_ubot(user_id):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
     cursor.execute("DELETE FROM ubot WHERE user_id = ?", (user_id,))
     conn.commit()
@@ -187,6 +202,8 @@ async def remove_ubot(user_id):
 
 async def get_userbots():
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
     cursor.execute("SELECT user_id, ubot_data FROM ubot")
     results = cursor.fetchall()
@@ -209,6 +226,8 @@ async def get_userbots():
 
 async def get_pref(user_id):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
     cursor.execute("SELECT user_data FROM prefixes WHERE user_id = ?", (user_id,))
     result = cursor.fetchone()
@@ -222,6 +241,8 @@ async def get_pref(user_id):
 
 async def set_pref(user_id, prefix):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     cursor.execute("SELECT user_data FROM prefixes WHERE user_id = ?", (user_id,))
@@ -245,6 +266,8 @@ async def set_pref(user_id, prefix):
 
 async def rem_pref(user_id):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     cursor.execute("SELECT user_data FROM prefixes WHERE user_id = ?", (user_id,))
@@ -263,6 +286,8 @@ async def rem_pref(user_id):
 
 async def get_two_factor(user_id):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
     cursor.execute("SELECT user_data FROM twofactor WHERE user_id = ?", (user_id,))
     result = cursor.fetchone()
@@ -276,6 +301,8 @@ async def get_two_factor(user_id):
 
 async def set_two_factor(user_id, twofactor):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     cursor.execute("SELECT user_data FROM twofactor WHERE user_id = ?", (user_id,))
@@ -299,6 +326,8 @@ async def set_two_factor(user_id, twofactor):
 
 async def rem_two_factor(user_id):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     cursor.execute("SELECT user_data FROM twofactor WHERE user_id = ?", (user_id,))
@@ -317,6 +346,8 @@ async def rem_two_factor(user_id):
 
 async def get_expired_date(user_id):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
     cursor.execute("SELECT user_data FROM users WHERE user_id = ?", (user_id,))
     result = cursor.fetchone()
@@ -345,6 +376,8 @@ async def get_expired_date(user_id):
 
 async def set_expired_date(user_id, expire_date):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     cursor.execute("SELECT user_data FROM users WHERE user_id = ?", (user_id,))
@@ -368,6 +401,8 @@ async def set_expired_date(user_id, expire_date):
 
 async def rem_expired_date(user_id):
     conn = get_connection()
+    if conn is None:
+        return
     cursor = conn.cursor()
 
     cursor.execute("SELECT user_data FROM users WHERE user_id = ?", (user_id,))

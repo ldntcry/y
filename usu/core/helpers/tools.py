@@ -96,9 +96,12 @@ async def extract_userid(message, text):
     if entities is not None and len(entities) > 0:
         entity = entities[1 if message.text.startswith("/") else 0]
         if entity.type == enums.MessageEntityType.MENTION:
-            user = await app.get_users(text)
-            if user is not None:
-                return user.id
+            try:
+                user = await app.get_users(text)
+                if user is not None:
+                    return user.id
+            except Exception as e:
+                print(e)
         elif entity.type == enums.MessageEntityType.TEXT_MENTION:
             return entity.user.id
 

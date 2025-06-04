@@ -18,8 +18,7 @@ from pyrogram.errors.exceptions import FloodWait
 from usu import *
 
 
-BLACKLIST = """
-Command for <b>Blacklist</b>
+BLACKLIST = """Command for <b>Blacklist</b>
 
 <b>Broadcast blacklist</b>
  <i>memasukan group ke daftar blacklist</i>
@@ -35,8 +34,7 @@ Command for <b>Blacklist</b>
 <i>pesan broadcast anda tidak akan masuk ke group yang di blacklist</i>"""
 
 
-SIARAN = """
-Command for <b>Broadcast</b>
+SIARAN = """Command for <b>Broadcast</b>
 
 <b>Type</b>
  <code>'group'</code> , kirim pesan ke semua group
@@ -74,8 +72,7 @@ Command for <b>Broadcast</b>
  <i>mengirim pesan semua group secara otomatis</i>
    <code>{0}autogcast</code> [query]"""
 
-BCDB = """
-Command for <b>Broadcast-Database</b>
+BCDB = """Command for <b>Broadcast-Database</b>
 
 <b>Type</b>
  <code>'db'</code> , kirim pesan ke database
@@ -103,8 +100,7 @@ Command for <b>Broadcast-Database</b>
 <b>Note:</b>
 <i>pesan broadcast anda akan masuk ke dalam group yang di database</i>"""
 
-SPAMG = """
-Command for <b>SpamG</b>
+SPAMG = """Command for <b>SpamG</b>
 
 <b>SpamG</b>
  <i>melakukan spam ke seluruh group</i>
@@ -193,10 +189,13 @@ async def broadcast_speed(client, message):
             failed += 1
             try:
                 chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
             except Exception as e:
-                print(e)
-            hasil.append((chat.title, chat.id))
-            pass
+                pass
     if client.me.id not in broadcasts:
         await msg.delete()
         await eor(message, f"""<i><b>{broad}Broadcast Completed!</b>
@@ -260,10 +259,13 @@ async def ucast(client, message):
             failed += 1
             try:
                 chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
             except Exception as e:
-                print(e)
-            hasil.append((chat.title, chat.id))
-            pass
+                pass
     if client.me.id not in broadcasts:
         await msg.delete()
         await eor(message, f"""<i><b>{broad}Broadcast Completed!</b>
@@ -326,10 +328,13 @@ async def _(client, message):
                     failed += 1
                     try:
                         chat = await client.get_chat(chat_id)
+                        hasil.append((chat.title, chat.id))
+                    except FloodWait as e:
+                        await asyncio.sleep(e.value)
+                        chat = await client.get_chat(chat_id)
+                        hasil.append((chat.title, chat.id))
                     except Exception as e:
-                        print(e)
-                    hasil.append((chat.title, chat.id))
-                    pass
+                        pass
         if chat_id in blacklist or chat_id in BLACKLIST_CHAT:
             continue
         try:
@@ -352,10 +357,13 @@ async def _(client, message):
             failed += 1
             try:
                 chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
             except Exception as e:
-                print(e)
-            hasil.append((chat.title, chat.id))
-            pass
+                pass
     if client.me.id not in broadcasts:
         await _msg.delete()
         await eor(message, f"""<i><b>{broad}Broadcast Completed!</b>
@@ -447,10 +455,13 @@ async def _(client, message):
                     failed += 1
                     try:
                         chat = await client.get_chat(chat_id)
+                        hasil.append((chat.title, chat.id))
+                    except FloodWait as e:
+                        await asyncio.sleep(e.value)
+                        chat = await client.get_chat(chat_id)
+                        hasil.append((chat.title, chat.id))
                     except Exception as e:
-                        print(e)
-                    hasil.append((chat.title, chat.id))
-                    pass
+                        pass
         if chat_id in blacklist or chat_id in BLACKLIST_CHAT:
             continue
         try:
@@ -479,10 +490,13 @@ async def _(client, message):
             failed += 1
             try:
                 chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
             except Exception as e:
-                print(e)
-            hasil.append((chat.title, chat.id))
-            pass
+                pass
     if client.me.id not in broadcasts: 
         await gcs.delete()
         await eor(message, f"""<i><b>{broad}Broadcast Completed!</b>
@@ -671,10 +685,13 @@ async def _(client, message):
                         failed += 1
                         try:
                             chat = await client.get_chat(chat_id)
+                            hasil.append((chat.title, chat.id))
+                        except FloodWait as e:
+                            await asyncio.sleep(e.value)
+                            chat = await client.get_chat(chat_id)
+                            hasil.append((chat.title, chat.id))
                         except Exception as e:
-                            print(e)
-                        hasil.append((chat.title, chat.id))
-                        pass
+                            pass
 
                 if client.me.id not in AG:
                     return

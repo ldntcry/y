@@ -170,11 +170,11 @@ async def _(client, message):
         anu = "\n".join(output)
         try:
             await asyncio.sleep(2)
-            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@LModeStore</blockquote></b>", quote=False)
+            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@{CHANNEL}</blockquote></b>", quote=False)
         except FloodWait as e:
             await asyncio.sleep(e.value)
             await asyncio.sleep(2)
-            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@LModeStore</blockquote></b>", quote=False)
+            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@{CHANNEL}</blockquote></b>", quote=False)
     try:
         tagallgcid.remove(message.chat.id)
     except Exception:
@@ -204,9 +204,6 @@ async def _(client, message):
 @USU.GROUP
 @USU.ADMIN
 async def _(client, message):
-    admin = await list_admins(message)
-    if message.from_user.id not in admin:
-        return
     if message.chat.id in tagallgcid:
         return
     tagallgcid.append(message.chat.id)
@@ -224,11 +221,11 @@ async def _(client, message):
         anu = "\n".join(output)
         try:
             await asyncio.sleep(2)
-            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@LModeStore</blockquote></b>", quote=False)
+            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@{CHANNEL}</blockquote></b>", quote=False)
         except FloodWait as e:
             await asyncio.sleep(e.value)
             await asyncio.sleep(2)
-            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@LModeStore</blockquote></b>", quote=False)
+            await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>@{CHANNEL}</blockquote></b>", quote=False)
     try:
         tagallgcid.remove(message.chat.id)
     except Exception:

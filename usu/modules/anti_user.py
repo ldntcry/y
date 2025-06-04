@@ -10,7 +10,7 @@ from usu import *
 
 
 
-@USU.NO_CMD_UBOT("ANTI_USERS", ubot)
+@USU.NO_CMD("ANTI_USERS", ubot)
 async def _(client, message):
     is_users = await get_list_from_vars(client.me.id, "BL_USERS") or []
     user_id = message.from_user.id if message.from_user else message.sender_chat.id

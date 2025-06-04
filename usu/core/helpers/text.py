@@ -6,7 +6,17 @@ from usu import *
 from usu.core.helpers.uptime import *
 
 
-class MSG:     
+class MSG:
+    async def MEMBER():
+        usu_time = await usu_alive()
+        return f"""<b><i>Halo,
+Saya adalah [{bot.me.first_name}]({PHOTO})..!!
+
+Silahkan adminkan Bot ini di group anda!
+
+Bot Hidup:</i></b> {usu_time}
+"""
+   
     def EXP_MSG_UBOT(X):
         return f"""<i><b>Information!</b>
 <b>Account:</b> <a href=tg://user?id={X.me.id}>{X.me.first_name} {X.me.last_name or ''}</a>

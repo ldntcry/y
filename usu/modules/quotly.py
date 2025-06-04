@@ -1,7 +1,6 @@
 from usu import *
 
-STICKER = """
-Command for <b>Sticker</b>
+STICKER = """Command for <b>Sticker</b>
 
 <b>Sticker</b>
  <i>merubah photo/sticker/gif menjadi anime</i>
@@ -13,8 +12,7 @@ Command for <b>Sticker</b>
  <i>merubah sticker menjadi gif</i>
     <code>{0}togif</code>"""
 
-QUOTLY = """
-Command for <b>Quotly</b>
+QUOTLY = """Command for <b>Quotly</b>
 
 <b>Quotly</b>
  <i>merubah text menjadi sticker</i>

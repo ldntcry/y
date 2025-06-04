@@ -1,8 +1,7 @@
 from usu import *
 
 
-CONTENT = """
-Command for <b>Media-Private</b>
+CONTENT = """Command for <b>Media-Private</b>
 
 <b>Media private</b>
  <i>mengambil konten ch private</i>
@@ -13,8 +12,7 @@ Command for <b>Media-Private</b>
 <b>Note:</b>
 <i>gunakan fitur ini dengan sebaik - baiknya jangan di salah gunakan untuk hal negative</i>"""
 
-EDIT = """
-Command for <b>Edit</b>
+EDIT = """Command for <b>Edit</b>
 
 <b>Edit</b>
  <i>menghapus latar belakang gambar</i>
@@ -27,8 +25,7 @@ Command for <b>Edit</b>
     <code>{0}negative</code>"""
 
 
-ANIME = """
-Command for <b>Anime</b>
+ANIME = """Command for <b>Anime</b>
 
 <b>Anime</b>
  <i>mendapatkan gambar anime secara acak</i> 
@@ -36,8 +33,7 @@ Command for <b>Anime</b>
  <i>mendapatkan gambar waifu anime</i>
     <code>{0}waifu</code>"""
 
-IMAGE = """
-Command for <b>Image</b>
+IMAGE = """Command for <b>Image</b>
 
 <b>Image</b>
  <i>mendapatkan gambar</i> 
@@ -46,15 +42,13 @@ Command for <b>Image</b>
     <code>{0}gif</code>"""
 
 
-IMGBB = """
-Command for <b>ImgBB</b>
+IMGBB = """Command for <b>ImgBB</b>
 
 <b>ImgBB</b>
  <i>upload media ke ImgBB</i>
     <code>{0}imgbb</code>"""
 
-TG = """
-Command for <b>Telegraph</b>
+TG = """Command for <b>Telegraph</b>
 
 <b>Telegraph</b>
  <i>upload media/text ke Telegraph</i>

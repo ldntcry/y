@@ -74,6 +74,45 @@ def create_inline_keyboard(text, user_id=False, is_back=False):
 
 
 class BTN:
+    def MEMBER():
+        button = [
+            [
+                InlineKeyboardButton("Groups", url=f"https://t.me/{GROUP}"
+                ),
+                InlineKeyboardButton(
+                    "Channels", url=f"https://t.me/{CHANNEL}"
+                ),
+            ]
+        ]
+        return button
+
+    def PLAY():
+        button = [
+            [
+                InlineKeyboardButton(
+                    text="▷",
+                    callback_data=f"resume",
+                ),
+                InlineKeyboardButton("▢", callback_data=f"stop"
+                ),
+                InlineKeyboardButton(
+                    text="II",
+                    callback_data=f"pause",
+                ),
+                InlineKeyboardButton(
+                    text="‣‣I",
+                    callback_data=f"skip",
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="Tutup",
+                    callback_data=f"tutup",
+                ),
+            ]
+        ]
+        return button
+
     def PILIHAN():
         button = [
             [
@@ -295,10 +334,10 @@ class BTN:
     def SUPPORT():
         button = [
             [
-                InlineKeyboardButton("Groups", url=f"https://t.me/ellubotsupport"
+                InlineKeyboardButton("Groups", url=f"https://t.me/{GROUP}"
                 ),
                 InlineKeyboardButton(
-                    "Channels", url=f"https://t.me/LModeStore"
+                    "Channels", url=f"https://t.me/{CHANNEL}"
                 ),
             ],
             [

@@ -22,7 +22,7 @@ async def _(client, message):
 
 
 
-@USU.NO_CMD_UBOT("AFK", ubot)
+@USU.NO_CMD("AFK", ubot)
 async def _(client, message):
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)

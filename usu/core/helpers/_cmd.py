@@ -8,6 +8,7 @@ import time
 from usu.core.helpers.tools import list_admins
 
 
+
 async def if_sudo(_, client, message):
     sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
     is_user = message.from_user if message.from_user else message.sender_chat
@@ -55,7 +56,18 @@ class USU:
             admin = await list_admins(message)
             user = message.from_user
             if user.id not in admin and user.id not in DEVS:                   
-                return
+                return await message.reply(f"<b><i>Anda tidak memiliki hak admin!</i></b>")
+            return await func(client, message)
+
+        return function
+
+    @staticmethod
+    def SUDO(func):
+        async def function(client, message):
+            user = message.from_user
+            sudo = await get_list_from_vars(bot.me.id, "SUDO")
+            if user.id not in sudo and user.id not in DEVS:
+                return await message.reply(f"<b><i>fitur ini untuk owner bot!</i></b>")
             return await func(client, message)
 
         return function
@@ -82,7 +94,7 @@ class USU:
         return function
     
     @staticmethod
-    def NO_CMD_UBOT(result, asu):
+    def NO_CMD(result, asu):
         query_mapping = {
             "AFK": {
                 "query": (
@@ -126,6 +138,7 @@ class USU:
             "PROTECT": {
                 "query": (
                     filters.group
+                    & filters.incoming
                     & ~filters.me
                     & ~filters.bot & filters.create(protect)
                 ),
@@ -173,6 +186,7 @@ class USU:
             "PROTECT_BOT": {
                 "query": (
                     filters.group
+                    & filters.incoming
                     & ~filters.me
                     & ~filters.bot & filters.create(protect_bot)
                 ),
@@ -189,25 +203,17 @@ class USU:
                 ),
                 "group": 10,
             },
-            "ANTI_SCAM": {
-                "query": (
-                    filters.text
-                    & ~filters.me
-                    & ~filters.bot
-                    & ~filters.audio
-                    & ~filters.document
-                    & ~filters.photo
-                    & ~filters.sticker
-                    & ~filters.video
-                    & ~filters.poll
-                    & ~filters.pinned_message
-                    & ~filters.media & filters.create(antiscam)
-                ),
+            "REPLY": {
+                "query": ((filters.group & filters.mentioned) | filters.private),
                 "group": 11,
             },
-            "REPLY": {
-                "query": ((filters.group & filters.mentioned) | filters.private) ,
+            "WELCOME": {
+                "query": (filters.new_chat_members & filters.group),
                 "group": 12,
+            },
+            "LEFT": {
+                "query": (filters.left_chat_member & filters.group),
+                "group": 13,
             },
         }
         result_query = query_mapping.get(result)
@@ -228,9 +234,7 @@ class USU:
     def BOT(command, filter=False):
         def wrapper(func):
             message_filters = (
-                filters.command(command) & filter
-                if filter
-                else filters.command(command)
+                filters.command(command) & filter if filter else filters.command(command)
             )
 
             @bot.on_message(message_filters)

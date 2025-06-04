@@ -8,16 +8,14 @@ from pyrogram.types import *
 from usu import *
 
 
-GKICK = """
-Command for <b>Global Kicked</b>
+GKICK = """Command for <b>Global Kicked</b>
 
 <b>Global kick</b>
  <i>kick user dari semua group chat</i> 
     <code>{0}gkick</code> [username]"""
 
 
-GMUTE = """
-Command for <b>Global Muted</b>
+GMUTE = """Command for <b>Global Muted</b>
 
 <b>Global mute</b>
  <i>mute user dari semua group chat</i> 
@@ -26,8 +24,7 @@ Command for <b>Global Muted</b>
     <code>{0}ungmute</code> [usename]"""
 
 
-GBAN = """
-Command for <b>Global Banned</b>
+GBAN = """Command for <b>Global Banned</b>
 
 <b>Global ban</b>
  <i>banned user dari semua group chat</i> 

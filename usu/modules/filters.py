@@ -19,7 +19,7 @@ from pyrogram.types import ChatPermissions
 
 
 
-@USU.NO_CMD_UBOT("FILTERS_GC", ubot)
+@USU.NO_CMD("FILTERS_GC", ubot)
 async def _(client, message):
     try:
         all_filters = await all_vars(client.me.id, "FILTERS_GC") or {}

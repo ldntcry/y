@@ -33,15 +33,44 @@ async def _(c, cq):
     pesan = f"""<i><b>Halo,
 Saya adalah menu [Manage]({PHOTO})
 
-Command Devs:</b>
+Format Set (Welcome/GoodBye):</b>
+&#123;mention&#125; - menyebut pengguna
+&#123;user_id&#125; - menampilkan id pengguna
+&#123;first_name&#125; - menampilkan nama depan pengguna
+&#123;last_name&#125; - menampilkan nama belakang pengguna
+&#123;username&#125; - menampilkan username pengguna
+&#123;chat_title&#125; - menampilkan nama group
+&#123;chat_id&#124; - menampilkan id group
+
+<b>Contoh Format Button/None:</b>
+• Halo &#123;mention&#125;, Selamat datang di group &#123;chat_title&#125;
+• Halo &#123;mention&#125;, Selamat datang di group &#123;chat_title&#125; | NamaButton1 - link1 | NamaButton2 - link2 |
+
+<b>Format Font:</b>
+&lt;b&gt;: Bold/Tebal - Teks tebal
+&lt;i&gt;: Italic/Miring - Teks miring
+&lt;u&gt;: Underline/GarisBawah - Teks garis bawah
+&lt;s&gt;: Strikethrought/GarisTengah - Teks coret
+&lt;code&gt;: Code/Monospace - Teks bisa di salin
+
+<b>Contoh Format Font:</b>
+• &lt;b&gt;Halo &#123;mention&#125;, Selamat datang di group &#123;chat_title&#125;&lt;/b&gt;
+
+<b>Command Devs:</b>
 /gban - blokir pengguna di semua chat bot admin
 /ungban - lepas blokir pengguna di semua chat bot admin
 /gmute  - bisukan pengguna di semua chat bot admin
 /ungmute - melepas bisu pengguna di semua chat bot admin
 /gkick - tendang pengguna di semua chat bot admin
+/addsudo - menambahkan akses devs ke pengguna sudo bot
+/delsudo - menghapus akses devs di pengguna sudo bot
+/clearsudo - menghapus akses devs di semua pengguna sudo bot
+/listsudo - melihat daftar pengguna sudo
 
 <b>Command Admins:</b>
 /staff - melihat daftar admin
+/setwelcome - menampilkan pesan selamat datang
+/delwelcome - menghapus pesan selamat datang
 /id - cek id
 /sg - cek history nama pengguna
 /info - cek informasi pengguna
@@ -59,8 +88,22 @@ Command Devs:</b>
 /delfilter - nama_filter
 /clearfilter - menghapus semua nama filter
 /filters - melihat daftar nama filter
-/del - menghapus pesan yang di reply</i>"""
+/del - menghapus pesan yang di reply
+/all - tag semua orang
+/stop - berhenti tag semua orang</i>"""
     return await cq.edit_message_text(pesan, reply_markup=InlineKeyboardMarkup(button))
+
+
+@USU.NO_CMD("FILTERS_GC_BOT", bot)
+async def _(client, message):
+    try:
+        all_filters = await all_vars(message.chat.id, "FILTERS_GC") or {}
+
+        for key, value in all_filters.items():
+            if key in message.text.lower().split():
+                return await message.reply(value)
+    except BaseException:
+        pass
 
 
 @USU.BOT("pin")
@@ -370,16 +413,6 @@ async def _(client, message):
     except Exception as error:
         await message.reply(error)
 
-@USU.NO_CMD_UBOT("FILTERS_GC_BOT", bot)
-async def _(client, message):
-    try:
-        all_filters = await all_vars(message.chat.id, "FILTERS_GC") or {}
-
-        for key, value in all_filters.items():
-            if key in message.text.lower().split():
-                return await message.reply(value)
-    except BaseException:
-        pass
 
 @USU.BOT("filter")
 @USU.GROUP
@@ -487,6 +520,7 @@ async def _(client, message):
 
 
 @USU.BOT("gmute")
+@USU.SUDO
 @USU.DEVS
 async def _(client, message):
     sks = await EMO.SUKSES(client)
@@ -535,6 +569,7 @@ async def _(client, message):
 
 
 @USU.BOT("ungmute")
+@USU.SUDO
 @USU.DEVS
 async def _(client, message):
     sks = await EMO.SUKSES(client)
@@ -579,6 +614,7 @@ async def _(client, message):
 
 
 @USU.BOT("gban")
+@USU.SUDO
 @USU.DEVS
 async def _(client, message):
     sks = await EMO.SUKSES(client)
@@ -627,6 +663,7 @@ async def _(client, message):
 
 
 @USU.BOT("ungban")
+@USU.SUDO
 @USU.DEVS
 async def _(client, message):
     sks = await EMO.SUKSES(client)
@@ -671,6 +708,7 @@ async def _(client, message):
 
 
 @USU.BOT("gkick")
+@USU.SUDO
 @USU.DEVS
 async def _(client, message):
     sks = await EMO.SUKSES(client)

@@ -93,7 +93,7 @@ async def _(client, callback_query):
    <i><b>Alive:</b></i> {alive}
    <i><b>Client:</b> {len(ubot._ubot)}</i>
 """
-    buttons = [[InlineKeyboardButton("Refresh", callback_data="stats"), InlineKeyboardButton("Back", callback_data="balik")]]
+    buttons = [[InlineKeyboardButton("Refresh", callback_data="statss"), InlineKeyboardButton("Back", callback_data="balik")]]
     try:
         await callback_query.message.edit(_ping, reply_markup=InlineKeyboardMarkup(buttons))
     except:
