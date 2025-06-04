@@ -1,7 +1,6 @@
 from math import ceil
 
 from usu.core.helpers.font_help import *
-from usu.core.function.plugins import *
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
