@@ -56,6 +56,8 @@ async def auto_reaction():
 
 
 async def start_ubot():
+    print(f"Database load: {DATABASE}.db")
+    print(f"------------------------------")
     for data in await get_userbots():
         try:
             ubot_ = Ubot(**data)
@@ -71,8 +73,6 @@ async def start_ubot():
     await asyncio.sleep(2)
 
 async def bots():
-    print(f"Database load: {DATABASE}.db")
-    print(f"------------------------------")
     await bot.start()
 
 async def loaded():
@@ -101,8 +101,8 @@ async def stopped():
     await bot.stop()
 
 async def main():
-    await bots()
     await start_ubot()
+    await bots()
     await loaded()
 
 
