@@ -11,6 +11,8 @@ from pyrogram.errors import (AuthKeyDuplicated, AuthKeyUnregistered,
                              SessionRevoked, UserAlreadyParticipant,
                              UserDeactivated, UserDeactivatedBan)
 from pytz import timezone
+import pytgcalls
+import pyrogram
 
 
 async def auto_reaction_task(client, reactions):
