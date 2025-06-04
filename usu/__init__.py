@@ -20,7 +20,8 @@ from pyromod import listen
 from rich.logging import RichHandler
 from usu.config import *
 import sys
-import importlib 
+import importlib
+from usu.modules import loadModule
 
 
 class ConnectionHandler(logging.Handler):
