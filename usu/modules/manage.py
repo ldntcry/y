@@ -40,7 +40,7 @@ Format Set (Welcome/GoodBye):</b>
 &#123;last_name&#125; - menampilkan nama belakang pengguna
 &#123;username&#125; - menampilkan username pengguna
 &#123;chat_title&#125; - menampilkan nama group
-&#123;chat_id&#124; - menampilkan id group
+&#123;chat_id&#125; - menampilkan id group
 
 <b>Contoh Format Button/None:</b>
 • Halo &#123;mention&#125;, Selamat datang di group &#123;chat_title&#125;
