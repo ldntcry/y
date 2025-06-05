@@ -102,7 +102,7 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
-    if client.me.id not in invite_id and message.chat.id not in invite_id[client.me.id]:
+    if client.me.id not in invite_id:
         return await message.reply_text(
             f"<i><b>{ggl}Invalid!</b></i>"
         )
