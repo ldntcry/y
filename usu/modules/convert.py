@@ -115,6 +115,11 @@ async def _(client, message):
 
 @USU.UBOT("tosticker")
 async def _(client, message):
+    sks = await EMO.SUKSES(client)
+    ggl = await EMO.GAGAL(client)
+    prs = await EMO.PROSES(client)
+    broad = await EMO.BROADCAST(client)
+    ptr = await EMO.PUTARAN(client)
     try:
         if not message.reply_to_message or not message.reply_to_message.photo:
             return await message.reply_text(f"<i><b>{ggl}Reply photo!</b></i>")
