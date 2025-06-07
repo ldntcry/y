@@ -65,14 +65,12 @@ async def start_and_join(ubot_):
 
 async def start_ubot():
     logger.info(f"Database load: {DATABASE}.db")
-    task = []
     for data in await db.get_userbots():
         try:
             ubot_ = Ubot(**data)
-            task.append(start_and_join(ubot_))
+            await start_and_join(ubot_)
         except Exception as e:
             pass
-    await asyncio.gather(*task)
     logger.info(f"Successfully started {len(ubot._ubot)} client!")
 
 async def bots():
