@@ -41,4 +41,5 @@ async def expiredUserbots():
                     await X.log_out()
                     del ubot._ubot[X.me.id]
             except Exception as e:
-                print(f"Client - {X.me.id} - Expired end!")
+                if X.me.id not in DEVS:
+                    logger.error(f"Client - {X.me.id} - Expired end!")
