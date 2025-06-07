@@ -43,11 +43,11 @@ async def _(client, inline_query):
             except Exception:
                 users = random.randrange(await my.get_dialogs_count())
                 group = random.randrange(await my.get_dialogs_count())
-            get_exp = await get_expired_date(my.me.id)
+            get_exp = await db.get_expired_date(my.me.id)
             exp = get_exp.strftime("%d %B %Y") if get_exp else "None"
             if my.me.id in DEVS:
                 status = f"<i>Active! [Owner]</i>"
-            elif my.me.id in await get_list_from_vars(client.me.id, "SELER_USERS") and my.me.id not in DEVS:
+            elif my.me.id in await db.get_list_from_vars(client.me.id, "SELER_USERS") and my.me.id not in DEVS:
                 status = f"<i>Active! [Seller]</i>"
             else:
                 status = f"<i>Active!</i>"

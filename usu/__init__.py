@@ -15,13 +15,15 @@ from pytgcalls import filters as fl
 from pyrogram import Client, filters
 from pyrogram.enums import ParseMode, ChatMemberStatus
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
-from pyrogram.types import Message
+from pyrogram.types import Message, BotCommand
 from pyromod import listen
 from rich.logging import RichHandler
 from usu.config import *
 import sys
 import importlib
 from usu.modules import loadModule
+from usu import *
+
 
 
 class ConnectionHandler(logging.Handler):
@@ -30,8 +32,14 @@ class ConnectionHandler(logging.Handler):
             if X in record.getMessage():
                 os.system(f"kill -9 {os.getpid()} && python3 -m usu")
 
+
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
+logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
+logging.getLogger("pyrogram.session.auth").setLevel(logging.CRITICAL)
+logging.getLogger("pyrogram.session.session").setLevel(logging.CRITICAL)
+
 logger = logging.getLogger()
-logger.setLevel(logging.ERROR)
+logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter("[%(levelname)s] - %(name)s - %(message)s", "%d-%b %H:%M")
 stream_handler = logging.StreamHandler()
@@ -41,7 +49,6 @@ connection_handler = ConnectionHandler()
 
 logger.addHandler(stream_handler)
 logger.addHandler(connection_handler)
-logging.getLogger("pytgcalls").setLevel(logging.WARNING)
 
 
 
@@ -164,35 +171,35 @@ class Bot(UsuInti):
 
                     tombol_anak[utama].extend(buttons)
             except Exception as e:
-                print(f"Client - Error loading module {mod}: {e}")
+                logger.error(f"Client - Error loading module {mod}: {e}")
         try:
             with redirect_stdout(io.StringIO()):
                 await self.assistant.start()
         except Exception as e:
-            print(f"Error: {e}")
+            logger.error(f"Error: {e}")
         if STRING:
             try:
                 await self.send_message(LOGS_CHAT, f"<b><i>Bot music aktif!</i></b>")
                 await self.usu.send_message(LOGS_CHAT, f"<b><i>Assistant started!</i></b>")
-                print(f"Assistant started!")
+                logger.info(f"Assistant started!")
             except FloodWait as e:
                 await asyncio.sleep(e.value)
                 try:
                     await self.send_message(LOGS_CHAT, f"<b><i>Bot music started!</i></b>")
                     await self.usu.send_message(LOGS_CHAT, f"<b><i>Assistant started!</i></b>")
-                    print(f"Assistant - {self.usu.me.id} started!")
+                    logger.info(f"Assistant - {self.usu.me.id} started!")
                 except:
-                    print(
+                    logger.error(
                         f"Silahkan tambahkan assistant dan bot nya ke chat logs dan jangan lupa di adminkan "
                     )
             except:
-                print(
+                logger.error(
                     f"Silahkan tambahkan assistant dan bot nya ke chat logs dan jangan lupa di adminkan "
                 )
                 sys.exit()
         get = await self.get_chat_member(LOGS_CHAT, self.me.id)
         if get.status != ChatMemberStatus.ADMINISTRATOR:
-            print("Tolong promosikan bot sebagai admin di logs chat")
+            logger.error("Tolong promosikan bot sebagai admin di logs chat")
             sys.exit()
         try:
             await self.set_bot_commands(
@@ -319,14 +326,14 @@ class Ubot(UsuInti):
                 await self.call_py.start()
         except Exception as e:
             print(f"Error: {e}")
-        handler = await get_pref(self.me.id)
+        handler = await db.get_pref(self.me.id)
         if handler:
             self._prefix[self.me.id] = handler
         else:
             self._prefix[self.me.id] = ["."]
         self._ubot[self.me.id] = self
         self._translate[self.me.id] = "id"
-        print(f"Client - {self.me.id} Started!")
+        logger.info(f"Client - {self.me.id} - Started!")
 
 
 
@@ -337,7 +344,6 @@ bot = Bot(
     api_hash=API_HASH,
     in_memory=True,
     workdir="./usu/",
-    plugins=dict(root="usu.core")
 )
 
 ubot = Ubot(name="ubot")

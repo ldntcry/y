@@ -69,10 +69,10 @@ async def _(client, message):
 
     value = query[command]
 
-    vars = await get_vars(client.me.id, "ID_LOGS")
+    vars = await db.get_vars(client.me.id, "ID_LOGS")
     if not vars:
-        await set_vars(client.me.id, "ID_LOGS", bot.me.id)
-    await set_vars(client.me.id, "ON_LOGS", value)
+        await db.set_vars(client.me.id, "ID_LOGS", bot.me.id)
+    await db.set_vars(client.me.id, "ON_LOGS", value)
     await message.reply(
         f"<i><b>{sks}Logger {value}</b></i>"
     )
@@ -85,8 +85,8 @@ data = {}
 
 @USU.NO_CMD("LOGS_PRIVATE", ubot)
 async def _(client, message):
-    logs = await get_vars(client.me.id, "ID_LOGS")
-    on_logs = await get_vars(client.me.id, "ON_LOGS")
+    logs = await db.get_vars(client.me.id, "ID_LOGS")
+    on_logs = await db.get_vars(client.me.id, "ON_LOGS")
 
     if logs and on_logs:
         user_link = f"{message.from_user.mention}" if message.from_user else f"{message.sender_chat.title}"
@@ -120,8 +120,8 @@ Message: {message.text}"""
 
 @USU.NO_CMD("LOGS_GROUP", ubot)
 async def _(client, message):
-    logs = await get_vars(client.me.id, "ID_LOGS")
-    on_logs = await get_vars(client.me.id, "ON_LOGS")
+    logs = await db.get_vars(client.me.id, "ID_LOGS")
+    on_logs = await db.get_vars(client.me.id, "ON_LOGS")
 
     if logs and on_logs:
         user_link = f"{message.from_user.mention}" if message.from_user else f"{message.sender_chat.title}"
@@ -158,8 +158,8 @@ Message: {message.text}"""
 
 @USU.NO_CMD("REPLY", ubot)
 async def _(client, message):
-    logs = await get_vars(client.me.id, "ID_LOGS")
-    on_logs = await get_vars(client.me.id, "ON_LOGS")
+    logs = await db.get_vars(client.me.id, "ID_LOGS")
+    on_logs = await db.get_vars(client.me.id, "ON_LOGS")
     if logs and on_logs and message.reply_to_message:
         if client.me.id in data:
             if data[client.me.id]:

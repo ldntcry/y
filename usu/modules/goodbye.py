@@ -21,7 +21,7 @@ async def set_goodbye(c, m):
     else:
         return await pesan.edit(f"<b><i>Reply/text</i></b>")
     hasil = {"text": teks, "file": file} if file else {"text": teks}
-    await set_vars(chat_id, "GOODBYE", hasil)
+    await db.set_vars(chat_id, "GOODBYE", hasil)
     return await pesan.edit(f"<b><i>Pesan selamat tinggal berhasil di settings!</i></b>")
 
 
@@ -31,10 +31,10 @@ async def set_goodbye(c, m):
 async def del_goodbye(c, m):
     user_id = m.from_user.id
     chat_id = m.chat.id
-    vars = await get_vars(chat_id, "GOODBYE")
+    vars = await db.get_vars(chat_id, "GOODBYE")
     pesan = await m.reply(f"<b><i>Processing...</i></b>")
     if vars:
-        await remove_vars(chat_id, "GOODBYE")
+        await db.remove_vars(chat_id, "GOODBYE")
         return await pesan.edit(f"<b><i>Pesan selamat tinggal berhasil di hapus!</i></b>")
     else:
         return await pesan.edit(f"<b><i>Tidak ada pesan selamat tinggal!</i></b>")

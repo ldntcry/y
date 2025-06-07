@@ -21,7 +21,7 @@ async def welcome(c, m):
     else:
         return await pesan.edit(f"<b><i>Reply/text</i></b>")
     hasil = {"text": teks, "file": file} if file else {"text": teks}
-    await set_vars(chat_id, "WELCOME", hasil)
+    await db.set_vars(chat_id, "WELCOME", hasil)
     return await pesan.edit(f"<b><i>Pesan selamat datang berhasil di settings!</i></b>")
 
 
@@ -31,10 +31,10 @@ async def welcome(c, m):
 async def del_welcome(c, m):
     user_id = m.from_user.id
     chat_id = m.chat.id
-    vars = await get_vars(chat_id, "WELCOME")
+    vars = await db.get_vars(chat_id, "WELCOME")
     pesan = await m.reply(f"<b><i>Processing...</i></b>")
     if vars:
-        await remove_vars(chat_id, "WELCOME")
+        await db.remove_vars(chat_id, "WELCOME")
         return await pesan.edit(f"<b><i>Pesan selamat datang berhasil di hapus!</i></b>")
     else:
         return await pesan.edit(f"<b><i>Tidak ada pesan selamat datang!</i></b>")

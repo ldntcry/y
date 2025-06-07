@@ -63,24 +63,24 @@ __HASIL__ = OK, PMPERMIT, NO, FORMAT_PM
 @USU.NO_CMD("PMPERMIT", ubot)
 async def _(client, message):
     user = message.from_user
-    pm_on = await get_vars(client.me.id, "PMPERMIT")
+    pm_on = await db.get_vars(client.me.id, "PMPERMIT")
     if pm_on:
         if user.id in MSG_ID:
             await delete_old_message(client, message, MSG_ID.get(user.id))
-        check = await get_pm_id(client.me.id)
+        check = await db.get_pm_id(client.me.id)
         if user.id not in check:
             if user.id in FLOOD:
                 FLOOD[user.id] += 1
             else:
                 FLOOD[user.id] = 1
-            pm_limit = await get_vars(client.me.id, "PM_LIMIT") or "5"
+            pm_limit = await db.get_vars(client.me.id, "PM_LIMIT") or "5"
             if FLOOD[user.id] > int(pm_limit):
                 del FLOOD[user.id]
                 await message.reply(
                     f"<i><b>Maaf anda saya blokir!</i></b>"
                 )
                 return await client.block_user(user.id)
-            pm_msg = await get_vars(client.me.id, "PM_TEXT") or PM_TEXT
+            pm_msg = await db.get_vars(client.me.id, "PM_TEXT") or PM_TEXT
             x = await client.get_inline_bot_results(
                 bot.me.username, f"pm_pr {id(message)} {FLOOD[user.id]}"
             )
@@ -131,7 +131,7 @@ async def _(client, message):
         return await message.reply(
             f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[query] [value]</b><i>"
         )
-    await set_vars(client.me.id, value, value_str)
+    await db.set_vars(client.me.id, value, value_str)
     return await message.reply(
         f"<i><b>{sks}Success settings!</b></i>"
     )
@@ -158,7 +158,7 @@ async def _(client, message):
     value = toggle_options[toggle_option]
     text = "on" if value else "off"
 
-    await set_vars(client.me.id, "PMPERMIT", value)
+    await db.set_vars(client.me.id, "PMPERMIT", value)
     await message.reply(f"<i><b>{sks}PM-Permit {text}</b></i>")
 
 
@@ -166,9 +166,9 @@ async def _(client, message):
 async def _(client, inline_query):
     get_id = inline_query.query.split()
     m = [obj for obj in get_objects() if id(obj) == int(get_id[1])][0]
-    pm_msg = await get_vars(m._client.me.id, "PM_TEXT") or PM_TEXT
-    pm_limit = await get_vars(m._client.me.id, "PM_LIMIT") or 5
-    pm_pic = await get_vars(m._client.me.id, "PM_PIC")
+    pm_msg = await db.get_vars(m._client.me.id, "PM_TEXT") or PM_TEXT
+    pm_limit = await db.get_vars(m._client.me.id, "PM_LIMIT") or 5
+    pm_pic = await db.get_vars(m._client.me.id, "PM_PIC")
     rpk = f"[{m.from_user.first_name} {m.from_user.last_name or ''}](tg://user?id={m.from_user.id})"
     peringatan = f"{int(get_id[2])} / {pm_limit}"
     buttons, text = await pmpermit_button(pm_msg, peringatan)
@@ -235,9 +235,9 @@ async def _(client, message):
     ptr = await EMO.PUTARAN(client)
     user = message.chat
     rpk = f"[{user.first_name} {user.last_name or ''}](tg://user?id={user.id})"
-    vars = await get_pm_id(client.me.id)
+    vars = await db.get_pm_id(client.me.id)
     if user.id not in vars:
-        await add_pm_id(client.me.id, user.id)
+        await db.add_pm_id(client.me.id, user.id)
         usu = await message.reply(f"<i><b>{sks}Baiklah, {rpk} telah diterima!</b></i>")
         if user.id in MSG_ID:
             await delete_old_message(client, message, MSG_ID.get(user.id))
@@ -258,12 +258,12 @@ async def _(client, message):
     ptr = await EMO.PUTARAN(client)
     user = message.chat
     rpk = f"[{user.first_name} {user.last_name or ''}](tg://user?id={user.id})"
-    vars = await get_pm_id(client.me.id)
+    vars = await db.get_pm_id(client.me.id)
     if user.id not in vars:
         await message.reply(f"<i><b>{sks}Maaf ⁣{rpk} anda telah diblokir!</b></i>")
         return await client.block_user(user.id)
     else:
-        await remove_pm_id(client.me.id, user.id)
+        await db.remove_pm_id(client.me.id, user.id)
         return await message.reply(
             f"<i><b>{sks}Maaf {rpk} anda telah ditolak untuk menghubungi saya!</b></i>"
         )

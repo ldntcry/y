@@ -11,7 +11,7 @@ spam = []
 spamg = []
 
 async def SpamMsg(client, message, send):
-    delay = await get_vars(client.me.id, "SPAM") or 0
+    delay = await db.get_vars(client.me.id, "SPAM") or 0
     try:
         await asyncio.sleep(int(delay))
         await client.send_chat_action(message.chat.id, ChatAction.TYPING)
@@ -30,7 +30,7 @@ async def SpamMsg(client, message, send):
 
 
 async def SpamGcast(client, message, send):
-    blacklist = await get_list_from_vars(client.me.id, "BL_ID")
+    blacklist = await db.get_list_from_vars(client.me.id, "BL_ID")
 
     async def send_message(target_chat):
         await client.send_chat_action(target_chat, ChatAction.TYPING)
@@ -179,12 +179,12 @@ async def _(client, message):
     count = message.command[1]
 
     if count.lower() == "none":
-        await set_vars(client.me.id, "SPAM", False)
+        await db.set_vars(client.me.id, "SPAM", False)
         return await r.edit(f"<b><i>{sks}Spam delay di settings ke Default</i></b>")
     try:
         count = int(count)
     except Exception:
         return await r.edit(f"<b><i>{ggl}<code>{message.text.split()[0]}</code> [angka]</i></b>")
 
-    await set_vars(client.me.id, "SPAM", count)
+    await db.set_vars(client.me.id, "SPAM", count)
     return await r.edit(f"<b><i>{sks}Spam delay di settings ke {count}</i></b>")

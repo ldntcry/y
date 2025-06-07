@@ -17,7 +17,7 @@ async def _(client, message):
         if reason
         else "<b><i>{sks}Afk!</i></b>"
       )
-    await set_vars(client.me.id, "AFK", db_afk)
+    await db.set_vars(client.me.id, "AFK", db_afk)
     return await message.reply(msg_afk)
 
 
@@ -30,7 +30,7 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     menu = await EMO.MENUNGGU(client)
-    vars = await get_vars(client.me.id, "AFK")
+    vars = await db.get_vars(client.me.id, "AFK")
     if vars:
         afk_time = vars.get("time")
         afk_reason = vars.get("reason")
@@ -55,11 +55,11 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     menu = await EMO.MENUNGGU(client)
-    vars = await get_vars(client.me.id, "AFK")
+    vars = await db.get_vars(client.me.id, "AFK")
     if vars:
         afk_time = vars.get("time")
         afk_runtime = await get_time(time() - afk_time)
         afk_text = f"<b><i>{sks}Online!\n{menu}Afk selama: {afk_runtime}</i></b>"
         await message.reply(afk_text)
-        return await remove_vars(client.me.id, "AFK")
+        return await db.remove_vars(client.me.id, "AFK")
 

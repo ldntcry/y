@@ -219,11 +219,11 @@ async def alive_cb(client, callback_query):
             except Exception:
                 users = random.randrange(await my.get_dialogs_count())
                 group = random.randrange(await my.get_dialogs_count())
-            get_exp = await get_expired_date(my.me.id)
+            get_exp = await db.get_expired_date(my.me.id)
             exp = get_exp.strftime("%d %B %Y") if get_exp else "None"
             if my.me.id in DEVS:
                 status = f"<i>Active! [Owner]</i>"
-            elif my.me.id in await get_list_from_vars(client.me.id, "SELER_USERS") and my.me.id not in DEVS:
+            elif my.me.id in await db.get_list_from_vars(client.me.id, "SELER_USERS") and my.me.id not in DEVS:
                 status = f"<i>Active! [Seller]</i>"
             else:
                 status = f"<i>Active!</i>"
@@ -281,10 +281,10 @@ async def saldo_userbot(client, callback_query):
         return
     for user in ubot._ubot.values():
         if asu == user.me.id:
-            vars = await get_vars(user.me.id, "SALDO")
+            vars = await db.get_vars(user.me.id, "SALDO")
             break
         else:
-            vars = await get_vars(callback_query.from_user.id, "SALDO")
+            vars = await db.get_vars(callback_query.from_user.id, "SALDO")
     btn = BTN.BACK_SALDO()
     saldo = vars if vars else 0
     teks = f"{saldo:,}".replace(",", ".")

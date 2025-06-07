@@ -202,7 +202,7 @@ async def decode(base64_string):
 
 
 async def get_data_id(client, query):
-    anu = await get_list_from_vars(client.me.id, "bcdb")
+    anu = await db.get_list_from_vars(client.me.id, "bcdb")
     chat_types = {
         "all": [ChatType.GROUP, ChatType.SUPERGROUP, ChatType.PRIVATE, ChatType.CHANNEL],
         "global": [ChatType.GROUP, ChatType.SUPERGROUP, ChatType.CHANNEL],

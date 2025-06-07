@@ -1,5 +1,5 @@
 from usu import *
-from pyrogram.types import InlineKeyboardButton
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup # Tambahkan import ini
 
 async def format_button(m):
     keyboard = []
@@ -24,30 +24,33 @@ async def format_button(m):
 
 @USU.NO_CMD("WELCOME", bot)
 async def member_baru(c, m):
-    susers = await get_list_from_vars(bot.me.id, "SAVED_USERS")
+    susers = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
     pesan = await MSG.MEMBER()
     tombol = BTN.MEMBER()
-    vars = await get_vars(m.chat.id, "WELCOME")
-    sudo = await get_list_from_vars(bot.me.id, "SUDO")
+    vars = await db.get_vars(m.chat.id, "WELCOME")
+    sudo = await db.get_list_from_vars(bot.me.id, "SUDO")
+    asw = None # Inisialisasi 'asw' di sini
     try:
         asw = await c.get_chat(m.chat.id)
     except FloodWait as e:
         await asyncio.sleep(e.value)
         asw = await c.get_chat(m.chat.id)
     except Exception as e:
-        pass
+        # Sebaiknya kamu mencatat (log) pengecualian ini untuk debugging
+        print(f"Error mendapatkan chat: {e}")
+        pass # 'asw' tetap None
     if asw:
         haw = f"[{m.chat.title}]({asw.invite_link})" if asw.invite_link else f"[{m.chat.title}](https://t.me/{asw.username})" if asw.username else m.chat.title
-        hasil = f"""<i><b>Information!</b>
+        hasil = f"""<i><b>Informasi!</b>
 <b>Bot:</b> {bot.me.mention}
-<b>Chat Title:</b> {haw}
-<b>Chat ID:</b> {m.chat.id}
+<b>Judul Obrolan:</b> {haw}
+<b>ID Obrolan:</b> {m.chat.id}
 <b>Status:</b> ditambahkan</i>"""
-        user = [[InlineKeyboardButton(f"Added By", url=f"tg://openmessage?user_id={m.from_user.id}")]]
+        user = [[InlineKeyboardButton(f"Ditambahkan Oleh", url=f"tg://openmessage?user_id={m.from_user.id}")]]
         for target in m.new_chat_members:
             if target.id == bot.me.id:
                 if m.chat.id not in susers:
-                    await add_to_vars(bot.me.id, "SAVED_USERS", m.chat.id)
+                    await db.add_to_vars(bot.me.id, "SAVED_USERS", m.chat.id)
                 await bot.send_message(m.chat.id, pesan, reply_markup=InlineKeyboardMarkup(tombol))
                 await bot.send_message(LOGS_CHAT, hasil, reply_markup=InlineKeyboardMarkup(user))
             if target.id in DEVS:
@@ -108,24 +111,27 @@ async def member_baru(c, m):
 
 @USU.NO_CMD("LEFT", bot)
 async def member_keluar(c, m):
-    susers = await get_list_from_vars(bot.me.id, "SAVED_USERS")
-    anjay = await get_vars(m.chat.id, "GOODBYE")
+    susers = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
+    anjay = await db.get_vars(m.chat.id, "GOODBYE")
+    asw = None # Inisialisasi 'asw' di sini
     try:
         asw = await c.get_chat(m.chat.id)
     except FloodWait as e:
         await asyncio.sleep(e.value)
         asw = await c.get_chat(m.chat.id)
     except Exception as e:
-        pass
+        # Sebaiknya kamu mencatat (log) pengecualian ini untuk debugging
+        print(f"Error mendapatkan chat: {e}")
+        pass # 'asw' tetap None
     if asw:
         haw = f"[{m.chat.title}]({asw.invite_link})" if asw.invite_link else f"[{m.chat.title}](https://t.me/{asw.username})" if asw.username else m.chat.title
-        hasil = f"""<i><b>Information!</b> <b>Bot:</b> {bot.me.mention} <b>Chat Title:</b> {haw} <b>Chat ID:</b> {m.chat.id} <b>Status:</b> dikeluarkan</i>"""
-        user = [[InlineKeyboardButton(f"Out By", url=f"tg://openmessage?user_id={m.from_user.id}")]]
+        hasil = f"""<i><b>Informasi!</b> <b>Bot:</b> {bot.me.mention} <b>Judul Obrolan:</b> {haw} <b>ID Obrolan:</b> {m.chat.id} <b>Status:</b> dikeluarkan</i>"""
+        user = [[InlineKeyboardButton(f"Keluar Oleh", url=f"tg://openmessage?user_id={m.from_user.id}")]]
         if m.left_chat_member and m.left_chat_member.id == bot.me.id:
             if m.chat.id in susers:
-                await remove_from_vars(bot.me.id, "SAVED_USERS", m.chat.id)
+                await db.remove_from_vars(bot.me.id, "SAVED_USERS", m.chat.id)
             await bot.send_message(LOGS_CHAT, hasil, reply_markup=InlineKeyboardMarkup(user))
-        
+
         if anjay:
             user = m.left_chat_member
             if user and user.id:
@@ -138,12 +144,13 @@ async def member_keluar(c, m):
                     "{first_name}": f"{user.first_name}",
                     "{last_name}": f"{user.last_name or ''}",
                 }
-                teks = vars.get("text")
+                # Perbaikan: 'vars' digunakan di sini, padahal 'anjay' yang menyimpan data yang relevan
+                teks = anjay.get("text")
                 btn, teks = await format_button(teks)
                 for key, value in format.items():
                     if key in teks:
                         teks = teks.replace(key, value)
-                file = vars.get("file")
+                file = anjay.get("file") # Perbaikan: 'vars' digunakan di sini
                 if file:
                     try:
                         if btn is not None:

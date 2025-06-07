@@ -21,22 +21,22 @@ langganan = {}
 @USU.START
 async def _(client, message):
     user_id = message.from_user.id
-    save = await get_list_from_vars(client.me.id, "SAVED_USERS")
+    save = await db.get_list_from_vars(client.me.id, "SAVED_USERS")
     buttons = BTN.PILIHAN()
     msg = await MSG.PILIHAN()
     teks = message.text.split()[1:]
     if teks:
         if teks[0].startswith("REF"):
             user = int(teks[0].replace("REF", ""))
-            sudah = await get_list_from_vars(user, "REF")
+            sudah = await db.get_list_from_vars(user, "REF")
             if user != user_id:
                 if user in save and user_id not in save and user_id not in sudah:
 
-                    vars = await get_vars(user, "SALDO")
+                    vars = await db.get_vars(user, "SALDO")
                     duit = vars if vars else 0
                     tambah = duit + 4000
-                    await set_vars(user, "SALDO", tambah)
-                    await add_to_vars(user, "REF", user_id)
+                    await db.set_vars(user, "SALDO", tambah)
+                    await db.add_to_vars(user, "REF", user_id)
                     await bot.send_message(user, f"<i><b>Anda berhasil mengundang 1 pengguna baru, saldo anda telah bertambah Rp 4.000</b></i>")
     return await message.reply(msg, reply_markup=InlineKeyboardMarkup(buttons))
 
@@ -46,7 +46,7 @@ async def _(client, callback_query):
     button = InlineKeyboardMarkup([])
     sel = []
     teks = f"<i><b>Daftar seller resmi [Userbot]({PHOTO}) ada di bawah ini,\nSelain seller di bawah ini sudah di pastikan bukan dari kami!\nCatatan:</b> berhati - hati lah dalam jual/beli sesuatu di online</i>"
-    seles_users = await get_list_from_vars(client.me.id, "SELER_USERS")
+    seles_users = await db.get_list_from_vars(client.me.id, "SELER_USERS")
     button.inline_keyboard.append([InlineKeyboardButton(f"Owners", url=f"https://t.me/{USERNAME}")])
     if seles_users:
         for id in seles_users:
@@ -80,7 +80,7 @@ async def _(client, callback_query):
     default_prefix = "."
 
     ubot.set_prefix(user_id, default_prefix)
-    await set_pref(user_id, default_prefix)
+    await db.set_pref(user_id, default_prefix)
     await callback_query.answer(
         f"Prefix anda berhasil di reset!",
         show_alert=True
@@ -106,7 +106,7 @@ async def _(c, cq):
 @USU.CALLBACK("^status")
 async def _(client, callback_query):
     user_id = callback_query.from_user.id
-    expired = await get_expired_date(user_id)
+    expired = await db.get_expired_date(user_id)
     if user_id in ubot._ubot:
         if expired is None:
             return await callback_query.answer("Tidak ada tanggal kadaluarsa!", show_alert=True)
@@ -126,7 +126,7 @@ async def _(client, callback_query):
 @USU.CALLBACK("kirii_")
 async def prev_bulan(client, callback_query):
     user_id = callback_query.from_user.id
-    vars = await get_vars(user_id, "SALDO")
+    vars = await db.get_vars(user_id, "SALDO")
     saldo = vars if vars else 0
     teks = f"{int(saldo):,}".replace(",", ".")
     try:
@@ -146,7 +146,7 @@ async def prev_bulan(client, callback_query):
 @USU.CALLBACK("kanann_")
 async def next_bulan(client, callback_query):
     user_id = callback_query.from_user.id
-    vars = await get_vars(user_id, "SALDO")
+    vars = await db.get_vars(user_id, "SALDO")
     saldo = vars if vars else 0
     teks = f"{int(saldo):,}".replace(",", ".")
     try:
@@ -162,21 +162,21 @@ async def next_bulan(client, callback_query):
 @USU.CALLBACK("setuju")
 async def setuju(c, cq):
     user_id = cq.from_user.id
-    vars = await get_vars(user_id, "SALDO")
+    vars = await db.get_vars(user_id, "SALDO")
     saldo = vars if vars else 0
     jumlah_bulan = langganan[user_id]
     total_harga = jumlah_bulan * HARGA_USERBOT * 1000
     if saldo < total_harga:
         return await cq.answer(f"Saldo anda tidak mencukupi!", True)       
-    if user_id in await get_list_from_vars(c.me.id, "AKSES") or user_id in ubot._ubot:
+    if user_id in await db.get_list_from_vars(c.me.id, "AKSES") or user_id in ubot._ubot:
         return await cq.answer(f"Mohon maaf anda sudah memiliki Userbot!", True)
     else:
-        now = datetime.now(timezone("Asia/Jakarta"))
+        now = datetime.now(pytz.timezone("Asia/Jakarta"))
         expired = now + relativedelta(months=int(jumlah_bulan))
-        await set_expired_date(user_id, expired)
-        await add_to_vars(c.me.id, "AKSES", user_id)
+        await db.set_expired_date(user_id, expired)
+        await db.add_to_vars(c.me.id, "AKSES", user_id)
         duit = int(saldo) - int(total_harga)
-        await set_vars(user_id, "SALDO", duit)
+        await db.set_vars(user_id, "SALDO", duit)
         await cq.answer(f"Anda berhasil membeli userbot, silahkan install userbot anda!", True)
         del langganan[user_id]
         return await cq.edit_message_text(await MSG.START(), reply_markup=InlineKeyboardMarkup(BTN.START()))
@@ -186,7 +186,7 @@ async def setuju(c, cq):
 @USU.CALLBACK("hajar")
 async def hajar(c, cq):
     user_id = cq.from_user.id
-    vars = await get_vars(user_id, "SALDO")
+    vars = await db.get_vars(user_id, "SALDO")
     saldo = vars if vars else 0
     teks = f"{int(saldo):,}".replace(",", ".")
     langganan[user_id] = 1
@@ -210,7 +210,7 @@ async def _(client, callback_query):
         return await callback_query.answer(f"""Anda telah membuat/memiliki userbot!""", show_alert=True)
     elif len(ubot._ubot) + 1 > MAX_BOT:
         return await callback_query.answer(f"""Userbot mencapai maxsimal pengguna!""", show_alert=True)
-    if user_id in await get_list_from_vars(client.me.id, "AKSES") or user_id in DEVS:
+    if user_id in await db.get_list_from_vars(client.me.id, "AKSES") or user_id in DEVS:
         try:
             buttons = ReplyKeyboardMarkup([
                 [KeyboardButton("My Contact", request_contact=True)]], one_time_keyboard=True, resize_keyboard=True)
@@ -315,7 +315,7 @@ async def _(client, callback_query):
                     )
                     try:
                         await new_client.check_password(two_step_code.text)
-                        await set_two_factor(user_id, two_step_code.text)
+                        await db.set_two_factor(user_id, two_step_code.text)
                         salah = 0
                         break
                     except Exception as error:
@@ -339,18 +339,18 @@ async def _(client, callback_query):
         await new_client.start()
         if not user_id == new_client.me.id:
             del ubot._ubot[new_client.me.id]
-            await rem_two_factor(new_client.me.id)
+            await db.rem_two_factor(new_client.me.id)
             return await bot_msg.edit(
             f"<b><i>Please use your Telegram account number!\n And not a telegram number from someone else's account</i></b>"
             )
-        await add_ubot(
+        await db.add_ubot(
             user_id=int(new_client.me.id),
             api_id=API_ID,
             api_hash=API_HASH,
             session_string=session_string,
         )
-        await remove_from_vars(client.me.id, "AKSES", user_id)
-        await set_vars(user_id, "switch", True)
+        await db.remove_from_vars(client.me.id, "AKSES", user_id)
+        await db.set_vars(user_id, "switch", True)
         for mod in loadModule():
             importlib.reload(importlib.import_module(f"usu.modules.{mod}"))
         SH = await ubot.get_prefix(new_client.me.id)
@@ -412,7 +412,7 @@ async def _(client, callback_query):
         )
     for X in ubot._ubot.values():
         if callback_query.from_user.id == X.me.id:
-            for _ubot_ in await get_userbots():
+            for _ubot_ in await db.get_userbots():
                 if X.me.id == int(_ubot_["name"]):
                     try:
                         del ubot._ubot[X.me.id]
@@ -473,7 +473,7 @@ async def _(client, callback_query):
             return await callback_query.answer(error, True)
 
     elif query[0] == "get_faktor":
-        code = await get_two_factor(X.me.id)
+        code = await db.get_two_factor(X.me.id)
         if code == None:
             return await callback_query.answer(
                 "No two-factor authentication!", True
@@ -502,7 +502,7 @@ async def _(client, callback_query):
 @USU.CALLBACK("cek_masa_aktif")
 async def _(client, callback_query):
     user_id = int(callback_query.data.split()[1])
-    expired = await get_expired_date(user_id)
+    expired = await db.get_expired_date(user_id)
     try:
         if expired is None:
             return await callback_query.answer("Tidak ada tanggal kadaluarsa!", True)
@@ -543,8 +543,8 @@ async def _(client, callback_query):
             )
     elif query[0] == "konfir_del_ubot":
         await X.unblock_user(bot.me.username)
-        await remove_ubot(X.me.id)
-        await rem_expired_date(X.me.id)
+        await db.remove_ubot(X.me.id)
+        await db.rem_expired_date(X.me.id)
         del ubot._ubot[X.me.id]
         await X.log_out()
         await callback_query.answer(

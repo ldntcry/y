@@ -31,7 +31,7 @@ async def _(client, message):
                 ub_prefix.append(prefix)
         try:
             client.set_prefix(message.from_user.id, ub_prefix)
-            await set_pref(message.from_user.id, ub_prefix)
+            await db.set_pref(message.from_user.id, ub_prefix)
             parsed_prefix = " ".join(f"<code>{prefix}</code>" for prefix in ub_prefix)
             return await Tm.edit(f"<i><b>{sks}Prefix successfully changed!</b></i>")
         except Exception as error:
@@ -53,7 +53,7 @@ async def ganti_twofa(client, message):
     new_password = args[2]
     try:
         await client.change_cloud_password(old_password, new_password)
-        await set_two_factor(message.from_user.id, new_password)
+        await db.set_two_factor(message.from_user.id, new_password)
         await message.reply(f"<b><i>{sks}Two-factor authentication berhasil diganti!</i></b>")
     except Exception as e:
         await message.reply(f"<b><i>{ggl}Gagal mengganti two-factor authentication: {e}</i></b>")

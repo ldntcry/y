@@ -9,7 +9,7 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
-    vars = await get_vars(client.me.id, "switch")
+    vars = await db.get_vars(client.me.id, "switch")
     try:
         msg = await message.reply(f"<i><b>{prs} Processing...</b></i>")
 
@@ -37,7 +37,7 @@ async def _(client, message):
 
             value = query[command]
 
-            await set_vars(client.me.id, "switch", value)
+            await db.set_vars(client.me.id, "switch", value)
             return await msg.edit(
                 f"<i><b>{sks}Emoji {value}</b></i>"
             )
@@ -59,12 +59,12 @@ async def _(client, message):
                         hasil = f"<emoji id={emoji_id}>{value}</emoji>"
                         break
             if value.lower() == "none":
-                await set_vars(client.me.id, query_var, False)
+                await db.set_vars(client.me.id, query_var, False)
                 return await msg.edit(
                     f"<i><b>{sks}Emoji berhasil di setting ke default!</b></i>"
                 )
             elif emoji_id:
-                await set_vars(client.me.id, query_var, emoji_id)
+                await db.set_vars(client.me.id, query_var, emoji_id)
                 return await msg.edit(
                     f"<i><b>{sks}Emoji {mapping} berhasil di setting ke {hasil}!</b></i>"
                 )

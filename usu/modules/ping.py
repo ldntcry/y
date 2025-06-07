@@ -18,7 +18,7 @@ from usu import *
 @USU.UBOT("ping|p")
 @ubot.on_message(filters.command("cping|cp", "") & filters.user(DEVS))
 async def pingbro(client, message):
-    vars = await get_vars(client.me.id, "switch")
+    vars = await db.get_vars(client.me.id, "switch")
     if vars:
         return await pingu(client, message)
     else:

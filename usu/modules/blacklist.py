@@ -32,13 +32,13 @@ async def _(client, message):
         gc = message.chat.id
     try:
         chat_id = await extract_id(message, gc)
-        blacklist = await get_list_from_vars(client.me.id, "BL_ID")
+        blacklist = await db.get_list_from_vars(client.me.id, "BL_ID")
 
         if chat_id in blacklist:
             txt = f"""<i><b>{ggl}Already in broadcast blacklist!</b></i>
 """
         else:
-            await add_to_vars(client.me.id, "BL_ID", chat_id)
+            await db.add_to_vars(client.me.id, "BL_ID", chat_id)
             txt = f"""<i><b>{sks}Added to broadcast blacklist!</b></i>
 """
 
@@ -64,13 +64,13 @@ async def _(client, message):
         gc = message.chat.id
     try:
         chat_id = await extract_id(message, gc)
-        blacklist = await get_list_from_vars(client.me.id, "BL_ID")
+        blacklist = await db.get_list_from_vars(client.me.id, "BL_ID")
 
         if chat_id not in blacklist:
             response = f"""<i><b>{ggl}Not in broadcast blacklist!</b></i>
 """
         else:
-            await remove_from_vars(client.me.id, "BL_ID", chat_id)
+            await db.remove_from_vars(client.me.id, "BL_ID", chat_id)
             response = f"""<i><b>{sks}Remove broadcast blacklist!</b></i>
 """
 
@@ -90,7 +90,7 @@ async def _(client, message):
     _msg = f"<b><i>{prs}Processing...</i></b>"
     mzg = await message.reply(_msg)
 
-    blacklist = await get_list_from_vars(client.me.id, "BL_ID")
+    blacklist = await db.get_list_from_vars(client.me.id, "BL_ID")
     total_blacklist = len(blacklist)
     if not blacklist:
         return await mzg.edit(f"<i><b>{ggl}Empty!</b></i>")
@@ -117,12 +117,12 @@ async def _(client, message):
     _msg = f"<b><i>{prs}Processing...</i></b>"
 
     msg = await message.reply(_msg)
-    blacklists = await get_list_from_vars(client.me.id, "BL_ID")
+    blacklists = await db.get_list_from_vars(client.me.id, "BL_ID")
 
     if not blacklists:
         return await msg.edit(f"<i><b>{ggl}Empty!</b></i>")
 
     for chat_id in blacklists:
-        await remove_from_vars(client.me.id, "BL_ID", chat_id)
+        await db.remove_from_vars(client.me.id, "BL_ID", chat_id)
 
     await msg.edit(f"<i><b>{sks}Clear broadcast blacklist!</b></i>")

@@ -25,6 +25,7 @@ import socket
 
 from usu import *
 from usu.config import OWNER_ID
+from usu.core.database.local import db
 
 def format_exception(exp: BaseException,
                      tb: Optional[List[traceback.FrameSummary]] = None) -> str:
@@ -114,14 +115,7 @@ async def exec_eval(c, m):
 
             eval_vars = {
     "MSG": MSG,
-    "get_vars": get_vars,
-    "get_list_from_vars": get_list_from_vars,
-    "add_to_vars": add_to_vars,
-    "set_vars": set_vars,
-    "remove_vars": remove_vars,
-    "remove_from_vars": remove_from_vars,
-    "all_vars": all_vars,
-    "remove_all_vars": remove_all_vars,
+    "db": db,
     "BTN": BTN,
     "ubot": ubot,
     "bot": bot,
@@ -248,14 +242,7 @@ async def exec_eval(c: Client, m: Message):
 
             eval_vars = {
     "MSG": MSG,
-    "get_vars": get_vars,
-    "get_list_from_vars": get_list_from_vars,
-    "add_to_vars": add_to_vars,
-    "set_vars": set_vars,
-    "remove_vars": remove_vars,
-    "remove_from_vars": remove_from_vars,
-    "all_vars": all_vars,
-    "remove_all_vars": remove_all_vars,
+    "db": db,
     "BTN": BTN,
     "ubot": ubot,
     "bot": bot,

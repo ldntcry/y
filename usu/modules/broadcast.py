@@ -159,7 +159,7 @@ async def broadcast_speed(client, message):
     hasil = []
     msg = await message.reply(f"""<b><i>{prs}Starting Broadcast...</i></b>""")
     chats = await get_data_id(client, "group")
-    blacklist = await get_list_from_vars(client.me.id, "BL_ID")
+    blacklist = await db.get_list_from_vars(client.me.id, "BL_ID")
     for chat_id in chats:
         if chat_id in blacklist or chat_id in BLACKLIST_CHAT:
             continue
@@ -231,7 +231,7 @@ async def ucast(client, message):
     hasil = []
     msg = await message.reply(f"""<b><i>{prs}Starting Broadcast...</i></b>""")
     chats = await get_data_id(client, "users")
-    blacklist = await get_list_from_vars(client.me.id, "BL_ID")
+    blacklist = await db.get_list_from_vars(client.me.id, "BL_ID")
     for chat_id in chats:
         if chat_id in blacklist or chat_id in BLACKLIST_CHAT:
             continue
@@ -303,13 +303,13 @@ async def _(client, message):
         return await _msg.edit(f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[group/channel/users/all] [text/reply]</b></i>")
 
     chats = await get_data_id(client, command)
-    blacklist = await get_list_from_vars(client.me.id, "BL_ID")
+    blacklist = await db.get_list_from_vars(client.me.id, "BL_ID")
 
     done = 0
     failed = 0
     hasil = []
     for chat_id in chats:
-        if chat_id in await get_list_from_vars(client.me.id, "bcdb"):
+        if chat_id in await db.get_list_from_vars(client.me.id, "bcdb"):
             if command == "db":
                 try:
                     if client.me.id not in broadcasts:
@@ -421,13 +421,13 @@ async def _(client, message):
         return await gcs.edit(f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>type [reply]</b></i>")
 
     chats = await get_data_id(client, command)
-    blacklist = await get_list_from_vars(client.me.id, "BL_ID")
+    blacklist = await db.get_list_from_vars(client.me.id, "BL_ID")
 
     done = 0
     failed = 0
     hasil = []
     for chat_id in chats:
-        if chat_id in await get_list_from_vars(client.me.id, "bcdb"):
+        if chat_id in await db.get_list_from_vars(client.me.id, "bcdb"):
             if command == "db":
                 try:
                     if client.me.id not in broadcasts:
@@ -525,7 +525,7 @@ async def _(client, message):
     if not send:
         return await msg.edit(f"<b><i>Mohon balas atau ketik sesuatu...</i></b>")
         
-    susers = await get_list_from_vars(client.me.id, "SAVED_USERS")
+    susers = await db.get_list_from_vars(client.me.id, "SAVED_USERS")
     done = 0
     for chat_id in susers:
         if message.chat.type in [ChatType.SUPERGROUP, ChatType.GROUP]:
@@ -643,7 +643,7 @@ async def _(client, message):
     ptr = await EMO.PUTARAN(client)
     msg = await message.reply(f"<b><i>{prs}Processing...</i></b>")
     type, value = extract_type_and_text(message)
-    auto_text_vars = await get_vars(client.me.id, "AUTO_TEXT")
+    auto_text_vars = await db.get_vars(client.me.id, "AUTO_TEXT")
 
     if type == "on":
         if not auto_text_vars:
@@ -659,9 +659,9 @@ async def _(client, message):
             hasil = []
             done = 0
             while client.me.id in AG:
-                delay = await get_vars(client.me.id, "DELAY_GCAST") or 1
+                delay = await db.get_vars(client.me.id, "DELAY_GCAST") or 1
                 chats = await get_data_id(client, "group")
-                blacklist = await get_list_from_vars(client.me.id, "BL_ID")
+                blacklist = await db.get_list_from_vars(client.me.id, "BL_ID")
                 txt = random.choice(auto_text_vars)
 
                 group = 0
@@ -733,7 +733,7 @@ async def _(client, message):
             return await msg.edit(
                 f"<i><b>{ggl}<code>{message.text.split()[0]} delay</code> - [value]</b></i>"
             )
-        await set_vars(client.me.id, "DELAY_GCAST", value)
+        await db.set_vars(client.me.id, "DELAY_GCAST", value)
         return await msg.edit(
             f"<i><b>{sks}Success set {value} minute</b></i>"
         )
@@ -744,12 +744,12 @@ async def _(client, message):
                 f"<i><b>{ggl}<code>{message.text.split()[0]} remove</code> - [value]</b></i>"
             )
         if value == "all":
-            await set_vars(client.me.id, "AUTO_TEXT", [])
+            await db.set_vars(client.me.id, "AUTO_TEXT", [])
             return await msg.edit(f"<b><i>{sks}Clear text!</i></b>")
         try:
             value = int(value) - 1
             auto_text_vars.pop(value)
-            await set_vars(client.me.id, "AUTO_TEXT", auto_text_vars)
+            await db.set_vars(client.me.id, "AUTO_TEXT", auto_text_vars)
             return await msg.edit(
                 f"<i><b>{sks}Text {value+1} deleted!</b></i>"
             )
@@ -792,7 +792,7 @@ async def _(client, message):
 
 
 async def add_auto_text(client, text):
-    auto_text = await get_vars(client.me.id, "AUTO_TEXT") or []
+    auto_text = await db.get_vars(client.me.id, "AUTO_TEXT") or []
     auto_text.append(text)
-    await set_vars(client.me.id, "AUTO_TEXT", auto_text)
+    await db.set_vars(client.me.id, "AUTO_TEXT", auto_text)
 

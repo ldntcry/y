@@ -13,4 +13,3 @@ from usu.core.helpers.dec import *
 from usu.core.helpers.filters_helper import *
 from usu.core.helpers.help_usu import *
 from usu.core.helpers.fitur_usu import *
-

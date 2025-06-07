@@ -3,6 +3,7 @@ import asyncio
 from pyrogram.enums import ChatType
 
 from usu import *
+from usu.core.database.local import db
 
 
 
@@ -22,7 +23,7 @@ async def get_private_and_group_chats(client):
     gb = []
     channel = []
     all = []
-    db = await get_list_from_vars(client.me.id, "bcdb") or []
+    database = await db.get_list_from_vars(client.me.id, "bcdb") or []
 
     async for dialog in client.get_dialogs(limit=None):
         try:
@@ -51,18 +52,20 @@ async def get_private_and_group_chats(client):
         except Exception as e:
             print(f"[INFO]: {e}")
 
-    return user, group, gb, channel, all, db
+    return user, group, gb, channel, all, database
 
 
 async def install_my_peer(client):
-    user, group, gb, channel, all, db = await get_private_and_group_chats(client)
+    user, group, gb, channel, all, database = await get_private_and_group_chats(client)
     client_id = client.me.id
-    client.peer[client_id] = {"user": user, "group": group, "global": gb, "channel": channel, "all": all, "db": db}
+    client.peer[client_id] = {"user": user, "group": group, "global": gb, "channel": channel, "all": all, "db": database}
 
 
 async def installPeer():
-    tasks = [install_my_peer(client) for client in ubot._ubot.values()]
-    await asyncio.gather(*tasks, return_exceptions=True)
+    task = []
+    for client in ubot._ubot.values():
+        task.append(asyncio.create_task(install_my_peer(client)))
+    await asyncio.gather(*task)
 
 
 

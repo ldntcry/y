@@ -10,43 +10,43 @@ from usu.core.helpers.tools import list_admins
 
 
 async def if_sudo(_, client, message):
-    sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
+    sudo_users = await db.get_list_from_vars(client.me.id, "SUDO_USERS")
     is_user = message.from_user if message.from_user else message.sender_chat
     saya = bool(message.from_user and message.from_user.is_self or getattr(message, "outgoing", False))
     return is_user.id in sudo_users or saya
 
 async def if_filter_gc(_, client, message):
-    on_off = await get_vars(client.me.id, "FILTERS_GC_ON_OFF")
+    on_off = await db.get_vars(client.me.id, "FILTERS_GC_ON_OFF")
     return bool(on_off)
 
 async def if_filter_gc_bot(_, client, message):
-    on_off = await get_vars(message.chat.id, "FILTERS_GC_ON_OFF")
+    on_off = await db.get_vars(message.chat.id, "FILTERS_GC_ON_OFF")
     return bool(on_off)
 
 async def if_filter_pv(_, client, message):
-    on_off = await get_vars(client.me.id, "FILTERS_PV_ON_OFF")
+    on_off = await db.get_vars(client.me.id, "FILTERS_PV_ON_OFF")
     return bool(on_off)
 
 async def dor(_, client, message):
-    on_off = await get_vars(client.me.id, "ON_OFF_DOR")
+    on_off = await db.get_vars(client.me.id, "ON_OFF_DOR")
     return bool(on_off)
 
 async def antiscam(_, client, message):
-    on_off = await get_vars(client.me.id, "ON_OFF_ANTI_SCAM")
+    on_off = await db.get_vars(client.me.id, "ON_OFF_ANTI_SCAM")
     return bool(on_off)
 
 async def protect(_, client, message):
-    on_off = await get_vars(client.me.id, "ON_OFF_WORD")
+    on_off = await db.get_vars(client.me.id, "ON_OFF_WORD")
     return bool(on_off)
 
 async def protect_bot(_, client, message):
-    on_off = await get_vars(message.chat.id, "ON_OFF_WORD")
+    on_off = await db.get_vars(message.chat.id, "ON_OFF_WORD")
     return bool(on_off)
 
 async def update_cmd(user_id, command, field, increment=False):
-    top = await get_vars(user_id, command, field)
+    top = await db.get_vars(user_id, command, field)
     new_value = int(top) + 1 if top and increment else 1
-    await set_vars(user_id, command, new_value, field)
+    await db.set_vars(user_id, command, new_value, field)
     return new_value
 
 class USU:
@@ -65,7 +65,7 @@ class USU:
     def SUDO(func):
         async def function(client, message):
             user = message.from_user
-            sudo = await get_list_from_vars(bot.me.id, "SUDO")
+            sudo = await db.get_list_from_vars(bot.me.id, "SUDO")
             if user.id not in sudo and user.id not in DEVS:
                 return await message.reply(f"<b><i>fitur ini untuk owner bot!</i></b>")
             return await func(client, message)
@@ -86,7 +86,7 @@ class USU:
     def SELLER(func):
         async def function(client, message):
             user = message.from_user
-            seller_id = await get_list_from_vars(bot.me.id, "SELER_USERS")
+            seller_id = await db.get_list_from_vars(bot.me.id, "SELER_USERS")
             if user.id not in seller_id and user.id not in DEVS:
                 return await message.reply(f"<b><i>Untuk menggunakan fitur ini ada harus menjadi seller bot terlebih dahulu!</b></i>")
             return await func(client, message)
@@ -330,11 +330,11 @@ class USU:
     @staticmethod
     def START(func):
         async def function(client, message):
-            seved_users = await get_list_from_vars(bot.me.id, "SAVED_USERS")
+            seved_users = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
             user_id = message.from_user.id
             if user_id != OWNER_ID and user_id not in DEVS:
                 if user_id not in seved_users:
-                    await add_to_vars(bot.me.id, "SAVED_USERS", user_id)
+                    await db.add_to_vars(bot.me.id, "SAVED_USERS", user_id)
                 user_link = f"{message.from_user.first_name} {message.from_user.last_name or ''}"
                 formatted_text = f"<b><i>{message.text}\n\nName: {message.from_user.mention}\nID: {user_id}</i></b>"
                 buttons = [

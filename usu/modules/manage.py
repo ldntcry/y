@@ -97,7 +97,7 @@ Format Set (Welcome/GoodBye):</b>
 @USU.NO_CMD("FILTERS_GC_BOT", bot)
 async def _(client, message):
     try:
-        all_filters = await all_vars(message.chat.id, "FILTERS_GC") or {}
+        all_filters = await db.all_vars(message.chat.id, "FILTERS_GC") or {}
 
         for key, value in all_filters.items():
             if key in message.text.lower().split():
@@ -430,7 +430,7 @@ async def _(client, message):
         return await txt.edit(f"<i><b>Type [on/off]</b></i>")
 
     type = True if arg.lower() == "on" else False
-    await set_vars(message.chat.id, "FILTERS_GC_ON_OFF", type)
+    await db.set_vars(message.chat.id, "FILTERS_GC_ON_OFF", type)
     return await txt.edit(f"<i><b>{sks}Successfully set to mode: {type}</b></i>")
 
 
@@ -445,12 +445,12 @@ async def _(client, message):
     ptr = await EMO.PUTARAN(client)
     txt = await message.reply(f"<i><b>{prs}Processing...</b></i>")
     type, reply = extract_type_and_msg(message)
-    all = await all_vars(message.chat.id, "FILTERS_GC") or {}
+    all = await db.all_vars(message.chat.id, "FILTERS_GC") or {}
     if not type and message.reply_to_message:
         return await txt.edit(f"<i><b>{ggl}Reply text or enter text</b></i>")
     if type not in all:
         try:
-            await set_vars(message.chat.id, type, str(reply.text), "FILTERS_GC")
+            await db.set_vars(message.chat.id, type, str(reply.text), "FILTERS_GC")
             await txt.edit(f"<i><b>{sks}Message:</b> <code>{type}</code> <b>Successfully added to filter</b></i>")
         except Exception as error:
             await txt.edit(error)
@@ -474,12 +474,12 @@ async def _(client, message):
         return await txt.edit(f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>nama filter</b></i>")
 
     logs = bot.me.id
-    all = await all_vars(message.chat.id, "FILTERS_GC") or {}
+    all = await db.all_vars(message.chat.id, "FILTERS_GC") or {}
 
     if arg not in all:
         return await txt.edit(f"<i><b>{ggl}Message:</b> <code>{arg}</code> <b>Not found!</b></i>")
 
-    await remove_vars(message.chat.id, arg, "FILTERS_GC")
+    await db.remove_vars(message.chat.id, arg, "FILTERS_GC")
     return await txt.edit(f"<i><b>{sks}Message:</b> <code>{arg}</code> <b>Successfully removed to filter</b></i>")
 
 @USU.BOT("clearfilter")
@@ -493,9 +493,9 @@ async def _(client, message):
     ptr = await EMO.PUTARAN(client)
     txt = await message.reply(f"<i><b>{prs}Processing...</b></i>")
 
-    all = await all_vars(message.chat.id, "FILTERS_GC")
+    all = await db.all_vars(message.chat.id, "FILTERS_GC")
     for anu in all:
-        await remove_vars(message.chat.id, anu, "FILTERS_GC")
+        await db.remove_vars(message.chat.id, anu, "FILTERS_GC")
     return await txt.edit(f"<i><b>{sks}Successfully removed all filter</b></i>")
 
 
@@ -507,7 +507,7 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
-    all_filters = await all_vars(message.chat.id, "FILTERS_GC")
+    all_filters = await db.all_vars(message.chat.id, "FILTERS_GC")
     if all_filters:
         msg = f"{broad}List filters\n"
         for x in all_filters.keys():
@@ -540,7 +540,7 @@ async def _(client, message):
         return await Tm.edit(error)
     done = 0
     failed = 0
-    chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
+    chat = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
     for dialog in chat:
         if not str(dialog).startswith("-"):
             continue
@@ -589,7 +589,7 @@ async def _(client, message):
         return await Tm.edit(error)
     done = 0
     failed = 0
-    chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
+    chat = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
     for dialog in chat:
         if not str(dialog).startswith("-"):
             continue
@@ -634,7 +634,7 @@ async def _(client, message):
         return await Tm.edit(error)
     done = 0
     failed = 0
-    chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
+    chat = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
     for dialog in chat:
         if not str(dialog).startswith("-"):
             continue
@@ -683,7 +683,7 @@ async def _(client, message):
         return await Tm.edit(error)
     done = 0
     failed = 0
-    chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
+    chat = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
     for dialog in chat:
         if not str(dialog).startswith("-"):
             continue
@@ -728,7 +728,7 @@ async def _(client, message):
         return await Tm.edit(error)
     done = 0
     failed = 0
-    chat = await get_list_from_vars(bot.me.id, "SAVED_USERS")
+    chat = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
     for dialog in chat:
         if not str(dialog).startswith("-"):
             continue

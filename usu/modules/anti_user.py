@@ -12,7 +12,7 @@ from usu import *
 
 @USU.NO_CMD("ANTI_USERS", ubot)
 async def _(client, message):
-    is_users = await get_list_from_vars(client.me.id, "BL_USERS") or []
+    is_users = await db.get_list_from_vars(client.me.id, "BL_USERS") or []
     user_id = message.from_user.id if message.from_user else message.sender_chat.id
    
     if user_id in is_users:
@@ -54,7 +54,7 @@ async def _(client, message):
         if command == "on"
         else f"<i><b>{sks}Antiuser off!</b></i>"
     )
-    await set_vars(client.me.id, "ON_OFF_DOR", query[command])
+    await db.set_vars(client.me.id, "ON_OFF_DOR", query[command])
     await message.reply(txt)
 
 @USU.UBOT("dor")
@@ -77,7 +77,7 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    admin_users = await get_list_from_vars(client.me.id, "BL_USERS")
+    admin_users = await db.get_list_from_vars(client.me.id, "BL_USERS")
 
     if user.id in admin_users:
         return await msg.edit(f"""
@@ -86,7 +86,7 @@ async def _(client, message):
         )
 
     try:
-        await add_to_vars(client.me.id, "BL_USERS", user.id)
+        await db.add_to_vars(client.me.id, "BL_USERS", user.id)
         await msg.edit(f"""
 <b><i>{sks}Added to antiuser!</i></b>
 """
@@ -118,7 +118,7 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    admin_users = await get_list_from_vars(client.me.id, "BL_USERS")
+    admin_users = await db.get_list_from_vars(client.me.id, "BL_USERS")
 
     if user.id not in admin_users:
         return await msg.edit(f"""
@@ -126,7 +126,7 @@ async def _(client, message):
 """
         )
     try:
-        await remove_from_vars(client.me.id, "BL_USERS", user.id)
+        await db.remove_from_vars(client.me.id, "BL_USERS", user.id)
         await msg.edit(f"""
 <b><i>{sks}Removed from antiuser!</i></b>
 """
@@ -147,7 +147,7 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     Sh = await message.reply(f"<b><i>{prs}Processing...</i></b>")
-    admin_users = await get_list_from_vars(client.me.id, "BL_USERS")
+    admin_users = await db.get_list_from_vars(client.me.id, "BL_USERS")
 
     if not admin_users:
         return await Sh.edit(f"<b><i>{ggl}Empty!</i></b>")

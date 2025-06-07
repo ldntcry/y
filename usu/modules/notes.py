@@ -68,7 +68,7 @@ async def _(client, message):
             f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[name] [text/reply]</b></i>"
         )
 
-    vars = await get_vars(client.me.id, args, query)
+    vars = await db.get_vars(client.me.id, args, query)
 
     if vars:
         return await message.reply(f"<i><b>{ggl}Notes {args} already available!</b></i>")
@@ -94,7 +94,7 @@ async def _(client, message):
             break
 
     if value:
-        await set_vars(client.me.id, args, value, query)
+        await db.set_vars(client.me.id, args, value, query)
         return await message.reply(
             f"<i><b>{sks}Notes <code>{args}</code> saved!</b>"
         )
@@ -119,12 +119,12 @@ async def _(client, message):
         )
 
     query = "notes_cb" if message.command[0] == "delcb" else "notes"
-    vars = await get_vars(client.me.id, args, query)
+    vars = await db.get_vars(client.me.id, args, query)
 
     if not vars:
         return await message.reply(f"<i><b>{ggl}Notes {args} not found!</b></i>")
 
-    await remove_vars(client.me.id, args, query)
+    await db.remove_vars(client.me.id, args, query)
     await client.delete_messages(client.me.id, int(vars["message_id"]))
     return await message.reply(f"<i><b>{sks}Notes {args} deleted!</b></i>")
 
@@ -144,7 +144,7 @@ async def _(client, message):
             f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[name]</b></i>"
         )
 
-    data = await get_vars(client.me.id, args, "notes")
+    data = await db.get_vars(client.me.id, args, "notes")
 
     if not data:
         return await message.reply(
@@ -181,7 +181,7 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     query = "notes_cb" if message.command[0] == "listcb" else "notes"
-    vars = await all_vars(client.me.id, query)
+    vars = await db.all_vars(client.me.id, query)
     if vars:
         msg = f"<b>{broad}Notes!</b>\n\n"
         for x, data in vars.items():
@@ -196,7 +196,7 @@ async def _(client, message):
 @USU.INLINE("^get_notes")
 async def _(client, inline_query):
     query = inline_query.query.split()
-    data = await get_vars(int(query[1]), query[2], "notes")
+    data = await db.get_vars(int(query[1]), query[2], "notes")
     item = [x for x in ubot._ubot.values() if int(query[1]) == x.me.id]
     for me in item:
         m = await me.get_messages(int(me.me.id), int(data["message_id"]))
@@ -221,7 +221,7 @@ async def _(client, callback_query):
     _, user_id, *query = callback_query.data.split()
     data_key = "notes_cb" if bool(query) else "notes"
     query_eplit = query[0] if bool(query) else user_id.split("_")[1]
-    data = await get_vars(int(user_id.split("_")[0]), query_eplit, data_key)
+    data = await db.get_vars(int(user_id.split("_")[0]), query_eplit, data_key)
     item = [x for x in ubot._ubot.values() if int(user_id.split("_")[0]) == x.me.id]
     for me in item:
         m = await me.get_messages(int(me.me.id), int(data["message_id"]))

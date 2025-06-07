@@ -58,7 +58,7 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
+    sudo_users = await db.get_list_from_vars(client.me.id, "SUDO_USERS")
 
     if user.id in sudo_users:
         return await msg.edit(
@@ -66,7 +66,7 @@ async def _(client, message):
         )
 
     try:
-        await add_to_vars(client.me.id, "SUDO_USERS", user.id)
+        await db.add_to_vars(client.me.id, "SUDO_USERS", user.id)
         return await msg.edit(
             f"<i><b>{sks}Added to sudo!</b></i>"
         )
@@ -93,7 +93,7 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
+    sudo_users = await db.get_list_from_vars(client.me.id, "SUDO_USERS")
 
     if user.id not in sudo_users:
         return await msg.edit(
@@ -101,7 +101,7 @@ async def _(client, message):
         )
 
     try:
-        await remove_from_vars(client.me.id, "SUDO_USERS", user.id)
+        await db.remove_from_vars(client.me.id, "SUDO_USERS", user.id)
         return await msg.edit(
             f"<i><b>{sks}Removed from sudo!</b></i>"
         )
@@ -117,7 +117,7 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     Sh = await message.reply(f"<i><b>{prs}Processing...</b></i>")
-    sudo_users = await get_list_from_vars(client.me.id, "SUDO_USERS")
+    sudo_users = await db.get_list_from_vars(client.me.id, "SUDO_USERS")
 
     sudo_list = []
     for user_id in sudo_users:
@@ -150,13 +150,13 @@ async def _(client, message):
     _msg = f"<b><i>{prs}Processing...</i></b>"
 
     msg = await message.reply(_msg)
-    sudo = await get_list_from_vars(client.me.id, "SUDO_USERS")
+    sudo = await db.get_list_from_vars(client.me.id, "SUDO_USERS")
 
     if not sudo:
         return await msg.edit(f"<i><b>{ggl}Empty!</b></i>")
 
     for chat_id in sudo:
-        await remove_from_vars(client.me.id, "SUDO_USERS", chat_id)
+        await db.remove_from_vars(client.me.id, "SUDO_USERS", chat_id)
 
     await msg.edit(f"<i><b>{sks}Clear sudo!</b></i>")
 
@@ -184,7 +184,7 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    sudo_users = await get_list_from_vars(bot.me.id, "SUDO")
+    sudo_users = await db.get_list_from_vars(bot.me.id, "SUDO")
 
     if user.id in sudo_users:
         return await msg.edit(
@@ -192,7 +192,7 @@ async def _(client, message):
         )
 
     try:
-        await add_to_vars(bot.me.id, "SUDO", user.id)
+        await db.add_to_vars(bot.me.id, "SUDO", user.id)
         return await msg.edit(
             f"<i><b>{sks}Added to sudo!</b></i>"
         )
@@ -220,7 +220,7 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    sudo_users = await get_list_from_vars(bot.me.id, "SUDO")
+    sudo_users = await db.get_list_from_vars(bot.me.id, "SUDO")
 
     if user.id not in sudo_users:
         return await msg.edit(
@@ -228,7 +228,7 @@ async def _(client, message):
         )
 
     try:
-        await remove_from_vars(bot.me.id, "SUDO", user.id)
+        await db.remove_from_vars(bot.me.id, "SUDO", user.id)
         return await msg.edit(
             f"<i><b>{sks}Removed from sudo!</b></i>"
         )
@@ -245,7 +245,7 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     Sh = await message.reply(f"<i><b>{prs}Processing...</b></i>")
-    sudo_users = await get_list_from_vars(bot.me.id, "SUDO")
+    sudo_users = await db.get_list_from_vars(bot.me.id, "SUDO")
 
     sudo_list = []
     for user_id in sudo_users:
@@ -279,12 +279,12 @@ async def _(client, message):
     _msg = f"<b><i>{prs}Processing...</i></b>"
 
     msg = await message.reply(_msg)
-    sudo = await get_list_from_vars(bot.me.id, "SUDO")
+    sudo = await db.get_list_from_vars(bot.me.id, "SUDO")
 
     if not sudo:
         return await msg.edit(f"<i><b>{ggl}Empty!</b></i>")
 
     for chat_id in sudo:
-        await remove_from_vars(bot.me.id, "SUDO", chat_id)
+        await db.remove_from_vars(bot.me.id, "SUDO", chat_id)
 
     await msg.edit(f"<i><b>{sks}Clear sudo!</b></i>")

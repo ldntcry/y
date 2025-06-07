@@ -18,14 +18,14 @@ from usu import *
 async def _(client, message):
     if message.reply_to_message:
         return
-    wl = await get_list_from_vars(client.me.id, "wl")
+    wl = await db.get_list_from_vars(client.me.id, "wl")
     if message.from_user and (message.from_user.id in wl or message.from_user.id in DEVS):
         return
     try:
         if message.from_user.id not in await list_admins(message):
             if message.text:
                 word_split = message.text.lower().split()
-                word_list = await get_vars(client.me.id, "WORD_LIST") or []
+                word_list = await db.get_vars(client.me.id, "WORD_LIST") or []
                 if message.from_user and message.from_user.id:
                     try:
                         await message.delete()
@@ -58,14 +58,14 @@ async def _(client, message):
 async def _(client, message):
     if message.reply_to_message:
         return
-    wl = await get_list_from_vars(message.chat.id, "wl")
+    wl = await db.get_list_from_vars(message.chat.id, "wl")
     if message.from_user and (message.from_user.id in wl or message.from_user.id in DEVS):
         return
     try:
         if message.from_user.id not in await list_admins(message):
             if message.text:
                 word_split = message.text.lower().split()
-                word_list = await get_vars(client.me.id, "WORD_LIST") or []
+                word_list = await db.get_vars(client.me.id, "WORD_LIST") or []
                 mention = f"<b><i>{message.from_user.mention} Teks anda terdeteksi Broadcast!</i></b>"
                 if message.from_user and message.from_user.id:
                     try:
@@ -131,7 +131,7 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
-    vars = await get_vars(client.me.id, "ON_OFF_WORD")
+    vars = await db.get_vars(client.me.id, "ON_OFF_WORD")
     if len(message.command) < 2:
         return await message.reply(
             f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[on/off]</b></i>`"
@@ -147,13 +147,13 @@ async def _(client, message):
 
     if command == "on":
         if not vars:
-            await set_vars(client.me.id, "ON_OFF_WORD", query[command])
+            await db.set_vars(client.me.id, "ON_OFF_WORD", query[command])
             return await message.reply(f"<i><b>{sks}Antigcast on!</b></i>")
         else:
             return await message.reply(f"<i><b>{ggl}Antigcast sudah on sebelumnya!</b></i>")
     else:
         if vars:
-            await set_vars(client.me.id, "ON_OFF_WORD", query[command])
+            await db.set_vars(client.me.id, "ON_OFF_WORD", query[command])
             return await message.reply(f"<i><b>{sks}Antigcast off!</b></i>")
         else:
             return await message.reply(f"<i><b>{ggl}Antigcast sudah off sebelumnya!</b></i>")
@@ -167,12 +167,12 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
-    vars = await get_vars(client.me.id, "WORD_LIST") or []
+    vars = await db.get_vars(client.me.id, "WORD_LIST") or []
     text = get_arg(message).split()
    
     add_word = [x for x in text if x not in vars]
     vars.extend(add_word)
-    await set_vars(client.me.id, "WORD_LIST", vars)
+    await db.set_vars(client.me.id, "WORD_LIST", vars)
    
     if add_word:
         response = f"<i><b>{sks}Added to antigcast!</b></i>"
@@ -193,7 +193,7 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
-    vars = await get_vars(client.me.id, "WORD_LIST") or []
+    vars = await db.get_vars(client.me.id, "WORD_LIST") or []
     if vars:
         msg = f"<b>{broad}Daftar word!</b>\n\n"
         for x in vars:
@@ -213,11 +213,11 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
-    vars = await get_vars(client.me.id, "WORD_LIST") or []
+    vars = await db.get_vars(client.me.id, "WORD_LIST") or []
     _, *text = message.command
     removed_list = [x for x in text if x in vars]
     vars = [x for x in vars if x not in removed_list]
-    await set_vars(client.me.id, "WORD_LIST", vars)
+    await db.set_vars(client.me.id, "WORD_LIST", vars)
 
     if removed_list:
         response = f"<i><b>{sks}Removed from antigcast!</b></i>"
@@ -238,7 +238,7 @@ async def _(client, message):
     ptr = await EMO.PUTARAN(client)
     msg = await message.reply(f"<i><b>{prs}Processing...</b></i>")
     user_id = await extract_user(message)
-    wl = await get_list_from_vars(client.me.id, "wl")
+    wl = await db.get_list_from_vars(client.me.id, "wl")
     if not user_id:
         return await msg.edit(
             f"<i><b>{ggl}{message.text} user_id/reply</b></i>"
@@ -252,7 +252,7 @@ async def _(client, message):
     if user.id in wl:
         return await msg.edit(f"<i><b>{ggl}Already in whitelist!</b></i>")
     else:
-        await add_to_vars(client.me.id, "wl", user.id)
+        await db.add_to_vars(client.me.id, "wl", user.id)
         return await msg.edit(f"<i><b>{sks}Successfully added to whitelist!</b></i>")
 
 
@@ -266,7 +266,7 @@ async def _(client, message):
     ptr = await EMO.PUTARAN(client)
     msg = await message.reply(f"<i><b>{prs}Processing...</b></i>")
     user_id = await extract_user(message)
-    wl = await get_list_from_vars(client.me.id, "wl")
+    wl = await db.get_list_from_vars(client.me.id, "wl")
     if not user_id:
         return await msg.edit(
             f"<i><b>{ggl}{message.text} user_id/reply</b></i>"
@@ -280,7 +280,7 @@ async def _(client, message):
     if user.id not in wl:
         return await msg.edit(f"<i><b>{ggl}Not in whitelist!</b></i>")
     else:
-        await remove_from_vars(client.me.id, "wl", user.id)
+        await db.remove_from_vars(client.me.id, "wl", user.id)
         return await msg.edit(f"<i><b>{sks}Successfully removed from whitelist!</b></i>")
 
 
@@ -292,7 +292,7 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     Sh = await message.reply(f"<i><b>{prs}Processing...</b></i>")
-    wl = await get_list_from_vars(client.me.id, "wl")
+    wl = await db.get_list_from_vars(client.me.id, "wl")
 
     if not wl:
         return await Sh.edit(f"<i><b>{ggl}Empty!</b></i>")
@@ -325,7 +325,11 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
-    vars = await get_vars(message.chat.id, "ON_OFF_WORD")
+    vars = await db.get_vars(message.chat.id, "ON_OFF_WORD")
+    susers = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
+    if message.chat.id not in susers:
+        if message.chat.type in [ChatType.SUPERGROUP, ChatType.GROUP]:
+            await db.add_to_vars(bot.me.id, "SAVED_USERS", message.chat.id)
     if len(message.command) < 2:
         return await message.reply(
             f"<i>{ggl}<code>{message.text.split()[0]}</code> <b>[on/off]</b></i>`"
@@ -342,13 +346,13 @@ async def _(client, message):
 
     if command == "on":
         if not vars:
-            await set_vars(message.chat.id, "ON_OFF_WORD", query[command])
+            await db.set_vars(message.chat.id, "ON_OFF_WORD", query[command])
             return await message.reply(f"<i><b>{sks}Antigcast on!</b></i>")
         else:
             return await message.reply(f"<i><b>{ggl}Antigcast sudah on sebelumnya!</b></i>")
     else:
         if vars:
-            await set_vars(message.chat.id, "ON_OFF_WORD", query[command])
+            await db.set_vars(message.chat.id, "ON_OFF_WORD", query[command])
             return await message.reply(f"<i><b>{sks}Antigcast off!</b></i>")
         else:
             return await message.reply(f"<i><b>{ggl}Antigcast sudah off sebelumnya!</b></i>")
@@ -364,12 +368,12 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     admin = await list_admins(message)
-    vars = await get_vars(message.chat.id, "WORD_LIST") or []
+    vars = await db.get_vars(message.chat.id, "WORD_LIST") or []
     text = get_arg(message).split()
    
     add_word = [x for x in text if x not in vars]
     vars.extend(add_word)
-    await set_vars(message.chat.id, "WORD_LIST", vars)
+    await db.set_vars(message.chat.id, "WORD_LIST", vars)
    
     if add_word:
         response = f"<i><b>{sks}Added to antigcast!</b></i>"
@@ -392,7 +396,7 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     admin = await list_admins(message)
-    vars = await get_vars(message.chat.id, "WORD_LIST") or []
+    vars = await db.get_vars(message.chat.id, "WORD_LIST") or []
     await message.delete()
     if vars:
         msg = f"<b>{broad}Daftar word!</b>\n\n"
@@ -415,11 +419,11 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     admin = await list_admins(message)
-    vars = await get_vars(message.chat.id, "WORD_LIST") or []
+    vars = await db.get_vars(message.chat.id, "WORD_LIST") or []
     _, *text = message.command
     removed_list = [x for x in text if x in vars]
     vars = [x for x in vars if x not in removed_list]
-    await set_vars(message.chat.id, "WORD_LIST", vars)
+    await db.set_vars(message.chat.id, "WORD_LIST", vars)
 
     if removed_list:
         response = f"<i><b>{sks}Removed from antigcast!</b></i>"
@@ -442,7 +446,7 @@ async def _(client, message):
     admin = await list_admins(message)
     msg = await message.reply(f"<i><b>{prs}Processing...</b></i>")
     user_id = await extract_user(message)
-    wl = await get_list_from_vars(message.chat.id, "wl")
+    wl = await db.get_list_from_vars(message.chat.id, "wl")
     if not user_id:
         return await msg.edit(
             f"<i><b>{ggl}{message.text} user_id/reply</b></i>"
@@ -456,7 +460,7 @@ async def _(client, message):
     if user.id in wl:
         return await msg.edit(f"<i><b>{ggl}Already in whitelist!</b></i>")
     else:
-        await add_to_vars(message.chat.id, "wl", user.id)
+        await db.add_to_vars(message.chat.id, "wl", user.id)
         return await msg.edit(f"<i><b>{sks}Successfully added to whitelist!</b></i>")
 
 
@@ -472,7 +476,7 @@ async def _(client, message):
     admin = await list_admins(message)
     msg = await message.reply(f"<i><b>{prs}Processing...</b></i>")
     user_id = await extract_user(message)
-    wl = await get_list_from_vars(message.chat.id, "wl")
+    wl = await db.get_list_from_vars(message.chat.id, "wl")
     if not user_id:
         return await msg.edit(
             f"<i><b>{ggl}{message.text} user_id/reply</b></i>"
@@ -486,7 +490,7 @@ async def _(client, message):
     if user.id not in wl:
         return await msg.edit(f"<i><b>{ggl}Not in whitelist!</b></i>")
     else:
-        await remove_from_vars(message.chat.id, "wl", user.id)
+        await db.remove_from_vars(message.chat.id, "wl", user.id)
         return await msg.edit(f"<i><b>{sks}Successfully removed from whitelist!</b></i>")
 
 
@@ -501,7 +505,7 @@ async def _(client, message):
     ptr = await EMO.PUTARAN(client)
     admin = await list_admins(message)
     Sh = await message.reply(f"<i><b>{prs}Processing...</b></i>")
-    wl = await get_list_from_vars(message.chat.id, "wl")
+    wl = await db.get_list_from_vars(message.chat.id, "wl")
     await message.delete()
     if not wl:
         return await Sh.edit(f"<i><b>{ggl}Empty!</b></i>")

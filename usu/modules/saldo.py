@@ -15,7 +15,7 @@ async def saldo(c, cq):
     data = cq.data.split()
     user_id = cq.from_user.id
     btn = BTN.TOPUP()
-    vars = await get_vars(user_id, "SALDO")
+    vars = await db.get_vars(user_id, "SALDO")
     saldo = vars if vars else 0
     teks = f"{saldo:,}".replace(",", ".")
     text = f"<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:\n</b>Rp {teks}</i>"
@@ -25,7 +25,7 @@ async def saldo(c, cq):
 async def kode(c, cq):
     user_id = cq.from_user.id
     ref = f"REF{user_id}"
-    total = await get_list_from_vars(user_id, "REF")
+    total = await db.get_list_from_vars(user_id, "REF")
     undang = BTN.REF(bot.me.username, ref)
     text = f"<i><b>Undang pengguna baru menggunakan kode Referral bisa menambahkan saldo anda, mengundang 1 pengguna baru bisa mendapatkan saldo Rp 4.000 setiap undang nya!\n\nReferral Anda:</b>\n<code>https://t.me/{bot.me.username}?start={ref}</code>\n\n<b>Total Diundang:</b> {len(total)}</i>"
     return await cq.edit_message_text(text, reply_markup=InlineKeyboardMarkup(undang))
@@ -78,12 +78,12 @@ async def tambah_saldo(c, cq):
         teks = f"{int(saldo):,}".replace(",", ".")
         try:
             user = await c.get_users(tx)
-            vars_data = await get_vars(user.id, "TX")
-            vars = await get_vars(user.id, "SALDO")
+            vars_data = await db.get_vars(user.id, "TX")
+            vars = await db.get_vars(user.id, "SALDO")
             current_saldo = vars if vars else 0
             topup_ids = vars_data if vars_data else []
             hasil = int(current_saldo) + int(saldo)
-            await set_vars(user.id, "SALDO",  hasil)
+            await db.set_vars(user.id, "SALDO",  hasil)
             await c.send_message(user.id, f"<i><b>Pengisian saldo [Userbot]({PHOTO}) anda sudah dikonfirmasi oleh {USERNAME}!\n\nName:</b> {user.mention}\n<b>ID:</b> {user.id}\n<b>Jumlah topup:</b> Rp {teks}\n<b>ID Transaksi:</b> {idtx}</i>", reply_markup=InlineKeyboardMarkup(BTN.START()))
             await cq.answer("Berhasil dikonfirmasi!", True)
             del info_data[tx]

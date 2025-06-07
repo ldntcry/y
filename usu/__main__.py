@@ -3,6 +3,8 @@ import random
 from pyrogram import idle
 from usu import *
 from usu.core.helpers.help_usu import tombol_anak
+from usu.core.database.local import db
+from usu.core.helpers.dec import installPeer
 import os
 import sys
 import aiorun
@@ -13,6 +15,8 @@ from pyrogram.errors import (AuthKeyDuplicated, AuthKeyUnregistered,
 from pytz import timezone
 import pytgcalls
 import pyrogram
+
+
 
 
 async def auto_reaction_task(client, reactions):
@@ -54,26 +58,28 @@ async def auto_reaction():
         await asyncio.gather(*task)
         await asyncio.sleep(60)
 
+async def start_and_join(ubot_):
+    await ubot_.start()
+    for auto in AUTO_JOIN:
+        await ubot_.join_chat(auto)
 
 async def start_ubot():
-    print(f"Database load: {DATABASE}.db")
-    print(f"------------------------------")
-    for data in await get_userbots():
+    logger.info(f"Database load: {DATABASE}.db")
+    for data in await db.get_userbots():
         try:
             ubot_ = Ubot(**data)
-            await ubot_.start()
-            try:
-                for auto in AUTO_JOIN:
-                    await ubot_.join_chat(auto)
-            except Exception as e:
-                pass
+            await start_and_join(ubot_)
         except Exception as e:
             pass
-    print(f"Successfully started {len(ubot._ubot)} client!")
-    await asyncio.sleep(2)
+    logger.info(f"Successfully started {len(ubot._ubot)} client!")
 
 async def bots():
-    await bot.start()
+    try:
+        await bot.start()
+    except FloodWait as e:
+        logger.info(f"FloodWait {e.value} seconds")
+        await asyncio.sleep(e.value)
+        await bot.start()
 
 async def loaded():
     task = [installPeer(), auto_reaction(), expiredUserbots(), check_session()]
@@ -91,13 +97,13 @@ async def loaded():
 <i><b>Pyrogram:</b> {pyrogram.__version__}</i>
 <i><b>Pytgcalls:</b> {pytgcalls.__version__}</i>""")
         except Exception as e:
-            print(f"Silahkan /start @{bot.me.username} terlebih dahulu di semua akun DEVS!")
+            logger.info(f"Silahkan /start @{bot.me.username} terlebih dahulu di semua akun DEVS!")
             sys.exit()
-    print(f"------------------------------")
-    print(f"Bot - Running!")
+    logger.info(f"Bot - Running!")
 
 
 async def stopped():
+    db.close_connection()
     await bot.stop()
 
 async def main():

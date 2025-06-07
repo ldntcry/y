@@ -206,6 +206,10 @@ async def _(client, message):
 async def _(client, message):
     if message.chat.id in tagallgcid:
         return
+    susers = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
+    if message.chat.id not in susers:
+        if message.chat.type in [ChatType.SUPERGROUP, ChatType.GROUP]:
+            await db.add_to_vars(bot.me.id, "SAVED_USERS", message.chat.id)
     tagallgcid.append(message.chat.id)
     text = message.text.split(None, 1)[1] if len(message.text.split()) != 1 else (message.reply_to_message.text if message.reply_to_message else "")
     m = message.reply_to_message if message.reply_to_message else message

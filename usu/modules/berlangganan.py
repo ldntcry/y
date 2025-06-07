@@ -66,10 +66,10 @@ async def tambah_akses(client, callback_query):
             user = await client.get_users(user_id)
         except Exception as e:
             return print(e)
-        now = datetime.now(timezone("Asia/Jakarta"))
+        now = datetime.now(pytz.timezone("Asia/Jakarta"))
         expired = now + relativedelta(months=int(bulan))
-        await set_expired_date(user_id, expired)
-        await add_to_vars(client.me.id, "AKSES", user_id)
+        await db.set_expired_date(user_id, expired)
+        await db.add_to_vars(client.me.id, "AKSES", user_id)
         await client.send_message(user_id, f"<i><b>Pembelian [Userbot]({PHOTO}) anda sudah dikonfirmasi oleh {USERNAME}!\nName:</b> {user.mention}\n<b>ID:</b> {user.id}\n<b>Masa aktif:</b> {bulan} bulan\n\n<b>Silahkan install Userbot anda!</b></i>", reply_markup=InlineKeyboardMarkup(btn))
         return await callback_query.answer("Berhasil diakses!", True)
     else:

@@ -616,6 +616,10 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
+    susers = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
+    if message.chat.id not in susers:
+        if message.chat.type in [ChatType.SUPERGROUP, ChatType.GROUP]:
+            await db.add_to_vars(bot.me.id, "SAVED_USERS", message.chat.id)
     if not await gabung(client, message):
         return
     if message.reply_to_message:
@@ -844,6 +848,10 @@ async def _(client, message):
     prs = await EMO.PROSES(client)
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
+    susers = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
+    if message.chat.id not in susers:
+        if message.chat.type in [ChatType.SUPERGROUP, ChatType.GROUP]:
+            await db.add_to_vars(bot.me.id, "SAVED_USERS", message.chat.id)
     if not await gabung(client, message):
         return
     if message.reply_to_message:

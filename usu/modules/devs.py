@@ -10,7 +10,7 @@ from usu import *
 @USU.BOT("top")
 @USU.DEVS
 async def _(client, message):
-    vars = await all_vars(bot.me.id, "TOP") or {}
+    vars = await db.all_vars(bot.me.id, "TOP") or {}
     sorted_vars = sorted(vars.items(), key=lambda item: item[1], reverse=True)
 
     command_count = 1000
@@ -52,8 +52,8 @@ async def _(client, message):
         try:
             X = ubot._ubot[user.id]
             await X.unblock_user(bot.me.username)
-            await remove_ubot(user.id)
-            await rem_expired_date(user.id)
+            await db.remove_ubot(user.id)
+            await db.rem_expired_date(user.id)
             del X
             await msg.edit(f"<i><b>Successfully removed!</b></i>")
         except Exception as e:
@@ -87,7 +87,7 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    sudo_users = await get_list_from_vars(client.me.id, "SELER_USERS")
+    sudo_users = await db.get_list_from_vars(client.me.id, "SELER_USERS")
 
     if user.id in sudo_users:
         return await msg.edit(f"""<i><b>Invalid!</b></i>
@@ -95,7 +95,7 @@ async def _(client, message):
         )
 
     try:
-        await add_to_vars(client.me.id, "SELER_USERS", user.id)
+        await db.add_to_vars(client.me.id, "SELER_USERS", user.id)
         return await msg.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {user.mention}
  <b>ID:</b> {user.id}
@@ -121,7 +121,7 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    seles_users = await get_list_from_vars(client.me.id, "SELER_USERS")
+    seles_users = await db.get_list_from_vars(client.me.id, "SELER_USERS")
 
     if user.id not in seles_users:
         return await msg.edit(f"""<i><b>Invalid!</b></i>
@@ -129,7 +129,7 @@ async def _(client, message):
         )
 
     try:
-        await remove_from_vars(client.me.id, "SELER_USERS", user.id)
+        await db.remove_from_vars(client.me.id, "SELER_USERS", user.id)
         return await msg.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {user.mention}
  <b>ID:</b> {user.id}
@@ -144,7 +144,7 @@ async def _(client, message):
 @USU.DEVS
 async def _(client, message):
     Sh = await eor(message, f"<i><b>Processing...</b></i>")
-    seles_users = await get_list_from_vars(client.me.id, "SELER_USERS")
+    seles_users = await db.get_list_from_vars(client.me.id, "SELER_USERS")
 
     if not seles_users:
         return await Sh.edit(f"<i><b>Empty!</b></i>")
@@ -176,7 +176,7 @@ async def _(client, message):
     if not user_id:
         return await Sh.edit(f"<i><b>Invalid!</b></i>")
     try:
-        get_exp = await get_expired_date(user_id)
+        get_exp = await db.get_expired_date(user_id)
         sh = await client.get_users(user_id)
         SH = await ubot.get_prefix(user_id)
         if get_exp is None:
@@ -185,7 +185,7 @@ async def _(client, message):
             exp = get_exp.strftime("%d %B %Y")
     except Exception as error:
         return await Sh.edit(error)
-    vars = await get_vars(sh.id, "SALDO")
+    vars = await db.get_vars(sh.id, "SALDO")
     saldo = vars if vars else 0
     teks = f"{saldo:,}".replace(",", ".")
     if user_id in ubot._ubot:
@@ -197,7 +197,7 @@ async def _(client, message):
  <b>Saldo Userbot:</b> Rp {teks}</i>
 """
         )
-    elif user_id in await get_list_from_vars(client.me.id, "AKSES"):
+    elif user_id in await db.get_list_from_vars(client.me.id, "AKSES"):
         await Sh.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {sh.mention}
  <b>ID:</b> {sh.id}
@@ -253,19 +253,19 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    jakarta_timezone = timezone("Asia/Jakarta")
+    jakarta_timezone = pytz.timezone("Asia/Jakarta")
     now = datetime.now(jakarta_timezone)
     expire_date = now + timedelta(days=int(get_day))
     if user_id in ubot._ubot:
-        await set_expired_date(user_id, expire_date)
+        await db.set_expired_date(user_id, expire_date)
         await msg.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {user.mention}
  <b>ID:</b> {user.id}
  <b>Expired:</b> {get_day} hari</i>
 """
         )
-    elif user_id in await get_list_from_vars(client.me.id, "AKSES"):
-        await set_expired_date(user_id, expire_date)
+    elif user_id in await db.get_list_from_vars(client.me.id, "AKSES"):
+        await db.set_expired_date(user_id, expire_date)
         await msg.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {user.mention}
  <b>ID:</b> {user.id}
@@ -303,15 +303,15 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    ultra_users = await get_list_from_vars(client.me.id, "AKSES")
+    ultra_users = await db.get_list_from_vars(client.me.id, "AKSES")
 
     if user.id not in ultra_users:
         return await msg.edit(f"""<i><b>Invalid!</b></i>
 """
         )
     try:
-        await remove_from_vars(client.me.id, "AKSES", user.id)
-        await rem_expired_date(user_id)
+        await db.remove_from_vars(client.me.id, "AKSES", user.id)
+        await db.rem_expired_date(user_id)
         return await msg.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {user.mention}
  <b>ID:</b> {user.id}
@@ -358,17 +358,17 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    ultra_users = await get_list_from_vars(client.me.id, "AKSES")
+    ultra_users = await db.get_list_from_vars(client.me.id, "AKSES")
 
     if user.id in ultra_users or user.id in ubot._ubot:
         return await msg.edit(f"""<i><b>Sudah mempunyai Userbot aktif!</b></i>
 """
         )
     try:
-        now = datetime.now(timezone("Asia/Jakarta"))
+        now = datetime.now(pytz.timezone("Asia/Jakarta"))
         expired = now + relativedelta(months=int(get_bulan))
-        await set_expired_date(user_id, expired)
-        await add_to_vars(client.me.id, "AKSES", user.id)
+        await db.set_expired_date(user_id, expired)
+        await db.add_to_vars(client.me.id, "AKSES", user.id)
         await msg.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {user.mention}
  <b>ID:</b> {user.id}
@@ -406,7 +406,7 @@ async def _(client, message):
 @USU.SELLER
 async def _(client, message):
     Sh = await eor(message, f"<i><b>Processing...</b></i>")
-    akses = await get_list_from_vars(client.me.id, "AKSES")
+    akses = await db.get_list_from_vars(client.me.id, "AKSES")
 
     if not akses:
         return await Sh.edit(f"<b><i>Empty!</i></b>")
@@ -464,14 +464,14 @@ async def _(client, message):
         user = await client.get_users(user_id)
     except Exception as error:
         return await msg.edit(error)
-    vars = await get_vars(user.id, "SALDO")
+    vars = await db.get_vars(user.id, "SALDO")
     saldo = vars if vars else 0
     teks = f"{query:,}".replace(",", ".")
     tambah = int(saldo) + int(query)
     topup_id = f"{user.id}{int(datetime.now().timestamp())}"
 
     try:
-        await set_vars(user.id, "SALDO", tambah)
+        await db.set_vars(user.id, "SALDO", tambah)
         await msg.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {user.mention}
  <b>ID:</b> {user.id}
@@ -539,14 +539,14 @@ async def _(client, message):
     except Exception as error:
         return await msg.edit(error)
 
-    vars = await get_vars(user.id, "SALDO")
+    vars = await db.get_vars(user.id, "SALDO")
     saldo = vars if vars else 0
     teks = f"{query:,}".replace(",", ".")
     kurang = int(saldo) - int(query)
     topup_id = f"{user.id}{int(datetime.now().timestamp())}"
 
     try:
-        await set_vars(user.id, "SALDO", kurang)
+        await db.set_vars(user.id, "SALDO", kurang)
         await msg.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {user.mention}
  <b>ID:</b> {user.id}

@@ -1,7 +1,7 @@
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from usu.config import OWNER_ID, PHOTO, USERNAME
-from usu import OWNER_ID, bot, get_expired_date, get_two_factor, ubot
+from usu import OWNER_ID, bot, db, ubot
 from usu import *
 from usu.core.helpers.uptime import *
 
@@ -26,7 +26,7 @@ Bot Hidup:</i></b> {usu_time}
 
     async def PILIHAN():
         usu_time = await usu_alive()
-        susers = await get_list_from_vars(bot.me.id, "SAVED_USERS")
+        susers = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
         gc = len(list(chat for chat in susers if str(chat).startswith("-100")))
         return f"""<b><i>Halo,
 Saya adalah [{bot.me.first_name}]({PHOTO})..!!

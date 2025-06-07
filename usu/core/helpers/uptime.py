@@ -33,10 +33,10 @@ async def get_time(seconds):
 
 
 async def usu_alive():
-    vars = await get_vars(bot.me.id, "PING_TIME")
+    vars = await db.get_vars(bot.me.id, "PING_TIME")
     if not vars:
         db_ping = datetime.now().timestamp()
-        await set_vars(bot.me.id, "PING_TIME", db_ping)
+        await db.set_vars(bot.me.id, "PING_TIME", db_ping)
     else:
         db_ping = vars
 
