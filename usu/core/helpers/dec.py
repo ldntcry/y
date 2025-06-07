@@ -50,7 +50,7 @@ async def get_private_and_group_chats(client):
             elif dialog.chat.type in chat_type.get("all"):
                 all.append(dialog.chat.id)
         except Exception as e:
-            print(f"[INFO]: {e}")
+            logger.error(e)
 
     return user, group, gb, channel, all, database
 
@@ -62,8 +62,8 @@ async def install_my_peer(client):
 
 
 async def installPeer():
-    task = [install_my_peer(client) for client in ubot._ubot.values()]
-    await asyncio.gather(*task)
+    for client in ubot._ubot.values():
+        await install_my_peer(client)
 
 
 
