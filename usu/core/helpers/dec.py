@@ -62,9 +62,7 @@ async def install_my_peer(client):
 
 
 async def installPeer():
-    task = []
-    for client in ubot._ubot.values():
-        task.append(install_my_peer(client))
+    task = [install_my_peer(client) for client in ubot._ubot.values()]
     await asyncio.gather(*task)
 
 
