@@ -50,7 +50,7 @@ async def get_private_and_group_chats(client):
             elif dialog.chat.type in chat_type.get("all"):
                 all.append(dialog.chat.id)
         except Exception as e:
-            logger.error(e)
+            pass
 
     return user, group, gb, channel, all, database
 
