@@ -63,7 +63,10 @@ async def install_my_peer(client):
 
 async def installPeer():
     for client in ubot._ubot.values():
-        await install_my_peer(client)
-
+        try:
+            await install_my_peer(client)
+        except FloodWait as e:
+            await asyncio.sleep(e.value)
+            await install_my_peer(client)
 
 
