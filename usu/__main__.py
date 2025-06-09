@@ -8,7 +8,7 @@ from usu.core.helpers.dec import installPeer
 import os
 import sys
 import aiorun
-
+from pyrogram.errors import FloodWait
 from pyrogram.errors import (AuthKeyDuplicated, AuthKeyUnregistered,
                              SessionRevoked, UserAlreadyParticipant,
                              UserDeactivated, UserDeactivatedBan)
