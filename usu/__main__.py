@@ -2,6 +2,7 @@ import asyncio
 import random
 from pyrogram import idle
 from usu import *
+from usu.modules import loadModule
 from usu.core.helpers.help_usu import tombol_anak
 from usu.core.database.local import db
 from usu.core.helpers.dec import installPeer
@@ -9,6 +10,7 @@ import os
 import sys
 import aiorun
 from pyrogram.errors import FloodWait
+
 from pyrogram.errors import (AuthKeyDuplicated, AuthKeyUnregistered,
                              SessionRevoked, UserAlreadyParticipant,
                              UserDeactivated, UserDeactivatedBan)
@@ -52,10 +54,8 @@ async def auto_reaction_task(client, reactions):
 async def auto_reaction():
     reactions = ["👍", "🤩", "🎉", "😍", "👏", "🔥", "🙈", "💯", "🌚", "😎", "🍓", "🏆", "❤️‍🔥", "⚡", "🙉", "🙊", "👻", "🌭"]
     while True:
-        task = []
         for client in ubot._ubot.values():
-            task.append(asyncio.create_task(auto_reaction_task(client, reactions)))
-        await asyncio.gather(*task)
+            await auto_reaction_task(client, reactions)
         await asyncio.sleep(60)
 
 async def start_and_join(ubot_):
@@ -64,16 +64,15 @@ async def start_and_join(ubot_):
         await ubot_.join_chat(auto)
 
 async def start_ubot():
-    logger.info(f"Database load: {DATABASE}.db")
     for data in await db.get_userbots():
         try:
-            ubot_ = Ubot(**data)
-            await start_and_join(ubot_)
+            await start_and_join(Ubot(**data))
         except Exception as e:
             pass
     logger.info(f"Successfully started {len(ubot._ubot)} client!")
 
 async def bots():
+    logger.info(f"Database load: {DATABASE}.db")
     try:
         await bot.start()
     except FloodWait as e:
@@ -82,6 +81,28 @@ async def bots():
         await bot.start()
 
 async def loaded():
+    for mod in loadModule():
+        try:
+            imported_module = importlib.import_module(f"usu.modules.{mod}")
+            utama = getattr(imported_module, "__UTAMA__", None)
+            button_labels = getattr(imported_module, "__BUTTON__", None)
+            text = getattr(imported_module, "__TEXT__", None)
+            hasil = getattr(imported_module, "__HASIL__", None)
+
+            if utama and button_labels and text and hasil:
+                if utama not in tombol_utama:
+                    tombol_utama[utama] = {"text": utama, "callback_data": f"usu {utama}", "__TEXT__": text, "HASIL": hasil}
+                if utama not in tombol_anak:
+                    tombol_anak[utama] = []
+
+                buttons = []
+                for label, hasil_labels in zip(button_labels, hasil):
+                    callback_data = f"tousu {utama.lower()}_{label.replace(' ', '_').lower()}"
+                    buttons.append({"text": label, "teks": hasil_labels, "callback_data": callback_data})
+
+                tombol_anak[utama].extend(buttons)
+        except Exception as e:
+            logger.error(f"Client - Error loading module {mod}: {e}")
     task = [installPeer(), auto_reaction(), expiredUserbots(), check_session()]
     for tasks in task:
         asyncio.create_task(tasks)
@@ -107,8 +128,8 @@ async def stopped():
     await bot.stop()
 
 async def main():
-    await start_ubot()
     await bots()
+    await start_ubot()
     await loaded()
 
 
