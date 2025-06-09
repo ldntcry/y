@@ -1,7 +1,7 @@
 import asyncio
 
 from pyrogram.enums import ChatType
-
+from pyrogram.errors import FloodWait
 from usu import *
 from usu.core.database.local import db
 
