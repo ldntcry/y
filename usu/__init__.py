@@ -150,28 +150,6 @@ class Bot(UsuInti):
 
     async def start(self):
         await super().start()
-        for mod in loadModule():
-            try:
-                imported_module = importlib.import_module(f"usu.modules.{mod}")
-                utama = getattr(imported_module, "__UTAMA__", None)
-                button_labels = getattr(imported_module, "__BUTTON__", None)
-                text = getattr(imported_module, "__TEXT__", None)
-                hasil = getattr(imported_module, "__HASIL__", None)
-
-                if utama and button_labels and text and hasil:
-                    if utama not in tombol_utama:
-                        tombol_utama[utama] = {"text": utama, "callback_data": f"usu {utama}", "__TEXT__": text, "HASIL": hasil}
-                    if utama not in tombol_anak:
-                        tombol_anak[utama] = []
-
-                    buttons = []
-                    for label, hasil_labels in zip(button_labels, hasil):
-                        callback_data = f"tousu {utama.lower()}_{label.replace(' ', '_').lower()}"
-                        buttons.append({"text": label, "teks": hasil_labels, "callback_data": callback_data})
-
-                    tombol_anak[utama].extend(buttons)
-            except Exception as e:
-                logger.error(f"Client - Error loading module {mod}: {e}")
         try:
             with redirect_stdout(io.StringIO()):
                 await self.assistant.start()
