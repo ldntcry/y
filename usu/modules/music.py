@@ -302,7 +302,7 @@ async def _(client, message):
 """)
     except NoActiveGroupCall:
         await infomsg.edit(f"<i><b>{ggl}Voice chat tidak aktif, mohon aktifkan voice chat!</b></i>")
-    except Exception:
+    except Exception as e:
         await infomsg.edit(e)
     finally:
         if os.path.exists(file_name):
