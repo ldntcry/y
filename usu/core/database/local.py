@@ -21,12 +21,12 @@ class DatabaseUsu:
             self._create_tables(cursor)
             self.conn.commit()
         except sqlite3.Error as e:
-            print(f"Terjadi kesalahan saat menginisialisasi database: {e}")
+            logger.error(f"Terjadi kesalahan saat menginisialisasi database: {e}")
             if self.conn:
                 self.conn.close()
                 self.conn = None
-            # os.execl(sys.executable, sys.executable, "-m", "usu")
-            raise
+            os.execl(sys.executable, sys.executable, "-m", "usu")
+            #raise
 
     def _create_tables(self, cursor):
         tables = {

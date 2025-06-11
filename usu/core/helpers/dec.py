@@ -1,13 +1,13 @@
 import asyncio
 
 from pyrogram.enums import ChatType
-from pyrogram.errors import FloodWait
+
 from usu import *
 from usu.core.database.local import db
 
+from pyrogram.errors import FloodWait, ChannelPrivate, RPCError
 
-
-chat_type = {
+Chat_type = {
     "global": [ChatType.GROUP, ChatType.SUPERGROUP, ChatType.CHANNEL],
     "group": [ChatType.GROUP, ChatType.SUPERGROUP],
     "channel": [ChatType.CHANNEL],
@@ -15,58 +15,63 @@ chat_type = {
     "all": [ChatType.GROUP, ChatType.SUPERGROUP, ChatType.PRIVATE, ChatType.CHANNEL],
 }
 
-
-
 async def get_private_and_group_chats(client):
     user = []
     group = []
     gb = []
     channel = []
-    all = []
+    all_chats = []
     database = await db.get_list_from_vars(client.me.id, "bcdb") or []
 
-    async for dialog in client.get_dialogs(limit=None):
-        try:
-            if dialog.chat.type in chat_type.get("users"):
-                user.append(dialog.chat.id)
-            elif dialog.chat.type in chat_type.get("group"):
-                group.append(dialog.chat.id)
-            elif dialog.chat.type in chat_type.get("channel"):
-                channel.append(dialog.chat.id)
-            elif dialog.chat.type in chat_type.get("global"):
-                gb.append(dialog.chat.id)
-            elif dialog.chat.type in chat_type.get("all"):
-                all.append(dialog.chat.id)
-        except FloodWait as e:
-            await asyncio.sleep(e.value)
-            if dialog.chat.type in chat_type.get("users"):
-                user.append(dialog.chat.id)
-            elif dialog.chat.type in chat_type.get("group"):
-                group.append(dialog.chat.id)
-            elif dialog.chat.type in chat_type.get("channel"):
-                channel.append(dialog.chat.id)
-            elif dialog.chat.type in chat_type.get("global"):
-                gb.append(dialog.chat.id)
-            elif dialog.chat.type in chat_type.get("all"):
-                all.append(dialog.chat.id)
-        except Exception as e:
-            pass
+    try:
+        async for dialog in client.get_dialogs(limit=None):
+            chat_id = dialog.chat.id
+            chat_type_enum = dialog.chat.type
+            all_chats.append(chat_id)
+            try:
+                if chat_type_enum == ChatType.PRIVATE:
+                    user.append(chat_id)
+                elif chat_type_enum in [ChatType.GROUP, ChatType.SUPERGROUP]:
+                    group.append(chat_id)
+                    gb.append(chat_id)
+                elif chat_type_enum == ChatType.CHANNEL:
+                    channel.append(chat_id)
+                    gb.append(chat_id)
+            except ChannelPrivate:
+                continue
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                if chat_type_enum == ChatType.PRIVATE:
+                    user.append(chat_id)
+                elif chat_type_enum in [ChatType.GROUP, ChatType.SUPERGROUP]:
+                    group.append(chat_id)
+                    gb.append(chat_id)
+                elif chat_type_enum == ChatType.CHANNEL:
+                    channel.append(chat_id)
+                    gb.append(chat_id)
+            except RPCError:
+                continue
+            except Exception:
+                pass
+    except Exception:
+        pass
 
-    return user, group, gb, channel, all, database
+    return user, group, gb, channel, all_chats, database
 
 
 async def install_my_peer(client):
-    user, group, gb, channel, all, database = await get_private_and_group_chats(client)
+    user, group, gb, channel, all_chats, database = await get_private_and_group_chats(client)
     client_id = client.me.id
-    client.peer[client_id] = {"user": user, "group": group, "global": gb, "channel": channel, "all": all, "db": database}
+    client.peer[client_id] = {"user": user, "group": group, "global": gb, "channel": channel, "all": all_chats, "db": database}
 
 
 async def installPeer():
-    for client in ubot._ubot.values():
+    for client_id, client in list(ubot._ubot.items()):
         try:
             await install_my_peer(client)
         except FloodWait as e:
             await asyncio.sleep(e.value)
             await install_my_peer(client)
-
+        except Exception:
+            pass
 

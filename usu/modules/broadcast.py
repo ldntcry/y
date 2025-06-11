@@ -12,8 +12,17 @@ from pyrogram import Client
 from gc import get_objects
 from pyrogram.raw.functions.messages import DeleteHistory, StartBot
 from pyrogram.enums import ChatAction, ParseMode
-
-from pyrogram.errors.exceptions import FloodWait
+ 
+from pyrogram.errors import (
+    FloodWait,
+    ChannelPrivate,
+    SlowmodeWait,
+    ChatWriteForbidden,
+    Forbidden,
+    ChatSendPlainForbidden,
+    UserBannedInChannel,
+    PeerIdInvalid
+)
 
 from usu import *
 
@@ -172,6 +181,19 @@ async def broadcast_speed(client, message):
             else:
                 await client.send_message(chat_id, send)
             done += 1
+        except (ChannelPrivate, SlowmodeWait, ChatWriteForbidden, Forbidden, ChatSendPlainForbidden, UserBannedInChannel, PeerIdInvalid) as e:
+            failed += 1
+            try:
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except ChannelPrivate as e:
+                pass
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except Exception as e:
+                pass
         except FloodWait as e:
             await asyncio.sleep(e.value)
             try:
@@ -190,6 +212,8 @@ async def broadcast_speed(client, message):
             try:
                 chat = await client.get_chat(chat_id)
                 hasil.append((chat.title, chat.id))
+            except ChannelPrivate as e:
+                pass
             except FloodWait as e:
                 await asyncio.sleep(e.value)
                 chat = await client.get_chat(chat_id)
@@ -242,6 +266,19 @@ async def ucast(client, message):
             else:
                 await client.send_message(chat_id, send)
             done += 1
+        except (ChannelPrivate, SlowmodeWait, ChatWriteForbidden, Forbidden, ChatSendPlainForbidden, UserBannedInChannel, PeerIdInvalid) as e:
+            failed += 1
+            try:
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except ChannelPrivate as e:
+                pass
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except Exception as e:
+                pass
         except FloodWait as e:
             await asyncio.sleep(e.value)
             try:
@@ -260,6 +297,8 @@ async def ucast(client, message):
             try:
                 chat = await client.get_chat(chat_id)
                 hasil.append((chat.title, chat.id))
+            except ChannelPrivate as e:
+                pass
             except FloodWait as e:
                 await asyncio.sleep(e.value)
                 chat = await client.get_chat(chat_id)
@@ -317,6 +356,19 @@ async def _(client, message):
                     await client.send_chat_action(chat_id, ChatAction.TYPING)
                     await (text.copy(chat_id) if message.reply_to_message else client.send_message(chat_id, text))
                     done += 1
+                except (ChannelPrivate, SlowmodeWait, ChatWriteForbidden, Forbidden, ChatSendPlainForbidden, UserBannedInChannel, PeerIdInvalid) as e:
+                    failed += 1
+                    try:
+                        chat = await client.get_chat(chat_id)
+                        hasil.append((chat.title, chat.id))
+                    except ChannelPrivate as e:
+                        pass
+                    except FloodWait as e:
+                        await asyncio.sleep(e.value)
+                        chat = await client.get_chat(chat_id)
+                        hasil.append((chat.title, chat.id))
+                    except Exception as e:
+                        pass
                 except FloodWait as e:
                     await asyncio.sleep(e.value)
                     await client.send_chat_action(chat_id, ChatAction.TYPING)
@@ -329,6 +381,8 @@ async def _(client, message):
                     try:
                         chat = await client.get_chat(chat_id)
                         hasil.append((chat.title, chat.id))
+                    except ChannelPrivate as e:
+                        pass
                     except FloodWait as e:
                         await asyncio.sleep(e.value)
                         chat = await client.get_chat(chat_id)
@@ -343,6 +397,19 @@ async def _(client, message):
             await client.send_chat_action(chat_id, ChatAction.TYPING)
             await (text.copy(chat_id) if message.reply_to_message else client.send_message(chat_id, text))
             done += 1
+        except (ChannelPrivate, SlowmodeWait, ChatWriteForbidden, Forbidden, ChatSendPlainForbidden, UserBannedInChannel, PeerIdInvalid) as e:
+            failed += 1
+            try:
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except ChannelPrivate as e:
+                pass
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except Exception as e:
+                pass
         except FloodWait as e:
             await asyncio.sleep(e.value)
             try:
@@ -358,6 +425,8 @@ async def _(client, message):
             try:
                 chat = await client.get_chat(chat_id)
                 hasil.append((chat.title, chat.id))
+            except ChannelPrivate as e:
+                pass
             except FloodWait as e:
                 await asyncio.sleep(e.value)
                 chat = await client.get_chat(chat_id)
@@ -438,6 +507,19 @@ async def _(client, message):
                     else:
                         await text.forward(chat_id)
                     done += 1
+                except (ChannelPrivate, SlowmodeWait, ChatWriteForbidden, Forbidden, ChatSendPlainForbidden, UserBannedInChannel, PeerIdInvalid) as e:
+                    failed += 1
+                    try:
+                        chat = await client.get_chat(chat_id)
+                        hasil.append((chat.title, chat.id))
+                    except ChannelPrivate as e:
+                        pass
+                    except FloodWait as e:
+                        await asyncio.sleep(e.value)
+                        chat = await client.get_chat(chat_id)
+                        hasil.append((chat.title, chat.id))
+                    except Exception as e:
+                        pass
                 except FloodWait as e:
                     await asyncio.sleep(e.value)
                     try:
@@ -456,6 +538,8 @@ async def _(client, message):
                     try:
                         chat = await client.get_chat(chat_id)
                         hasil.append((chat.title, chat.id))
+                    except ChannelPrivate as e:
+                        pass
                     except FloodWait as e:
                         await asyncio.sleep(e.value)
                         chat = await client.get_chat(chat_id)
@@ -473,6 +557,19 @@ async def _(client, message):
             else:
                 await text.forward(chat_id)
             done += 1
+        except (ChannelPrivate, SlowmodeWait, ChatWriteForbidden, Forbidden, ChatSendPlainForbidden, UserBannedInChannel, PeerIdInvalid) as e:
+            failed += 1
+            try:
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except ChannelPrivate as e:
+                pass
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                chat = await client.get_chat(chat_id)
+                hasil.append((chat.title, chat.id))
+            except Exception as e:
+                pass
         except FloodWait as e:
             await asyncio.sleep(e.value)
             try:
@@ -491,6 +588,8 @@ async def _(client, message):
             try:
                 chat = await client.get_chat(chat_id)
                 hasil.append((chat.title, chat.id))
+            except ChannelPrivate as e:
+                pass
             except FloodWait as e:
                 await asyncio.sleep(e.value)
                 chat = await client.get_chat(chat_id)
@@ -673,6 +772,19 @@ async def _(client, message):
                         await client.send_message(chat_id, f"{txt} ")
                         group += 1
                         await asyncio.sleep(0.5)
+                    except (ChannelPrivate, SlowmodeWait, ChatWriteForbidden, Forbidden, ChatSendPlainForbidden, UserBannedInChannel, PeerIdInvalid) as e:
+                        failed += 1
+                        try:
+                            chat = await client.get_chat(chat_id)
+                            hasil.append((chat.title, chat.id))
+                        except ChannelPrivate as e:
+                            pass
+                        except FloodWait as e:
+                            await asyncio.sleep(e.value)
+                            chat = await client.get_chat(chat_id)
+                            hasil.append((chat.title, chat.id))
+                        except Exception as e:
+                            pass
                     except FloodWait as e:
                         await asyncio.sleep(e.value)
                         try:
@@ -686,6 +798,8 @@ async def _(client, message):
                         try:
                             chat = await client.get_chat(chat_id)
                             hasil.append((chat.title, chat.id))
+                        except ChannelPrivate as e:
+                            pass
                         except FloodWait as e:
                             await asyncio.sleep(e.value)
                             chat = await client.get_chat(chat_id)

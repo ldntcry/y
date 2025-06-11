@@ -210,7 +210,20 @@ async def get_data_id(client, query):
         "channel": [ChatType.CHANNEL],
         "users": [ChatType.PRIVATE],
     }
-    usu = [dialog.chat.id async for dialog in client.get_dialogs() if dialog.chat.type in chat_types.get(query, [])]
+    usu = []
+    async for dialog in client.get_dialogs():
+        try:
+            if dialog.chat.type in chat_types.get(query, []):
+                usu.append(dialog.chat.id)
+        except ChannelPrivate as e:
+            pass
+        except FloodWait as e:
+            await asyncio.sleep(e.value)
+            if dialog.chat.type in chat_types.get(query, []):
+                usu.append(dialog.chat.id)
+        except Exception as e:
+            pass
+
     hasil = usu if query != "db" else anu
     return hasil
 

@@ -91,6 +91,8 @@ async def progress(current, total, message, start, type_of_ps, file_name=None):
                 pass
 
 
+cookies_usu = os.path.join(os.getcwd(), "usu", "cookies.txt")
+
 
 async def YoutubeDownload(url, as_video=False):
     if as_video:
@@ -101,7 +103,7 @@ async def YoutubeDownload(url, as_video=False):
             "outtmpl": "downloads/%(id)s.%(ext)s",
             "nocheckcertificate": True,
             "geo_bypass": True,
-            "cookiefile": "usup_cok.txt",
+            "cookiefile": cookies_usu,
         }
     else:
         ydl_opts = {
@@ -111,7 +113,7 @@ async def YoutubeDownload(url, as_video=False):
             "outtmpl": "downloads/%(id)s.%(ext)s",
             "nocheckcertificate": True,
             "geo_bypass": True,
-            "cookiefile": "usup_cok.txt",
+            "cookiefile": cookies_usu,
         }
     data_ytp = "<i><b>Informations {}</b>\n\n<b>Name:</b> {}<b>\n<b>Duration:</b> {}\n<b>View:</b> {}\n<b>Channel:</b> {}\n<b>Tautan:</b> <a href={}>YouTube</a></i>"
     ydl = YoutubeDL(ydl_opts)

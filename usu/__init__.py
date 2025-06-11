@@ -64,7 +64,14 @@ class UsuInti(Client):
     def optimize(self, func):
         @functools.wraps(func)
         async def wrapper(*args, **kwargs):
-            return await func(*args, **kwargs)
+            anu = asyncio.create_task(func(*args, **kwargs))
+            try:
+                await anu
+            except FloodWait as e:
+                await asyncio.sleep(e.value)
+                await anu
+            except Exception as e:
+                logger.error(e)
         return wrapper
 
     def set_prefix(self, user_id, prefix):

@@ -131,6 +131,7 @@ async def main():
     await bots()
     await start_ubot()
     await loaded()
+    await bash("rm -rf *session*")
 
 
 if __name__ == "__main__":
