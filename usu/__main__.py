@@ -54,7 +54,7 @@ async def auto_reaction_task(client, reactions):
 async def auto_reaction():
     reactions = ["👍", "🤩", "🎉", "😍", "👏", "🔥", "🙈", "💯", "🌚", "😎", "🍓", "🏆", "❤️‍🔥", "⚡", "🙉", "🙊", "👻", "🌭"]
     while True:
-        for client in ubot._ubot.values():
+        for client in tuple(ubot._ubot.values()):
             await auto_reaction_task(client, reactions)
         await asyncio.sleep(60)
 
