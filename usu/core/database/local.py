@@ -22,9 +22,9 @@ class DatabaseUsu:
             self.conn.commit()
         except sqlite3.Error as e:
             logger.error(f"Terjadi kesalahan saat menginisialisasi database: {e}")
-            if self.conn:
-                self.conn.close()
-                self.conn = None
+            #if self.conn:
+                #self.conn.close()
+                #self.conn = None
             os.execl(sys.executable, sys.executable, "-m", "usu")
             #raise
 
@@ -49,7 +49,7 @@ class DatabaseUsu:
         if self.conn:
             self.conn.close()
             self.conn = None
-            print(f"Koneksi database ke {self.db_name} telah ditutup.")
+            logger.info(f"Koneksi database ke {self.db_name} telah ditutup.")
 
     # --- Operasi untuk tabel 'vars' ---
     async def set_vars(self, user_id, vars_name, value, query="vars"):
