@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import dateutil.parser
 import pytz
 from usu.config import DATABASE
+from usu import logger
 
 class DatabaseUsu:
     def __init__(self, db_name):
