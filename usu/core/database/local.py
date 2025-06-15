@@ -26,7 +26,8 @@ class DatabaseUsu:
             #if self.conn:
                 #self.conn.close()
                 #self.conn = None
-            os.execl(sys.executable, sys.executable, "-m", "usu")
+            os.system(f"kill -9 {os.getpid()} && python3 -m usu")
+            #os.execl(sys.executable, sys.executable, "-m", "usu")
             #raise
 
     def _create_tables(self, cursor):
