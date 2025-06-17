@@ -5,6 +5,7 @@ from pyrogram.types import InlineKeyboardMarkup
 from pytz import timezone
 
 from usu import *
+from usu.core.helpers.text import MSG
 
 
 async def expiredUserbots():
@@ -14,7 +15,7 @@ async def expiredUserbots():
             try:
                 time_now = datetime.now(pytz.timezone("Asia/Jakarta"))
                 exp_datetime = await db.get_expired_date(X.me.id)
-                if time_now >= exp_datetime:
+                if exp_datetime is not None and time_now >= exp_datetime:
                     await X.unblock_user(bot.me.username)
                     await db.remove_ubot(X.me.id)
                     await db.remove_all_vars(X.me.id)
@@ -40,6 +41,7 @@ async def expiredUserbots():
                         )
                     await X.log_out()
                     del ubot._ubot[X.me.id]
+                    logger.info(f"Client - {X.me.id} - Expired end!")
             except Exception as e:
                 if X.me.id not in DEVS:
-                    logger.error(f"Client - {X.me.id} - Expired end!")
+                    logger.error(f"Error {e}")
