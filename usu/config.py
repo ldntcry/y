@@ -5,7 +5,7 @@ DEVICE_NAME = os.getenv("DEVICE_NAME", "AIO-Device") #Nama device bebas di ubah 
 
 DEVICE_VERSION = os.getenv("DEVICE_VERSION", "1.1.2") #Versi bebas di ubah sesuka hati
 
-HARGA_USERBOT = int(os.getenv("HARGA_USERBOT", "30")) #Harga bebas di ubah sesuka hati
+HARGA_USERBOT = int(os.getenv("HARGA_USERBOT", "25")) #Harga bebas di ubah sesuka hati
 
 MAX_BOT = int(os.getenv("MAX_BOT", "500")) #Maksimal pengguna userbot anda
 
