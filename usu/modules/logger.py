@@ -45,8 +45,8 @@ async def send_log(c, chat_id, message, message_text, msg):
             os.remove(hasil)
         else:
             await bot.send_message(chat_id, message_text, reply_markup=usu)
-    except Exception as error:
-        print(error)
+    except Exception as e:
+        logger.error(f"Error: {e}")
 
 
 @USU.UBOT("logger")
@@ -165,8 +165,8 @@ async def _(client, message):
             if data[client.me.id]:
                 for item in data[client.me.id]:
                     item_text = re.sub(r"<.*?>", "", item["message_text"])
-                    if message.reply_to_message.text:
-                        text_m = re.sub(r"<.*?>", "", message.reply_to_message.text)
+                    if message.reply_to_message.text or message.reply_to_message.caption:
+                        text_m = re.sub(r"<.*?>", "", (message.reply_to_message.text or message.reply_to_message.caption)) 
                         if text_m == item_text:
                             chat_id = item["chat_id"]
                             message_id = item["message_id"]
@@ -185,4 +185,4 @@ async def _(client, message):
                                     else:
                                         await message.copy(chat_id, reply_to_message_id=message_id)
                                 except Exception as e:
-                                    print(e)
+                                    logger.error(f"Error: {e}")
