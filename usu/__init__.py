@@ -65,10 +65,10 @@ class UsuInti(Client):
         @functools.wraps(func)
         async def wrapper(*args, **kwargs):
             try:
-                return await func(*args, **kwargs))
+                return await func(*args, **kwargs)
             except FloodWait as e:
                 await asyncio.sleep(e.value)
-                return await func(*args, **kwargs))
+                return await func(*args, **kwargs)
             except Exception as e:
                 logger.error(e)
         return wrapper
