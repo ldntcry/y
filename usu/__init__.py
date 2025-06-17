@@ -309,7 +309,7 @@ class Ubot(UsuInti):
             with redirect_stdout(io.StringIO()):
                 await self.call_py.start()
         except Exception as e:
-            print(f"Error: {e}")
+            logger.error(f"Error: {e}")
         handler = await db.get_pref(self.me.id)
         if handler:
             self._prefix[self.me.id] = handler
