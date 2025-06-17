@@ -1,6 +1,7 @@
 import random
 import re
-
+import pyrogram
+import pytgcalls
 from datetime import datetime
 from time import time
 
