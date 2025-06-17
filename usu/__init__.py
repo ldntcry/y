@@ -64,12 +64,11 @@ class UsuInti(Client):
     def optimize(self, func):
         @functools.wraps(func)
         async def wrapper(*args, **kwargs):
-            usu = asyncio.create_task(func(*args, **kwargs))
             try:
-                await usu
+                return await func(*args, **kwargs))
             except FloodWait as e:
                 await asyncio.sleep(e.value)
-                await usu
+                return await func(*args, **kwargs))
             except Exception as e:
                 logger.error(e)
         return wrapper
