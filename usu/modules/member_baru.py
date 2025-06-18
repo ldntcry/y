@@ -36,13 +36,10 @@ async def member_baru(c, m):
         await asyncio.sleep(e.value)
         asw = await c.get_chat(m.chat.id)
     except Exception as e:
-        # Sebaiknya kamu mencatat (log) pengecualian ini untuk debugging
-        print(f"Error mendapatkan chat: {e}")
-        pass # 'asw' tetap None
+        pass
     if asw:
         haw = f"[{m.chat.title}]({asw.invite_link})" if asw.invite_link else f"[{m.chat.title}](https://t.me/{asw.username})" if asw.username else m.chat.title
         hasil = f"""<i><b>Informasi!</b>
-<b>Bot:</b> {bot.me.mention}
 <b>Judul Obrolan:</b> {haw}
 <b>ID Obrolan:</b> {m.chat.id}
 <b>Status:</b> ditambahkan</i>"""
@@ -120,12 +117,13 @@ async def member_keluar(c, m):
         await asyncio.sleep(e.value)
         asw = await c.get_chat(m.chat.id)
     except Exception as e:
-        # Sebaiknya kamu mencatat (log) pengecualian ini untuk debugging
-        print(f"Error mendapatkan chat: {e}")
-        pass # 'asw' tetap None
+        pass
     if asw:
         haw = f"[{m.chat.title}]({asw.invite_link})" if asw.invite_link else f"[{m.chat.title}](https://t.me/{asw.username})" if asw.username else m.chat.title
-        hasil = f"""<i><b>Informasi!</b> <b>Bot:</b> {bot.me.mention} <b>Judul Obrolan:</b> {haw} <b>ID Obrolan:</b> {m.chat.id} <b>Status:</b> dikeluarkan</i>"""
+        hasil = f"""<i><b>Informasi!</b>
+<b>Judul Obrolan:</b> {haw}
+<b>ID Obrolan:</b> {m.chat.id}
+<b>Status:</b> dikeluarkan</i>"""
         user = [[InlineKeyboardButton(f"Keluar Oleh", url=f"tg://openmessage?user_id={m.from_user.id}")]]
         if m.left_chat_member and m.left_chat_member.id == bot.me.id:
             if m.chat.id in susers:

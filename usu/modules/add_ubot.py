@@ -68,7 +68,7 @@ async def _(client, callback_query):
                 sel = []
     if sel:
         button.inline_keyboard.append(sel)
-    button.inline_keyboard.append([InlineKeyboardButton(f"Kembali", callback_data=f"awal")])
+    button.inline_keyboard.append([InlineKeyboardButton(f"🔙 Kembali", callback_data=f"awal")])
     return await callback_query.edit_message_text(teks, reply_markup=button)
 
 @USU.CALLBACK("^reset")
@@ -110,7 +110,8 @@ async def _(client, callback_query):
     if user_id in ubot._ubot:
         if expired is None:
             return await callback_query.answer("Tidak ada tanggal kadaluarsa!", show_alert=True)
-        now_utc = datetime.now(pytz.utc) 
+        jkt = pytz.timezone("Asia/Jakarta")
+        now_utc = datetime.now(jkt) 
         sisa = (expired - now_utc).days
         return await callback_query.answer(
             f"""Expired {sisa} Days! """,

@@ -118,6 +118,9 @@ async def _(client, message):
     if not message.reply_to_message:
         return await message.reply(f"<b><i>{ggl}Reply text!</i></b>")
     r = message.reply_to_message
+    admin = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    if admin.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or not admin.privileges.can_pin_messages:
+        return await message.reply(f"<i><b>{ggl}Anda tidak memiliki hak admin yang cukup!</b></i>")
     try:
         await r.pin()
         return await message.reply(
@@ -139,6 +142,9 @@ async def _(client, message):
     if not message.reply_to_message:
         return await message.reply(f"<b><i>{ggl}Reply text!</i></b>")
     r = message.reply_to_message
+    admin = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    if admin.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or not admin.privileges.can_pin_messages:
+        return await message.reply(f"<i><b>{ggl}Anda tidak memiliki hak admin yang cukup!</b></i>")
     try:
         await r.unpin()
         return await message.reply(
@@ -161,6 +167,9 @@ async def _(client, message):
     biji = await eor(message, f"<b><i>{prs}Processing...</i></b>")
     replied = message.reply_to_message
     usu = message.command
+    admin = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    if admin.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or not admin.privileges.can_promote_members:
+        return await biji.edit(f"<i><b>{ggl}Anda tidak memiliki hak admin yang cukup!</b></i>")
     try:
         if replied:
             user_id = replied.from_user.id
@@ -211,6 +220,9 @@ async def _(client, message):
     biji = await eor(message, f"<b><i>{prs}Processing...</i></b>")
     replied = message.reply_to_message
     usu = message.command
+    admin = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    if admin.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or not admin.privileges.can_promote_members:
+        return await biji.edit(f"<i><b>{ggl}Anda tidak memiliki hak admin yang cukup!</b></i>")
     try:
         if replied:
             user_id = replied.from_user.id
@@ -264,6 +276,9 @@ async def _(client, message):
         return await sempak.edit(f"<b><i>{ggl}Pengguna tidak ditemukan!</i></b>")
     if user_id == client.me.id:
         return await sempak.edit(f"<b><i>{ggl}Reply pengguna lain!</i></b>")
+    admin = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    if admin.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or not admin.privileges.can_promote_members:
+        return await sempak.edit(f"<i><b>{ggl}Anda tidak memiliki hak admin yang cukup!</b></i>")
     await message.chat.promote_member(
         user_id,
         privileges=ChatPrivileges(
@@ -289,6 +304,9 @@ async def _(client, message):
     user_id = await extract_user(message)
     if not user_id:
         return await message.reply_text(f"<b><i>{ggl}Pengguna tidak ditemukan!</i></b>")
+    admin = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    if admin.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or not admin.privileges.can_restrict_members:
+        return await message.reply(f"<i><b>{ggl}Anda tidak memiliki hak admin yang cukup!</b></i>")
     try:
         mention = (await client.get_users(user_id)).mention
     except Exception as error:
@@ -317,6 +335,9 @@ async def _(client, message):
         return await message.reply_text(
             f"<b><i>{ggl}Dia adalah admin group ini!</i></b>"
         )
+    admin = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    if admin.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or not admin.privileges.can_restrict_members:
+        return await message.reply(f"<i><b>{ggl}Anda tidak memiliki hak admin yang cukup!</b></i>")
     try:
         mention = (await client.get_users(user_id)).mention
     except Exception as error:
@@ -342,6 +363,9 @@ async def _(client, message):
     user_id = await extract_user(message)
     if not user_id:
         return await message.reply_text(f"<b><i>{ggl}Pengguna tidak ditemukan!</i></b>")
+    admin = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    if admin.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or not admin.privileges.can_restrict_members:
+        return await message.reply(f"<i><b>{ggl}Anda tidak memiliki hak admin yang cukup!</b></i>")
     try:
         mention = (await client.get_users(user_id)).mention
     except Exception as error:
@@ -370,6 +394,9 @@ async def _(client, message):
         return await message.reply_text(
             f"<b><i>{ggl}Dia adalah admin group ini!</i></b>"
         )
+    admin = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    if admin.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or not admin.privileges.can_restrict_members:
+        return await message.reply(f"<i><b>{ggl}Anda tidak memiliki hak admin yang cukup!</b></i>")
     try:
         mention = (await client.get_users(user_id)).mention
     except Exception as error:
@@ -400,6 +427,9 @@ async def _(client, message):
         return await message.reply_text(
             f"<b><i>{ggl}Dia adalah admin group ini!</i></b>"
         )
+    admin = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    if admin.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or not admin.privileges.can_restrict_members:
+        return await message.reply(f"<i><b>{ggl}Anda tidak memiliki hak admin yang cukup!</b></i>")
     try:
         mention = (await client.get_users(user_id)).mention
     except Exception as error:

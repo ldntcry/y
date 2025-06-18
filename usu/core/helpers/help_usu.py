@@ -14,7 +14,7 @@ tombol_anak = {}
 
 
 async def tombol_usu():
-    btn = [InlineKeyboardButton("Kembali", callback_data="menu_utama")]
+    btn = [InlineKeyboardButton("🔙 Kembali", callback_data="menu_utama")]
     markup = InlineKeyboardMarkup([])
     row = []
     for item in tombol_utama.values():

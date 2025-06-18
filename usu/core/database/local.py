@@ -316,12 +316,12 @@ class DatabaseUsu:
             expire_date_str = data.get("expire_date")
             if expire_date_str:
                 try:
+                    jkt_timezone = pytz.timezone("Asia/Jakarta")
                     expired_date = dateutil.parser.parse(expire_date_str)
                     if expired_date.tzinfo is None:
-                        utc_timezone = pytz.timezone('UTC')
-                        expired_date = expired_date.replace(tzinfo=utc_timezone)
+                        expired_date = jkt_timezone.localize(expired_date)
                     else:
-                        expired_date = expired_date.astimezone(pytz.timezone('UTC'))
+                        expired_date = expired_date.astimezone(jkt_timezone)
                     return expired_date
                 except ValueError:
                     return None
@@ -340,8 +340,8 @@ class DatabaseUsu:
         else:
             data = {}
         if expire_date.tzinfo is None:
-            utc_timezone = pytz.timezone('UTC')
-            expire_date = utc_timezone.localize(expire_date)
+            local_timezone = pytz.timezone("Asia/Jakarta")
+            expire_date = local_timezone.localize(expire_date)
         data["expire_date"] = expire_date.isoformat()
         json_data = json.dumps(data)
         cursor.execute('''

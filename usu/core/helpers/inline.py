@@ -117,26 +117,26 @@ class BTN:
         button = [
             [
                 InlineKeyboardButton(
-                    text="Menu Userbot",
+                    text="🛒 Menu Userbot",
                     callback_data=f"awal",
                 ),
                 InlineKeyboardButton(
-                    text="Menu Manage",
+                    text="👮🏻 Menu Manage",
                     callback_data=f"manage",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Menu Music",
+                    text="🎧 Menu Music",
                     callback_data=f"music",
                 ),
                 InlineKeyboardButton(
-                    text="Menu AntiGcast",
+                    text="🧹 Menu AntiGcast",
                     callback_data=f"ankes",
                 )
             ],
             [
-                InlineKeyboardButton("Report Bug", callback_data=f"complain"
+                InlineKeyboardButton("☎️ Report Bug", callback_data=f"complain"
                 ),
             ],
         ]
@@ -146,13 +146,13 @@ class BTN:
         button = [
             [
                 InlineKeyboardButton(
-                    text="Tambahkan Saya Ke Group",
+                    text="➕ Tambahkan Saya Ke Group",
                     url=f"https://t.me/{bot.me.username}?startgroup=true"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Kembali",
+                    text="🔙 Kembali",
                     callback_data=f"pilihan",
                 )
             ],
@@ -163,17 +163,17 @@ class BTN:
         button = [
             [
                 InlineKeyboardButton(
-                    text="Saldo Userbot",
+                    text="💰 Saldo Userbot",
                     callback_data=f"saldo_userbot",
                 ),
                 InlineKeyboardButton(
-                    text="Status",
+                    text="📊 Status",
                     callback_data=f"alive",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Fitur",
+                    text="🛠️ Fitur",
                     callback_data=f"kembali",
                 )
             ]
@@ -184,7 +184,7 @@ class BTN:
         button = [
             [
                 InlineKeyboardButton(
-                    text="Kembali",
+                    text="🔙 Kembali",
                     callback_data=f"menu_utama",
                 )
             ]
@@ -195,13 +195,13 @@ class BTN:
         button = [
             [
                 InlineKeyboardButton(
-                    text="Ping!",
+                    text="🏓 Ping!",
                     callback_data=f"alv_cls",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Kembali",
+                    text="🔙 Kembali",
                     callback_data=f"menu_utama",
                 )
             ]
@@ -210,21 +210,21 @@ class BTN:
 
     def BOT_HELP(message):
         button = [
-            [InlineKeyboardButton("System", callback_data="system")],
-            [InlineKeyboardButton("Ubot", callback_data="statss")],
-            [InlineKeyboardButton("Restart", callback_data="reboot")],
-            [InlineKeyboardButton("Update", callback_data="update")],
-            [InlineKeyboardButton("Shutdown", callback_data="shutdown")],
+            [InlineKeyboardButton("🎛️ System", callback_data="system")],
+            [InlineKeyboardButton("🤖 Ubot", callback_data="statss")],
+            [InlineKeyboardButton("🔃 Restart", callback_data="reboot")],
+            [InlineKeyboardButton("🏋🏻 Update", callback_data="update")],
+            [InlineKeyboardButton("☠️ Shutdown", callback_data="shutdown")],
         ]
         return button
 
     def REF(username, ref):
         button = [
             [
-                InlineKeyboardButton("Undang", url=f"https://t.me/share/url?url=https://t.me/{username}?start={ref}"),
+                InlineKeyboardButton("🎁 Undang", url=f"https://t.me/share/url?url=https://t.me/{username}?start={ref}"),
             ],
             [
-                InlineKeyboardButton("Kembali", callback_data=f"saldo"
+                InlineKeyboardButton("🔙 Kembali", callback_data=f"saldo"
                 )
             ]
         ]
@@ -237,11 +237,11 @@ class BTN:
                 InlineKeyboardButton("Next »", callback_data=f"kanann_{bulan}"),
             ],
             [
-                InlineKeyboardButton("Setuju", callback_data="setuju"
+                InlineKeyboardButton("🤝🏻 Setuju", callback_data="setuju"
                 )
             ],
             [
-                InlineKeyboardButton("Kembali", callback_data=f"metode_beli"
+                InlineKeyboardButton("🔙 Kembali", callback_data=f"metode_beli"
                 )
             ]
         ]
@@ -250,17 +250,17 @@ class BTN:
     def BELI():
         button = [
             [
-                InlineKeyboardButton("Beli Via Saldo", callback_data="hajar"
+                InlineKeyboardButton("💰 Beli Via Saldo", callback_data="hajar"
                 ),
-                InlineKeyboardButton("Beli Via Qris", callback_data="beli"
-                ),
-            ],
-            [
-                InlineKeyboardButton("Beli Via Owners", url=f"https://t.me/{USERNAME}"
+                InlineKeyboardButton("🖨️ Beli Via Qris", callback_data="beli"
                 ),
             ],
             [
-                InlineKeyboardButton("Kembali", callback_data=f"awal"
+                InlineKeyboardButton("🗣️ Beli Via Owners", url=f"https://t.me/{USERNAME}"
+                ),
+            ],
+            [
+                InlineKeyboardButton("🔙 Kembali", callback_data=f"awal"
                 ),
             ]
         ]
@@ -269,34 +269,32 @@ class BTN:
     def START():
         button = [
             [
-                InlineKeyboardButton("Saldo Saya", callback_data="saldo"
+                InlineKeyboardButton("💰 Saldo Saya", callback_data="saldo"
                 ),
             ],
             [
-                InlineKeyboardButton("Beli/Berlangganan", callback_data="metode_beli"
+                InlineKeyboardButton("🛍️ Beli Userbot", callback_data="metode_beli"
                 ),
-                InlineKeyboardButton("Install Userbot", callback_data=f"buat"
+                InlineKeyboardButton("💻 Install Userbot", callback_data=f"buat"
                 ),
             ],
             [
-                InlineKeyboardButton("Ketentuan Userbot!", url=f"https://telegra.ph/Ketentuan-Userbot-04-11"
+                InlineKeyboardButton("🛠️ Fitur", callback_data=f"menu_utama"
+                ),
+            ],
+            [
+                InlineKeyboardButton("♻️ Reset Prefix", callback_data=f"reset"
                 ),
                 InlineKeyboardButton(
-                    "Masa Aktif", callback_data=f"status"
+                    "⏰ Masa Aktif", callback_data=f"status"
                 ),
             ],
             [
-                InlineKeyboardButton("Reset Prefix/Handler", callback_data=f"reset"
-                ),
-                InlineKeyboardButton("Fitur", callback_data=f"menu_utama"
+                InlineKeyboardButton("👨‍👨‍👧‍👦 Admin Userbot", callback_data=f"seller"
                 ),
             ],
             [
-                InlineKeyboardButton("Admin Userbot", callback_data=f"seller"
-                ),
-            ],
-            [
-                InlineKeyboardButton("Kembali", callback_data=f"pilihan"
+                InlineKeyboardButton("🔙 Kembali", callback_data=f"pilihan"
                 ),
             ]
         ]
@@ -305,11 +303,11 @@ class BTN:
     def TOPUP():
         keyboard = [
             [
-                InlineKeyboardButton("Isi Saldo", callback_data=f"isi"),
-                InlineKeyboardButton("Kode Referral", callback_data=f"kode")
+                InlineKeyboardButton("💲 Isi Saldo", callback_data=f"isi"),
+                InlineKeyboardButton("🎁 Kode Referral", callback_data=f"kode")
             ],
             [
-                InlineKeyboardButton("Kembali", callback_data=f"awal"
+                InlineKeyboardButton("🔙 Kembali", callback_data=f"awal"
                 ),
             ]
         ]
@@ -322,10 +320,10 @@ class BTN:
                 InlineKeyboardButton("Next »", callback_data=f"kanan_{bulan}"),
             ],
             [
-                InlineKeyboardButton("Konfirmasi & Bayar", callback_data=f"bayar_{bulan}"),
+                InlineKeyboardButton("🤝🏻 Konfirmasi & Bayar", callback_data=f"bayar_{bulan}"),
             ],
             [
-                InlineKeyboardButton("Kembali", callback_data=f"metode_beli"
+                InlineKeyboardButton("🔙 Kembali", callback_data=f"metode_beli"
                 ),
             ]
         ]
@@ -334,14 +332,14 @@ class BTN:
     def SUPPORT():
         button = [
             [
-                InlineKeyboardButton("Groups", url=f"https://t.me/{GROUP}"
+                InlineKeyboardButton("🗨️ Groups", url=f"https://t.me/{GROUP}"
                 ),
                 InlineKeyboardButton(
-                    "Channels", url=f"https://t.me/{CHANNEL}"
+                    "✉️ Channels", url=f"https://t.me/{CHANNEL}"
                 ),
             ],
             [
-                InlineKeyboardButton("Kembali", callback_data=f"pilihan"
+                InlineKeyboardButton("🔙 Kembali", callback_data=f"pilihan"
                 ),
             ]
         ]
@@ -351,37 +349,37 @@ class BTN:
         button = [
             [
                 InlineKeyboardButton(
-                    "Remove Userbot",
+                    "❌ Remove Userbot",
                     callback_data=f"del_ubot {int(count)}",
                 ),
             ],
             [
                 InlineKeyboardButton(
-                    "Delete Account",
+                    "☠️ Delete Account",
                     callback_data=f"ub_deak {int(count)}",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    "Check Expired",
+                    "⏰ Check Expired",
                     callback_data=f"cek_masa_aktif {int(user_id)}",
                 ),
             ],
             [
                 InlineKeyboardButton(
-                    "Check Otp",
+                    "🔢 Check Otp",
                     callback_data=f"get_otp {int(count)}",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    "Check Phone Number",
+                    "📞 Check Phone Number",
                     callback_data=f"get_phone {int(count)}",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    "Check Two-Factor",
+                    "🔑 Check Two-Factor",
                     callback_data=f"get_faktor {int(count)}",
                 )
             ],
@@ -396,11 +394,11 @@ class BTN:
         button = [
             [
                 InlineKeyboardButton(
-                    "Back",
+                    "🔙 Kembali",
                     callback_data=f"p_ub {int(count)}"
                 ),
                 InlineKeyboardButton(
-                    "Approve", callback_data=f"deak_akun_konfirm {int(count)}",
+                    "🤝🏻 Konfrimasi", callback_data=f"deak_akun_konfirm {int(count)}",
                 ),
             ],
         ]
@@ -410,11 +408,11 @@ class BTN:
         button = [
             [
                 InlineKeyboardButton(
-                    "Back",
+                    "🔙 Kembali",
                     callback_data=f"p_ub {int(count)}"
                 ),
                 InlineKeyboardButton(
-                    "Approve", callback_data=f"konfir_del_ubot {int(count)}",
+                    "🤝🏻 Konfirmasi", callback_data=f"konfir_del_ubot {int(count)}",
                 ),
             ],
         ]

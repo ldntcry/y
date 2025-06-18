@@ -18,7 +18,33 @@ from pytz import timezone
 import pytgcalls
 import pyrogram
 
+import shutil
+from datetime import datetime
 
+
+async def auto_backup():
+    backup_today = False
+    last_backup_date = None
+    db_file = f"{DATABASE}.db"
+    while True:
+        await asyncio.sleep(60)
+        waktu = datetime.now()
+        if waktu.date() != last_backup_date:
+            backup_today = False
+            last_backup_date = waktu.date()
+        if waktu.hour >= 12 and not backup_today:
+            try:
+                timestamp = waktu.strftime("%Y%m%d_%H%M%S")
+                backup_file = f"{DATABASE}_backup_{timestamp}.db"
+                shutil.copy(db_file, backup_file)
+                for chat_id in DEVS:
+                    await bot.send_document(chat_id=chat_id, document=backup_file, file_name=backup_file)
+                os.remove(backup_file)
+                backup_today = True
+            except Exception as e:
+                logger.error(f"Error: {e}")
+                if os.path.exists(backup_file):
+                    os.remove(backup_file)
 
 
 async def auto_reaction_task(client, reactions):
@@ -103,7 +129,7 @@ async def loaded():
                 tombol_anak[utama].extend(buttons)
         except Exception as e:
             logger.error(f"Client - Error loading module {mod}: {e}")
-    task = [installPeer(), auto_reaction(), expiredUserbots(), check_session()]
+    task = [installPeer(), auto_reaction(), expiredUserbots(), check_session(), auto_backup()]
     for tasks in task:
         asyncio.create_task(tasks)
     jumlah_button_usu = sum(len(buttons) for buttons in tombol_anak.values())
