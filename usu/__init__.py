@@ -28,7 +28,7 @@ from usu import *
 
 class ConnectionHandler(logging.Handler):
     def emit(self, record):
-        for X in ["OSError", "TimeoutError", "Too Many Open Files", "[Errno 24]"]:
+        for X in ["OSError", "TimeoutError", "Too Many Open Files", "EMFILE", "[Errno 24]"]:
             if X.lower() in record.getMessage().lower():
                 os.system(f"kill -9 {os.getpid()} && python3 -m usu")
 
