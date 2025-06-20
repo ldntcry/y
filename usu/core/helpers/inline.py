@@ -224,7 +224,7 @@ class BTN:
                 InlineKeyboardButton("🎁 Undang", url=f"https://t.me/share/url?url=https://t.me/{username}?start={ref}"),
             ],
             [
-                InlineKeyboardButton("🔙 Kembali", callback_data=f"saldo"
+                InlineKeyboardButton("🔙 Kembali", callback_data=f"awal"
                 )
             ]
         ]
@@ -281,6 +281,7 @@ class BTN:
             [
                 InlineKeyboardButton("🛠️ Fitur", callback_data=f"menu_utama"
                 ),
+                InlineKeyboardButton("🎁 Kode Referral", callback_data=f"kode")
             ],
             [
                 InlineKeyboardButton("♻️ Reset Prefix", callback_data=f"reset"
@@ -303,8 +304,7 @@ class BTN:
     def TOPUP():
         keyboard = [
             [
-                InlineKeyboardButton("💲 Isi Saldo", callback_data=f"isi"),
-                InlineKeyboardButton("🎁 Kode Referral", callback_data=f"kode")
+                InlineKeyboardButton("💸 Isi Saldo", callback_data=f"isi"),
             ],
             [
                 InlineKeyboardButton("🔙 Kembali", callback_data=f"awal"
