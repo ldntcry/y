@@ -67,7 +67,7 @@ async def extract_id(message, text):
         elif entity.type == enums.MessageEntityType.TEXT_MENTION:
             return entity.user.id
 
-    if text.startswith('@'):
+    if text.startswith('@') or text.startswith('https://'):
         try:
             chat = await app.get_chat(text)
             return chat.id
