@@ -192,7 +192,7 @@ async def hajar(c, cq):
     teks = f"{int(saldo):,}".replace(",", ".")
     langganan[user_id] = 1
     return await cq.edit_message_text(
-        f"""<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:</b>\nRp {teks}\n\n<b>Catatan:</b> membeli userbot otomatis mengurangi saldo anda sebesar Rp {HARGA_USERBOT}.000</i>""", reply_markup=InlineKeyboardMarkup(BTN.KONFIR(langganan[user_id])))
+        f"""<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:</b>\nRp {teks}\n\n<b>Memilih:</b> {langganan[user_id]} Bulan - Rp {HARGA_USERBOT}.000</i>""", reply_markup=InlineKeyboardMarkup(BTN.KONFIR(langganan[user_id])))
 
 
 @USU.CALLBACK("metode_beli")
