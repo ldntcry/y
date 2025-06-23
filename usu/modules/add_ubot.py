@@ -137,7 +137,7 @@ async def prev_bulan(client, callback_query):
             jumlah_bulan = langganan[user_id]
             total_harga = jumlah_bulan * HARGA_USERBOT
             return await callback_query.edit_message_text(
-                f"""<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:</b>\nRp {teks}\n\n<b>Memilih:</b> {langganan[user_id]} Bulan - Rp {HARGA_USERBOT}.000</i>""", reply_markup=InlineKeyboardMarkup(BTN.KONFIR(jumlah_bulan)))
+                f"""<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:</b>\nRp {teks}\n\n<b>Memilih:</b> {langganan[user_id]} Bulan - Rp {total_harga}.000</i>""", reply_markup=InlineKeyboardMarkup(BTN.KONFIR(jumlah_bulan)))
         else:
             await callback_query.answer("Ini adalah bulan pertama.", show_alert=True)
     except Exception as e:
@@ -156,7 +156,7 @@ async def next_bulan(client, callback_query):
         jumlah_bulan = langganan[user_id]
         total_harga = jumlah_bulan * HARGA_USERBOT
         return await callback_query.edit_message_text(
-            f"""<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:</b>\nRp {teks}\n\n<b>Memilih:</b> {langganan[user_id]} Bulan - Rp {HARGA_USERBOT}.000</i>""", reply_markup=InlineKeyboardMarkup(BTN.KONFIR(jumlah_bulan)))
+            f"""<i><b>Saldo [Userbot]({PHOTO}) anda saat ini:</b>\nRp {teks}\n\n<b>Memilih:</b> {langganan[user_id]} Bulan - Rp {total_harga}.000</i>""", reply_markup=InlineKeyboardMarkup(BTN.KONFIR(jumlah_bulan)))
     except Exception as e:
         return print(e)
 
