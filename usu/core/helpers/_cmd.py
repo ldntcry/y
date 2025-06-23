@@ -138,7 +138,6 @@ class USU:
             "PROTECT": {
                 "query": (
                     filters.group
-                    & filters.incoming
                     & ~filters.me
                     & ~filters.bot & filters.create(protect)
                 ),
@@ -186,7 +185,6 @@ class USU:
             "PROTECT_BOT": {
                 "query": (
                     filters.group
-                    & filters.incoming
                     & ~filters.me
                     & ~filters.bot & filters.create(protect_bot)
                 ),
