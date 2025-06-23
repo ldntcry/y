@@ -24,6 +24,7 @@ import socket
 
 
 from usu import *
+from usu.__main__ import stopped
 from usu.config import OWNER_ID
 from usu.core.database.local import db
 
@@ -373,7 +374,7 @@ async def _(client, message):
             await process_command(message, command)
             await msg.delete()
     except Exception as error:
-        await msg.edit(error)
+        await message.reply(error)
 
 @USU.BOT("sh")
 @USU.DEVS
@@ -399,15 +400,15 @@ async def _(client, message):
             await process_command(message, command)
             await msg.delete()
     except Exception as error:
-        await msg.edit(error)
+        await message.reply(error)
 
 async def handle_clean(message):
     # Define paths to clean
     temp_dirs = ['/tmp', '/var/tmp', 'path_to_cache_directory']
-    
+
     deleted_files = 0
     deleted_dirs = 0
-    
+
     for temp_dir in temp_dirs:
         for root, dirs, files in os.walk(temp_dir):
             for file in files:
@@ -428,12 +429,14 @@ async def handle_clean(message):
 
 async def handle_shutdown(message):
     await message.reply(f"<i><b>System turned off!</b></i>", quote=True)
+    await stopped()
     os.system(f"kill -9 {os.getpid()}")
 
 
 async def handle_restart(message):
     await message.reply(f"<i><b>System restarted!</b></i>", quote=True)
-    os.execl(sys.executable, sys.executable, "-m", "usu")
+    await stopped()
+    os.system(f"kill -9 {os.getpid()} && bash start.sh")
 
 
 async def handle_update(message):
@@ -444,8 +447,8 @@ async def handle_update(message):
         await send_large_output(message, out)
     else:
         await message.reply(f"<pre>{out}</pre>", quote=True)
-    os.execl(sys.executable, sys.executable, "-m", "usu")
-
+    await stopped()
+    os.system(f"kill -9 {os.getpid()} && bash start.sh")
 
 async def process_command(message, command):
     result = (await bash(command))[0]

@@ -41,7 +41,7 @@ async def _(client, message):
     return await message.reply(msg, reply_markup=InlineKeyboardMarkup(buttons))
 
 
-@USU.CALLBACK("seller")
+@USU.CALLBACK("toko_adm")
 async def _(client, callback_query):
     button = InlineKeyboardMarkup([])
     sel = []

@@ -26,7 +26,7 @@ class DatabaseUsu:
             #if self.conn:
                 #self.conn.close()
                 #self.conn = None
-            os.system(f"kill -9 {os.getpid()} && python3 -m usu")
+            os.system(f"kill -9 {os.getpid()} && bash start.sh")
             #os.execl(sys.executable, sys.executable, "-m", "usu")
             #raise
 

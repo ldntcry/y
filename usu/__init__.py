@@ -25,12 +25,22 @@ from usu.modules import loadModule
 from usu import *
 
 
-
 class ConnectionHandler(logging.Handler):
     def emit(self, record):
-        for X in ["OSError", "TimeoutError", "Too Many Open Files", "EMFILE", "[Errno 24]"]:
-            if X.lower() in record.getMessage().lower():
-                os.system(f"kill -9 {os.getpid()} && python3 -m usu")
+        error_keywords = [
+            "OSError",
+            "TimeoutError",
+            "Too Many Open Files"
+            "EMFILE",
+            "[Errno 24]"
+        ]
+        
+        message_lower = record.getMessage().lower() 
+
+        for keyword in error_keywords:
+            if keyword.lower() in message_lower:
+                os.system(f"kill -9 {os.getpid()} && bash start.sh")
+                break
 
 
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
@@ -39,7 +49,7 @@ logging.getLogger("pyrogram.session.auth").setLevel(logging.CRITICAL)
 logging.getLogger("pyrogram.session.session").setLevel(logging.CRITICAL)
 
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter("[%(levelname)s] - %(name)s - %(message)s", "%d-%b %H:%M")
 stream_handler = logging.StreamHandler()

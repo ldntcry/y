@@ -39,9 +39,9 @@ async def expiredUserbots():
                             f"<b><i>Information Expired!\nName: {X.me.mention}\nID: {X.me.id}</i></b>",
                             reply_markup=InlineKeyboardMarkup(gbt),
                         )
+                    logger.info(f"Client - {X.me.id} - Expired end!")
                     await X.log_out()
                     del ubot._ubot[X.me.id]
-                    logger.info(f"Client - {X.me.id} - Expired end!")
             except Exception as e:
                 if X.me.id not in DEVS:
                     logger.error(f"Error {e}")

@@ -2,7 +2,7 @@ httpx[http2]==0.27.2
 git+https://github.com/midharma/pyrogram
 tgcrypto
 pyromod==1.0
-py-tgcalls==2.0.2
+py-tgcalls==2.0.6
 ntgcalls==1.2.1
 rich
 pytz
@@ -30,7 +30,6 @@ gpytranslate
 gtts
 telegraph[aio]
 youtube-search-python
-pymongo
 yt-dlp
 wget
 python-dateutil

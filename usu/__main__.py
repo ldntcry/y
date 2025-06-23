@@ -7,8 +7,8 @@ from usu.core.helpers.help_usu import tombol_anak
 from usu.core.database.local import db
 from usu.core.helpers.dec import installPeer
 import os
-import sys
 import aiorun
+import sys
 from pyrogram.errors import FloodWait
 
 from pyrogram.errors import (AuthKeyDuplicated, AuthKeyUnregistered,
@@ -151,7 +151,6 @@ async def loaded():
 
 async def stopped():
     db.close_connection()
-    await bot.stop()
 
 async def main():
     await bots()

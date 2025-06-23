@@ -61,7 +61,6 @@ async def _(client, message):
             views,
             channel,
             url,
-            bot.me.mention,
         ),
         progress=progress,
         progress_args=(
@@ -125,7 +124,6 @@ async def _(client, message):
             views,
             channel,
             url,
-            bot.me.mention,
         ),
         progress=progress,
         progress_args=(

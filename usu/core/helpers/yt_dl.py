@@ -115,7 +115,7 @@ async def YoutubeDownload(url, as_video=False):
             "geo_bypass": True,
             "cookiefile": cookies_usu,
         }
-    data_ytp = "<i><b>Informations {}</b>\n\n<b>Name:</b> {}<b>\n<b>Duration:</b> {}\n<b>View:</b> {}\n<b>Channel:</b> {}\n<b>Tautan:</b> <a href={}>YouTube</a></i>"
+    data_ytp = "<i><b>Information {}</b>\n\n<b>Name:</b> {}<b>\n<b>Duration:</b> {}\n<b>View:</b> {}\n<b>Channel:</b> {}\n<b>Tautan:</b> <a href={}>YouTube</a></i>"
     ydl = YoutubeDL(ydl_opts)
     ytdl_data = await run_sync(ydl.extract_info, url, download=True)
     file_name = ydl.prepare_filename(ytdl_data)
