@@ -26,7 +26,7 @@ async def _(client, message):
             if message.text:
                 word_split = message.text.lower().split()
                 word_list = await db.get_vars(client.me.id, "WORD_LIST") or []
-                if message.from_user and message.from_user.id:
+                if message.from_user and not message.from_user.is_self or not getattr(message, "outgoing", False):
                     try:
                         await message.delete()
                     except FloodWait as e:
@@ -67,7 +67,7 @@ async def _(client, message):
                 word_split = message.text.lower().split()
                 word_list = await db.get_vars(client.me.id, "WORD_LIST") or []
                 mention = f"<b><i>{message.from_user.mention} Teks anda terdeteksi Broadcast!</i></b>"
-                if message.from_user and message.from_user.id:
+                if message.from_user and not message.from_user.is_self or not getattr(message, "outgoing", False):
                     try:
                         await message.delete()
                         anjay = await bot.send_message(message.chat.id, mention)
