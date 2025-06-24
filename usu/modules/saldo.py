@@ -89,7 +89,7 @@ async def tambah_saldo(c, cq):
             del info_data[tx]
         except Exception as e:
             del info_data[tx]
-            print(e)
+            logger.error(e)
             return
     else:
         return await cq.answer("Sudah dikonfirmasi sebelumnya!", True)
