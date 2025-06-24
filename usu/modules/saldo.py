@@ -54,8 +54,8 @@ async def isi_saldo(c, cq):
                         try:
                             await c.send_photo(anj, caption=f"<i><b>Information!\nName:</b> {cq.from_user.first_name} {cq.from_user.last_name or ''}\n<b>ID:</b> {user_id}\n<b>Jumlah topup:</b> Rp {teks}\n<b>ID Transaksi:</b> {topup_id}</i>", photo=asu.photo.file_id, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(f"Konfirmasi Rp {teks}", callback_data=f"price {user_id}")], [InlineKeyboardButton(f"Kirim Pesan", callback_data=f"jawab_pesan {user_id}")]]))
                         except Exception as e:
-                            return print(e)
-                    return await c.send_message(user_id, f"<i><b>Information!\nName:</b> {cq.from_user.first_name} {cq.from_user.last_name or ''}\n<b>ID Transaksi:</b> {topup_id}\n\n<b>Silahkan tunggu dalam 1x24 jam, {USERNAME} akan secepatnya mengkonfirmasi pengisian saldo Userbot anda!</b></i>")
+                            return logger.error(e)
+                    return await c.send_message(user_id, f"<i><b>Information!\nName:</b> {cq.from_user.first_name} {cq.from_user.last_name or ''}\n<b>ID Transaksi:</b> {topup_id}\n\n<b>Silahkan tunggu dalam 1x24 jam, @{USERNAME} akan secepatnya mengkonfirmasi pengisian saldo Userbot anda!</b></i>")
                 else:
                     return await c.send_message(user_id, f"<b><i>Tidak ada bukti transfer, silahkan coba /start kembali!</i></b>")
             except asyncio.TimeoutError:
