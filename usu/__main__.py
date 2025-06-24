@@ -27,7 +27,7 @@ async def auto_backup():
     last_backup_date = None
     db_file = f"{DATABASE}.db"
     while True:
-        await asyncio.sleep(60)
+        await asyncio.sleep(120)
         waktu = datetime.now()
         if waktu.date() != last_backup_date:
             backup_today = False
@@ -80,9 +80,9 @@ async def auto_reaction_task(client, reactions):
 async def auto_reaction():
     reactions = ["👍", "🤩", "🎉", "😍", "👏", "🔥", "🙈", "💯", "🌚", "😎", "🍓", "🏆", "❤️‍🔥", "⚡", "🙉", "🙊", "👻", "🌭"]
     while True:
+        await asyncio.sleep(120)
         for client in tuple(ubot._ubot.values()):
             await auto_reaction_task(client, reactions)
-        await asyncio.sleep(60)
 
 async def start_and_join(ubot_):
     await ubot_.start()
