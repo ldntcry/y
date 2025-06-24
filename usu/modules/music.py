@@ -759,7 +759,7 @@ async def _(client, message):
         except ChatAdminRequired:
             return await infomsg.edit(f"<b><i>Mohon berikan izin admin yang cukup!</i></b>")
         if (get.status == ChatMemberStatus.BANNED or get.status == ChatMemberStatus.RESTRICTED):
-            return await infomsg.edit(f"<b><i>Mohon unbanned Assistant Music!</i></b>")
+            return await infomsg.edit(f"<b><i>Mohon unbanned Assistant Music!\nUsername: {bot.usu.me.username or ''}\nID: {bot.usu.me.id}</i></b>")
     except UserNotParticipant:
         try:
             chat = await client.get_chat(message.chat.id)
@@ -986,7 +986,7 @@ async def _(client, message):
         except ChatAdminRequired:
             return await infomsg.edit(f"<b><i>Mohon berikan izin admin yang cukup!</i></b>")
         if (get.status == ChatMemberStatus.BANNED or get.status == ChatMemberStatus.RESTRICTED):
-            return await infomsg.edit(f"<b><i>Mohon unbanned Assistant Music!</i></b>")
+            return await infomsg.edit(f"<b><i>Mohon unbanned Assistant Music!\nUsername: {bot.usu.me.username or ''}\nID: {bot.usu.me.id}</i></b>")
     except UserNotParticipant:
         try:
             chat = await client.get_chat(message.chat.id)
