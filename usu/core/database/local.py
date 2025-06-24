@@ -10,25 +10,29 @@ from usu import logger
 
 class DatabaseUsu:
     def __init__(self, db_name):
-        self.db_name = f"{db_name}.db"
+        self.db_name = os.path.join(os.getcwd(), f"{db_name}.db")
         self.conn = None
         self._initialize_connection()
 
     def _initialize_connection(self):
+        db_directory = os.path.dirname(self.db_name)
+        if not os.path.exists(db_directory):
+            try:
+                os.makedirs(db_directory, exist_ok=True)
+            except OSError as e:
+                logger.error(f"Gagal membuat direktori database '{db_directory}': {e}")
+        if not os.access(db_directory, os.W_OK):
+            logger.error(f"Tidak ada izin tulis untuk direktori database: {db_directory}. Mohon periksa izin folder.")
+            os.system(f"kill -9 {os.getpid()} && bash start.sh")
         try:
             self.conn = sqlite3.connect(self.db_name)
-            self.conn.row_factory = sqlite3.Row # Opsional: Mengakses kolom berdasarkan nama
+            self.conn.row_factory = sqlite3.Row
             cursor = self.conn.cursor()
             self._create_tables(cursor)
             self.conn.commit()
         except sqlite3.Error as e:
             logger.error(f"Terjadi kesalahan saat menginisialisasi database: {e}")
-            #if self.conn:
-                #self.conn.close()
-                #self.conn = None
             os.system(f"kill -9 {os.getpid()} && bash start.sh")
-            #os.execl(sys.executable, sys.executable, "-m", "usu")
-            #raise
 
     def _create_tables(self, cursor):
         tables = {
