@@ -494,41 +494,91 @@ async def _(client, message):
         await asyncio.sleep(1)
         await usu_msg.edit_text(f"<i>{usu_text}</i>")
     await asyncio.sleep(1)
+
     uname = platform.uname()
     nama_host = socket.gethostname()
-
-    softw = f"Information!\n"
-    softw += f"\nSystem  : <code>{uname.system}</code>\n"
-    softw += f"Release  : <code>{uname.release}</code>\n"
-    softw += f"Version  : <code>{uname.version}</code>\n"
-    softw += f"Machine  : <code>{uname.machine}</code>\n"
-    softw += f"Host  : <code>{nama_host}</code>\n"
-
-    softw += "\n" "Physical Core  : " "<code>" + str(psutil.cpu_count(logical=False)) + "</code>" "\n"
-    softw += "Total Core  : " "<code>" + str(psutil.cpu_count(logical=True)) + "</code>" "\n"
     cpufreq = psutil.cpu_freq()
-    softw += f"Max Frequency  : <code>{cpufreq.max:.2f}Mhz</code>\n"
-    softw += f"Min Frequency  : <code>{cpufreq.min:.2f}Mhz</code>\n"
-    softw += f"Current Frequency  : <code>{cpufreq.current:.2f}Mhz</code>\n\n"
-
-    for i, percentage in enumerate(psutil.cpu_percent(percpu=True)):
-        softw += f"Core {i}  : <code>{percentage}%</code>\n"
-    softw += f"All Core  : <code>{psutil.cpu_percent()}%</code>\n"
-
-    softw += f"\nUpload  : <code>{get_size(psutil.net_io_counters().bytes_sent)}</code>\n"
-    softw += f"Download  : <code>{get_size(psutil.net_io_counters().bytes_recv)}</code>\n"
-
     svmem = psutil.virtual_memory()
     penggunaan_disk = psutil.disk_usage("/")
-    psutil.disk_io_counters()
-    disk = f"{humanbytes(penggunaan_disk.used)} / {humanbytes(penggunaan_disk.total)} ({penggunaan_disk.percent}%)"
 
-    softw += f"\nTotal  : <code>{get_size(svmem.total)}</code>\n"
-    softw += f"Available  : <code>{get_size(svmem.available)}</code>\n"
-    softw += f"Used  : <code>{get_size(svmem.used)}</code>\n"
-    softw += f"Percentage  : <code>{svmem.percent}%</code>\n"
-    softw += f"Disk  : <code>{disk}</code>\n"
+    softw = f"<i><b>Information!</b></i>\n\n"
+    softw += f"<b>System :</b> <code>{uname.system}</code>\n"
+    softw += f"<b>Release :</b> <code>{uname.release}</code>\n"
+    softw += f"<b>Version :</b> <code>{uname.version}</code>\n"
+    softw += f"<b>Machine :</b> <code>{uname.machine}</code>\n"
+    softw += f"<b>Host :</b> <code>{nama_host}</code>\n\n"
+
+    softw += f"<b>CPU :</b>\n"
+    softw += f"<b>Physical Core :</b> <code>{psutil.cpu_count(logical=False)}</code>\n"
+    softw += f"<b>Total Core :</b> <code>{psutil.cpu_count(logical=True)}</code>\n"
+    softw += f"<b>Max Frequency :</b> <code>{cpufreq.max:.2f}Mhz</code>\n"
+    softw += f"<b>Min Frequency :</b> <code>{cpufreq.min:.2f}Mhz</code>\n"
+    softw += f"<b>Current Frequency :</b> <code>{cpufreq.current:.2f}Mhz</code>\n\n"
+
+    for i, percentage in enumerate(psutil.cpu_percent(percpu=True)):
+        softw += f"<b>Core {i} :</b> <code>{percentage}%</code>\n"
+    softw += f"<b>All Core :</b> <code>{psutil.cpu_percent()}%</code>\n\n"
+
+    softw += f"<b>Network :</b>\n"
+    softw += f"<b>Upload :</b> <code>{get_size(psutil.net_io_counters().bytes_sent)}</code>\n"
+    softw += f"<b>Download :</b> <code>{get_size(psutil.net_io_counters().bytes_recv)}</code>\n\n"
+
+    softw += f"<b>Memory :</b>\n"
+    softw += f"<b>Total :</b> <code>{get_size(svmem.total)}</code>\n"
+    softw += f"<b>Available :</b> <code>{get_size(svmem.available)}</code>\n"
+    softw += f"<b>Used :</b> <code>{get_size(svmem.used)}</code>\n"
+    softw += f"<b>Percentage :</b> <code>{svmem.percent}%</code>\n\n"
+
+    softw += f"<b>Disk :</b> <code>{humanbytes(penggunaan_disk.used)} / {humanbytes(penggunaan_disk.total)} ({penggunaan_disk.percent}%)</code>\n"
 
     await usu_msg.edit(f"<i><b>{softw}</b></i>")
 
+
+@USU.BOT("sys")
+@USU.DEVS
+async def _(client, message):
+    usu = ["<b>Processing...</b>", "<b>Checking Your System...</b>", "<b>Collect Your System...</b>"]
+    usu_msg = await message.reply(f"<i>{usu[0]}</i>")
+    for usu_text in usu[1:]:
+        await asyncio.sleep(1)
+        await usu_msg.edit_text(f"<i>{usu_text}</i>")
+    await asyncio.sleep(1)
+
+    uname = platform.uname()
+    nama_host = socket.gethostname()
+    cpufreq = psutil.cpu_freq()
+    svmem = psutil.virtual_memory()
+    penggunaan_disk = psutil.disk_usage("/")
+
+    softw = f"<i><b>Information!</b></i>\n\n"
+    softw += f"<b>System :</b> <code>{uname.system}</code>\n"
+    softw += f"<b>Release :</b> <code>{uname.release}</code>\n"
+    softw += f"<b>Version :</b> <code>{uname.version}</code>\n"
+    softw += f"<b>Machine :</b> <code>{uname.machine}</code>\n"
+    softw += f"<b>Host :</b> <code>{nama_host}</code>\n\n"
+
+    softw += f"<b>CPU :</b>\n"
+    softw += f"<b>Physical Core :</b> <code>{psutil.cpu_count(logical=False)}</code>\n"
+    softw += f"<b>Total Core :</b> <code>{psutil.cpu_count(logical=True)}</code>\n"
+    softw += f"<b>Max Frequency :</b> <code>{cpufreq.max:.2f}Mhz</code>\n"
+    softw += f"<b>Min Frequency :</b> <code>{cpufreq.min:.2f}Mhz</code>\n"
+    softw += f"<b>Current Frequency :</b> <code>{cpufreq.current:.2f}Mhz</code>\n\n"
+
+    for i, percentage in enumerate(psutil.cpu_percent(percpu=True)):
+        softw += f"<b>Core {i} :</b> <code>{percentage}%</code>\n"
+    softw += f"<b>All Core :</b> <code>{psutil.cpu_percent()}%</code>\n\n"
+
+    softw += f"<b>Network :</b>\n"
+    softw += f"<b>Upload :</b> <code>{get_size(psutil.net_io_counters().bytes_sent)}</code>\n"
+    softw += f"<b>Download :</b> <code>{get_size(psutil.net_io_counters().bytes_recv)}</code>\n\n"
+
+    softw += f"<b>Memory :</b>\n"
+    softw += f"<b>Total :</b> <code>{get_size(svmem.total)}</code>\n"
+    softw += f"<b>Available :</b> <code>{get_size(svmem.available)}</code>\n"
+    softw += f"<b>Used :</b> <code>{get_size(svmem.used)}</code>\n"
+    softw += f"<b>Percentage :</b> <code>{svmem.percent}%</code>\n\n"
+
+    softw += f"<b>Disk :</b> <code>{humanbytes(penggunaan_disk.used)} / {humanbytes(penggunaan_disk.total)} ({penggunaan_disk.percent}%)</code>\n"
+
+    await usu_msg.edit(f"<i><b>{softw}</b></i>")
 
