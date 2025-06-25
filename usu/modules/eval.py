@@ -85,268 +85,6 @@ def usec() -> int:
     return int(time() * 1000000)
 
 
-
-
-@USU.UBOT("eval")
-@USU.DEVS
-async def exec_eval(c, m):
-    sks = await EMO.SUKSES(c)
-    ggl = await EMO.GAGAL(c)
-    prs = await EMO.PROSES(c)
-    broad = await EMO.BROADCAST(c)
-    ptr = await EMO.PUTARAN(c)
-    if m.reply_to_message and len(m.text.split()) > 1:
-        code = m.text.split(" ", maxsplit=1)[1]
-    elif m.reply_to_message and len(m.text.split()) == 1:
-        code = m.reply_to_message.text
-    elif len(m.text.split()) > 1:
-        code = m.text.split(" ", maxsplit=1)[1]
-    else:
-        return await m.reply_text(f"<i><b>{ggl}{m.text} [reply/teks]</b></i>")
-    usu = await m.reply_text(f"<i><b>{prs}Processing...</b></i>")
-    out_buf = io.StringIO()
-    async def _eval() -> Tuple[str, Optional[str]]:
-            async def send(*args: Any, **kwargs: Any) -> pyrogram.types.Message:
-                    return await m.reply(*args, **kwargs)
-
-            def _print(*args: Any, **kwargs: Any) -> None:
-                    if "file" not in kwargs:
-                            kwargs["file"] = out_buf
-                            return print(*args, **kwargs)
-
-            eval_vars = {
-    "MSG": MSG,
-    "db": db,
-    "BTN": BTN,
-    "ubot": ubot,
-    "bot": bot,
-    "USU": USU,
-    # Informasi Konteks
-    "loop": c.loop,
-    "client": c,
-    "stdout": out_buf,
-    # Alias Kenyamanan
-    "c": c,
-    "m": m,
-    "msg": m,
-    "message": m,
-    "raw": pyrogram.raw,
-    # Fungsi Pembantu
-    "send": send,
-    "print": _print,
-    # Modul Bawaan
-    "inspect": inspect,
-    "os": os,
-    "re": re,
-    "sys": sys,
-    "traceback": traceback,
-    "pyrogram": pyrogram,
-    # Tipe Pyrogram
-    "Client": pyrogram.Client,
-    "Message": pyrogram.types.Message,
-    "User": pyrogram.types.User,
-    "Chat": pyrogram.types.Chat,
-    "CallbackQuery": pyrogram.types.CallbackQuery,
-    "InlineQuery": pyrogram.types.InlineQuery,
-    "InlineKeyboardButton": pyrogram.types.InlineKeyboardButton,
-    "InlineKeyboardMarkup": pyrogram.types.InlineKeyboardMarkup,
-    "ReplyKeyboardMarkup": pyrogram.types.ReplyKeyboardMarkup,
-    "ReplyKeyboardRemove": pyrogram.types.ReplyKeyboardRemove,
-    "ForceReply": pyrogram.types.ForceReply,
-    "InlineQueryResultArticle": pyrogram.types.InlineQueryResultArticle,
-    "InputTextMessageContent": pyrogram.types.InputTextMessageContent,
-    "InlineQueryResultCachedPhoto": pyrogram.types.InlineQueryResultCachedPhoto,
-    "InlineQueryResultPhoto": pyrogram.types.InlineQueryResultPhoto,
-            }
-
-            try:
-                    return "", await meval(code, globals(), **eval_vars)
-            except Exception as e:  # skipcq: PYL-W0703
-                    # Find first traceback frame involving the snippet
-                    first_snip_idx = -1
-                    tb = traceback.extract_tb(e.__traceback__)
-                    for i, frame in enumerate(tb):
-                            if frame.filename == "<string>" or frame.filename.endswith("ast.py"):
-                                first_snip_idx = i
-                                break
-
-
-                    if first_snip_idx == -1:
-                            raise e
-
-                    stripped_tb = tb[first_snip_idx:]
-                    formatted_tb = format_exception(e, tb=stripped_tb)
-                    return "Error!\n\n", formatted_tb
-    before = usec()
-    prefix, result = await _eval()
-    after = usec()
-
-    if not out_buf.getvalue() or result is not None:
-            print(result, file=out_buf)
-
-    el_us = after - before
-    el_str = format_duration_us(el_us)
-
-    out = out_buf.getvalue()
-
-    if out.endswith("\n"):
-            out = out[:-1]
-
-    result = f"""{prefix}<b>In:</b>
-<pre language="python">{escape(code)}</pre>
-<b>Out:</b>
-<pre language="python">{escape(out)}</pre>
-Time: {el_str}"""
-
-    if len(result) > 4096:
-            with io.BytesIO(str.encode(out)) as out_file:
-                    out_file.name = str(uuid.uuid4()).split("-")[0].upper() + ".txt"
-                    caption = f"""{prefix}<b>In:</b>
-<pre language="python">{escape(code)}</pre>
-
-Time: {el_str}"""
-                    await m.reply_document(
-                                document=out_file, caption=caption, disable_notification=True,parse_mode=pyrogram.enums.parse_mode.ParseMode.HTML
-                        )
-            None
-    else:
-        await m.reply_text(
-            result,
-            parse_mode=pyrogram.enums.parse_mode.ParseMode.HTML,
-    )
-    await usu.delete()
-
-
-
-@USU.BOT("eval")
-@USU.DEVS
-async def exec_eval(c: Client, m: Message):
-    if m.reply_to_message and len(m.text.split()) > 1:
-        code = m.text.split(" ", maxsplit=1)[1]
-    elif m.reply_to_message and len(m.text.split()) == 1:
-        code = m.reply_to_message.text
-    elif len(m.text.split()) > 1:
-        code = m.text.split(" ", maxsplit=1)[1]
-    else:
-        return await m.reply_text(f"<i><b>{m.text} [reply/teks]</b></i>")
-    usu = await m.reply_text(f"<i><b>Processing...</b></i>")
-    code = m.text.split(" ", maxsplit=1)[1]
-    out_buf = io.StringIO()
-    async def _eval() -> Tuple[str, Optional[str]]:
-            async def send(*args: Any, **kwargs: Any) -> pyrogram.types.Message:
-                    return await m.reply(*args, **kwargs)
-
-            def _print(*args: Any, **kwargs: Any) -> None:
-                    if "file" not in kwargs:
-                            kwargs["file"] = out_buf
-                            return print(*args, **kwargs)
-
-            eval_vars = {
-    "MSG": MSG,
-    "db": db,
-    "BTN": BTN,
-    "ubot": ubot,
-    "bot": bot,
-    "USU": USU,
-    # Informasi Konteks
-    "loop": c.loop,
-    "client": c,
-    "stdout": out_buf,
-    # Alias Kenyamanan
-    "c": c,
-    "m": m,
-    "msg": m,
-    "message": m,
-    "raw": pyrogram.raw,
-    # Fungsi Pembantu
-    "send": send,
-    "print": _print,
-    # Modul Bawaan
-    "inspect": inspect,
-    "os": os,
-    "re": re,
-    "sys": sys,
-    "traceback": traceback,
-    "pyrogram": pyrogram,
-    # Tipe Pyrogram
-    "Client": pyrogram.Client,
-    "Message": pyrogram.types.Message,
-    "User": pyrogram.types.User,
-    "Chat": pyrogram.types.Chat,
-    "CallbackQuery": pyrogram.types.CallbackQuery,
-    "InlineQuery": pyrogram.types.InlineQuery,
-    "InlineKeyboardButton": pyrogram.types.InlineKeyboardButton,
-    "InlineKeyboardMarkup": pyrogram.types.InlineKeyboardMarkup,
-    "ReplyKeyboardMarkup": pyrogram.types.ReplyKeyboardMarkup,
-    "ReplyKeyboardRemove": pyrogram.types.ReplyKeyboardRemove,
-    "ForceReply": pyrogram.types.ForceReply,
-    "InlineQueryResultArticle": pyrogram.types.InlineQueryResultArticle,
-    "InputTextMessageContent": pyrogram.types.InputTextMessageContent,
-    "InlineQueryResultCachedPhoto": pyrogram.types.InlineQueryResultCachedPhoto,
-    "InlineQueryResultPhoto": pyrogram.types.InlineQueryResultPhoto,
-            }
-
-            try:
-                    return "", await meval(code, globals(), **eval_vars)
-            except Exception as e:  # skipcq: PYL-W0703
-                    # Find first traceback frame involving the snippet
-                    first_snip_idx = -1
-                    tb = traceback.extract_tb(e.__traceback__)
-                    for i, frame in enumerate(tb):
-                            if frame.filename == "<string>" or frame.filename.endswith("ast.py"):
-                                first_snip_idx = i
-                                break
-
-
-                    if first_snip_idx == -1:
-                            raise e
-
-                    stripped_tb = tb[first_snip_idx:]
-                    formatted_tb = format_exception(e, tb=stripped_tb)
-                    return "Error!\n\n", formatted_tb
-    before = usec()
-    prefix, result = await _eval()
-    after = usec()
-
-    if not out_buf.getvalue() or result is not None:
-            print(result, file=out_buf)
-
-    el_us = after - before
-    el_str = format_duration_us(el_us)
-
-    out = out_buf.getvalue()
-
-    if out.endswith("\n"):
-            out = out[:-1]
-
-    result = f"""{prefix}<b>In:</b>
-<pre language="python">{escape(code)}</pre>
-<b>Out:</b>
-<pre language="python">{escape(out)}</pre>
-Time: {el_str}"""
-
-    if len(result) > 4096:
-            with io.BytesIO(str.encode(out)) as out_file:
-                    out_file.name = str(uuid.uuid4()).split("-")[0].upper() + ".txt"
-                    caption = f"""{prefix}<b>In:</b>
-<pre language="python">{escape(code)}</pre>
-
-Time: {el_str}"""
-                    await m.reply_document(
-                                document=out_file, caption=caption, disable_notification=True,parse_mode=pyrogram.enums.parse_mode.ParseMode.HTML
-                        )
-            None
-    else:
-        await m.reply_text(
-            result,
-            parse_mode=pyrogram.enums.parse_mode.ParseMode.HTML,
-    )
-    await usu.delete()
-
-
-
-
-
 @USU.UBOT("sh")
 @USU.DEVS
 async def _(client, message):
@@ -583,4 +321,286 @@ async def _(client, message):
     await usu_msg.edit(f"<i><b>{softw}</b></i>")
 
 
+@USU.UBOT("run")
+@USU.DEVS
+async def _(client, message):
+    sks = await EMO.SUKSES(client)
+    ggl = await EMO.GAGAL(client)
+    prs = await EMO.PROSES(client)
+    broad = await EMO.BROADCAST(client)
+    ptr = await EMO.PUTARAN(client)
 
+    code: Optional[str] = None
+    if message.reply_to_message:
+        if len(message.text.split()) > 1:
+            code = message.text.split(" ", maxsplit=1)[1]
+        else:
+            code = message.reply_to_message.text
+    elif len(message.text.split()) > 1:
+        code = message.text.split(" ", maxsplit=1)[1]
+
+    if not code:
+        return await message.reply_text(
+            f"<i><b>{ggl} Penggunaan: {message.text.split()[0]} [kode] atau balas pesan dengan {message.text.split()[0]}</b></i>",
+            parse_mode=ParseMode.HTML
+        )
+
+    usu_msg = await message.reply_text(f"<i><b>{prs}Processing...</b></i>", parse_mode=ParseMode.HTML)
+
+    out_buf = io.StringIO()
+
+    # Pindahkan definisi _print ke sini agar bisa diakses di luar _eval_executor()
+    def _print(*args: Any, **kwargs: Any) -> None:
+        if "file" not in kwargs:
+            kwargs["file"] = out_buf
+        return print(*args, **kwargs)
+
+    async def _eval_executor() -> Tuple[str, Optional[str]]:
+        async def send(*args: Any, **kwargs: Any) -> Message:
+            return await message.reply(*args, **kwargs)
+
+        # _print sudah didefinisikan di luar _eval_executor, jadi tidak perlu di sini lagi
+        # atau bisa diakses langsung dari scope luar.
+        # Jika Anda ingin memastikan _print yang digunakan adalah yang kita definisikan,
+        # bisa saja lewatkan _print ini ke eval_vars.
+
+        eval_vars = {
+            "MSG": MSG,
+            "db": db,
+            "BTN": BTN,
+            "ubot": ubot,
+            "bot": bot,
+            "USU": USU,
+            "loop": client.loop,
+            "client": client,
+            "stdout": out_buf,
+            "c": client,
+            "m": message,
+            "msg": message,
+            "message": message,
+            "raw": pyrogram.raw,
+            "send": send,
+            "print": _print, # Pastikan _print yang kita definisikan masuk ke eval_vars
+            "inspect": inspect,
+            "os": os,
+            "re": re,
+            "sys": sys,
+            "traceback": traceback,
+            "pyrogram": pyrogram,
+            "asyncio": asyncio,
+            "Client": pyrogram.Client,
+            "Message": Message,
+            "User": pyrogram.types.User,
+            "Chat": pyrogram.types.Chat,
+            "CallbackQuery": CallbackQuery,
+            "InlineQuery": InlineQuery,
+            "InlineKeyboardButton": pyrogram.types.InlineKeyboardButton,
+            "InlineKeyboardMarkup": pyrogram.types.InlineKeyboardMarkup,
+            "ReplyKeyboardMarkup": pyrogram.types.ReplyKeyboardMarkup,
+            "ReplyKeyboardRemove": pyrogram.types.ReplyKeyboardRemove,
+            "ForceReply": pyrogram.types.ForceReply,
+            "InlineQueryResultArticle": pyrogram.types.InlineQueryResultArticle,
+            "InputTextMessageContent": pyrogram.types.InputTextMessageContent,
+            "InlineQueryResultCachedPhoto": pyrogram.types.InlineQueryResultCachedPhoto,
+            "InlineQueryResultPhoto": pyrogram.types.InlineQueryResultPhoto,
+        }
+
+        try:
+            return "", await meval(code, globals(), **eval_vars)
+        except Exception as e:
+            first_snip_idx = -1
+            tb = traceback.extract_tb(e.__traceback__)
+            for i, frame in enumerate(tb):
+                if frame.filename == "<string>" or (frame.filename and frame.filename.endswith("ast.py")):
+                    first_snip_idx = i
+                    break
+
+            if first_snip_idx == -1:
+                raise e
+
+            stripped_tb = tb[first_snip_idx:]
+            formatted_tb = "".join(traceback.format_list(stripped_tb)) + f"\n{type(e).__name__}: {e}"
+            return "Error!\n\n", formatted_tb
+
+    before = usec()
+    prefix, result_from_eval = await _eval_executor()
+    after = usec()
+
+    # Sekarang _print bisa diakses di sini
+    if not out_buf.getvalue() and result_from_eval is not None:
+        _print(result_from_eval)
+
+    out = out_buf.getvalue()
+
+    if out.endswith("\n"):
+        out = out[:-1]
+
+    el_str = format_duration_us(after - before)
+
+    final_output_message = f"""{prefix}<b>In:</b>
+<pre language="python">{escape(code)}</pre>
+<b>Out:</b>
+<pre language="python">{escape(out)}</pre>
+Time: {el_str}"""
+
+    if len(final_output_message) > 4096:
+        with io.BytesIO(str.encode(out)) as out_file:
+            out_file.name = str(uuid.uuid4()).split("-")[0].upper() + ".txt"
+            caption = f"""{prefix}<b>In:</b>
+<pre language="python">{escape(code)}</pre>
+Time: {el_str}"""
+            await message.reply_document(
+                document=out_file,
+                caption=caption,
+                disable_notification=True,
+                parse_mode=ParseMode.HTML
+            )
+    else:
+        await message.reply_text(
+            final_output_message,
+            parse_mode=ParseMode.HTML,
+        )
+
+    await usu_msg.delete()
+
+@USU.BOT("run")
+@USU.DEVS
+async def _(client, message):
+    sks = await EMO.SUKSES(client)
+    ggl = await EMO.GAGAL(client)
+    prs = await EMO.PROSES(client)
+    broad = await EMO.BROADCAST(client)
+    ptr = await EMO.PUTARAN(client)
+
+    code: Optional[str] = None
+    if message.reply_to_message:
+        if len(message.text.split()) > 1:
+            code = message.text.split(" ", maxsplit=1)[1]
+        else:
+            code = message.reply_to_message.text
+    elif len(message.text.split()) > 1:
+        code = message.text.split(" ", maxsplit=1)[1]
+
+    if not code:
+        return await message.reply_text(
+            f"<i><b>{ggl} Penggunaan: {message.text.split()[0]} [kode] atau balas pesan dengan {message.text.split()[0]}</b></i>",
+            parse_mode=ParseMode.HTML
+        )
+
+    usu_msg = await message.reply_text(f"<i><b>{prs}Processing...</b></i>", parse_mode=ParseMode.HTML)
+
+    out_buf = io.StringIO()
+
+    # Pindahkan definisi _print ke sini agar bisa diakses di luar _eval_executor()
+    def _print(*args: Any, **kwargs: Any) -> None:
+        if "file" not in kwargs:
+            kwargs["file"] = out_buf
+        return print(*args, **kwargs)
+
+    async def _eval_executor() -> Tuple[str, Optional[str]]:
+        async def send(*args: Any, **kwargs: Any) -> Message:
+            return await message.reply(*args, **kwargs)
+
+        # _print sudah didefinisikan di luar _eval_executor, jadi tidak perlu di sini lagi
+        # atau bisa diakses langsung dari scope luar.
+        # Jika Anda ingin memastikan _print yang digunakan adalah yang kita definisikan,
+        # bisa saja lewatkan _print ini ke eval_vars.
+
+        eval_vars = {
+            "MSG": MSG,
+            "db": db,
+            "BTN": BTN,
+            "ubot": ubot,
+            "bot": bot,
+            "USU": USU,
+            "loop": client.loop,
+            "client": client,
+            "stdout": out_buf,
+            "c": client,
+            "m": message,
+            "msg": message,
+            "message": message,
+            "raw": pyrogram.raw,
+            "send": send,
+            "print": _print, # Pastikan _print yang kita definisikan masuk ke eval_vars
+            "inspect": inspect,
+            "os": os,
+            "re": re,
+            "sys": sys,
+            "traceback": traceback,
+            "pyrogram": pyrogram,
+            "asyncio": asyncio,
+            "Client": pyrogram.Client,
+            "Message": Message,
+            "User": pyrogram.types.User,
+            "Chat": pyrogram.types.Chat,
+            "CallbackQuery": CallbackQuery,
+            "InlineQuery": InlineQuery,
+            "InlineKeyboardButton": pyrogram.types.InlineKeyboardButton,
+            "InlineKeyboardMarkup": pyrogram.types.InlineKeyboardMarkup,
+            "ReplyKeyboardMarkup": pyrogram.types.ReplyKeyboardMarkup,
+            "ReplyKeyboardRemove": pyrogram.types.ReplyKeyboardRemove,
+            "ForceReply": pyrogram.types.ForceReply,
+            "InlineQueryResultArticle": pyrogram.types.InlineQueryResultArticle,
+            "InputTextMessageContent": pyrogram.types.InputTextMessageContent,
+            "InlineQueryResultCachedPhoto": pyrogram.types.InlineQueryResultCachedPhoto,
+            "InlineQueryResultPhoto": pyrogram.types.InlineQueryResultPhoto,
+        }
+
+        try:
+            return "", await meval(code, globals(), **eval_vars)
+        except Exception as e:
+            first_snip_idx = -1
+            tb = traceback.extract_tb(e.__traceback__)
+            for i, frame in enumerate(tb):
+                if frame.filename == "<string>" or (frame.filename and frame.filename.endswith("ast.py")):
+                    first_snip_idx = i
+                    break
+
+            if first_snip_idx == -1:
+                raise e
+
+            stripped_tb = tb[first_snip_idx:]
+            formatted_tb = "".join(traceback.format_list(stripped_tb)) + f"\n{type(e).__name__}: {e}"
+            return "Error!\n\n", formatted_tb
+
+    before = usec()
+    prefix, result_from_eval = await _eval_executor()
+    after = usec()
+
+    # Sekarang _print bisa diakses di sini
+    if not out_buf.getvalue() and result_from_eval is not None:
+        _print(result_from_eval)
+
+    out = out_buf.getvalue()
+
+    if out.endswith("\n"):
+        out = out[:-1]
+
+    el_str = format_duration_us(after - before)
+
+    final_output_message = f"""{prefix}<b>In:</b>
+<pre language="python">{escape(code)}</pre>
+<b>Out:</b>
+<pre language="python">{escape(out)}</pre>
+Time: {el_str}"""
+
+    if len(final_output_message) > 4096:
+        with io.BytesIO(str.encode(out)) as out_file:
+            out_file.name = str(uuid.uuid4()).split("-")[0].upper() + ".txt"
+            caption = f"""{prefix}<b>In:</b>
+<pre language="python">{escape(code)}</pre>
+Time: {el_str}"""
+            await message.reply_document(
+                document=out_file,
+                caption=caption,
+                disable_notification=True,
+                parse_mode=ParseMode.HTML
+            )
+    else:
+        await message.reply_text(
+            final_output_message,
+            parse_mode=ParseMode.HTML,
+        )
+
+    await usu_msg.delete()
