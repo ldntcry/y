@@ -592,10 +592,6 @@ async def _(client, message):
     broad = await EMO.BROADCAST(client)
     ptr = await EMO.PUTARAN(client)
     anu = await message.reply(f"<i><b>{prs}Processing...</b></i>")
-    try:
-        await message.delete()
-    except Exception as e:
-        return await anu.edit(f"<b><i>Mohon berikan hak admin yang cukup!</i></b>")
     if message.chat.id not in playlist:
         await anu.edit(f"<i><b>{ggl}Playlist kosong!</b></i>")
     else:
@@ -752,7 +748,8 @@ async def _(client, message):
     hasil = f"""<b>Title:</b> {title}
 <b>Duration:</b> {timedelta(seconds=duration)}
 <b>Views:</b> {views}
-<b>Channel:</b> {channel}"""
+<b>Channel:</b> {channel}
+<b>Requested By:</b> {message.from_user.first_name} {message.from_user.last_name or ''}"""
     try:
         try:
             get = await client.get_chat_member(message.chat.id, bot.usu.me.id)
@@ -980,7 +977,8 @@ async def _(client, message):
     hasil = f"""<b>Title:</b> {title}
 <b>Duration:</b> {timedelta(seconds=duration)}
 <b>Views:</b> {views}
-<b>Channel:</b> {channel}"""
+<b>Channel:</b> {channel}
+<b>Requested By:</b> {message.from_user.first_name} {message.from_user.last_name or ''}"""
     try:
         try:
             get = await client.get_chat_member(message.chat.id, bot.usu.me.id)
@@ -1088,7 +1086,7 @@ async def _(client, message):
         del playlist[message.chat.id]
     try:
         await client.assistant.leave_call(chat_id)
-        return await message.reply(f"<i><b>{sks}Streaming end by {message.from_user.mention} !</b></i>")      
+        return await message.reply(f"<i><b>{sks}Streaming end by {message.from_user.first_name} {message.from_user.last_name or ''}</b></i>")      
     except Exception as e:
         return await message.reply(f"<b>{ggl}Error:</b> {e}")
 
@@ -1118,7 +1116,7 @@ async def _(client, message):
 
     try:
         await client.assistant.pause_stream(chat_id)
-        await anu.edit(f"<i><b>{sks}Streaming di-pause {message.from_user.mention} !</b></i>")
+        await anu.edit(f"<i><b>{sks}Streaming di-pause {message.from_user.first_name} {message.from_user.last_name or ''}</b></i>")
         paused[chat_id] = True
     except Exception as e:
         return await anu.edit(f"<b>{ggl}Error:</b> {e}")
@@ -1149,7 +1147,7 @@ async def _(client, message):
 
     try:
         await client.assistant.resume_stream(chat_id)
-        await anu.edit(f"<i><b>{sks}Streaming di-resume by {message.from_user.mention} !</b></i>")
+        await anu.edit(f"<i><b>{sks}Streaming di-resume by {message.from_user.first_name} {message.from_user.last_name or ''}</b></i>")
         del paused[chat_id]
     except Exception as e:
         return await anu.edit(f"<b>{ggl}Error:</b> {e}")
@@ -1215,7 +1213,7 @@ async def pause(c, cq):
     if chat_id in paused:
         return await cq.answer(f"Streaming sudah dalam keadaan pause!", True)
     await c.assistant.pause_stream(chat_id)
-    await bot.send_message(chat_id, f"<i><b>Streaming di-pause by {cq.from_user.mention} !</b></i>")
+    await bot.send_message(chat_id, f"<i><b>Streaming di-pause by {cq.from_user.first_name} {cq.from_user.last_name or ''}</b></i>")
     await cq.answer(f"Streaming di-pause!", True)
     paused[chat_id] = True
 
@@ -1235,7 +1233,7 @@ async def resume(c, cq):
     if chat_id not in paused:
         return await cq.answer(f"Streaming sedang tidak di-pause!", True)
     await c.assistant.resume_stream(chat_id)
-    await bot.send_message(chat_id, f"<i><b>Streaming di-resume by {cq.from_user.mention} !</b></i>")
+    await bot.send_message(chat_id, f"<i><b>Streaming di-resume by {cq.from_user.first_name} {cq.from_user.last_name or ''}</b></i>")
     await cq.answer(f"Streaming di-resume!", True)
     del paused[chat_id]
 
@@ -1284,7 +1282,7 @@ async def stop(c, cq):
     if chat_id in playlist:
         del playlist[chat_id]
     await c.assistant.leave_call(chat_id)
-    await bot.send_message(chat_id, f"<i><b>Streaming end by {cq.from_user.mention} !</b></i>")   
+    await bot.send_message(chat_id, f"<i><b>Streaming end by {cq.from_user.first_name} {cq.from_user.last_name or ''}</b></i>")   
     return await cq.answer(f"Streaming end!", True)
 
 @USU.CALLBACK("^tutup")
