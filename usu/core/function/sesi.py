@@ -12,7 +12,7 @@ from usu import *
 
 async def check_session():
     while True:
-        await asyncio.sleep(60)
+        await asyncio.sleep(120)
         for usu in list(ubot._ubot.values()):
             try:
                 await usu.get_me()
