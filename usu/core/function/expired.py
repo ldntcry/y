@@ -10,7 +10,7 @@ from usu.core.helpers.text import MSG
 
 async def expiredUserbots():
     while True:
-        await asyncio.sleep(60)
+        await asyncio.sleep(120)
         for X in tuple(ubot._ubot.values()):
             try:
                 time_now = datetime.now(pytz.timezone("Asia/Jakarta"))
