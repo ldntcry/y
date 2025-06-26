@@ -94,7 +94,7 @@ async def _(client, message):
         )
 
 
-@USU.UBOT("cancel")
+@USU.UBOT("cancelinvite")
 @USU.GROUP
 async def _(client, message):
     sks = await EMO.SUKSES(client)
