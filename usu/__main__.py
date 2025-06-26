@@ -9,6 +9,7 @@ from usu.core.helpers.dec import installPeer
 import os
 import aiorun
 import sys
+import time
 from pyrogram.errors import FloodWait
 
 from pyrogram.errors import (AuthKeyDuplicated, AuthKeyUnregistered,
@@ -160,4 +161,14 @@ async def main():
 
 
 if __name__ == "__main__":
-    aiorun.run(main(), loop=bot.loop, shutdown_callback=stopped())
+    restart_delay = 5
+    while True:
+        try:
+            aiorun.run(main(), loop=bot.loop, shutdown_callback=stopped())
+            break
+        except Exception as e:
+            time.sleep(restart_delay)
+        except KeyboardInterrupt:
+            break
+        except SystemExit:
+            break
