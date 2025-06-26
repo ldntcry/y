@@ -150,24 +150,39 @@ def emoji_random():
     return random.choice(emoji_categories[random_category])
 
 
-@USU.UBOT("tagall")
+@USU.UBOT("tagall|all")
 @USU.GROUP
 async def _(client, message):
     if message.chat.id in tagallgcid:
         return
+    susers = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
+    if message.chat.id not in susers:
+        if message.chat.type in [ChatType.SUPERGROUP, ChatType.GROUP]:
+            await db.add_to_vars(bot.me.id, "SAVED_USERS", message.chat.id)
     tagallgcid.append(message.chat.id)
     text = message.text.split(None, 1)[1] if len(message.text.split()) != 1 else (message.reply_to_message.text if message.reply_to_message else "")
     m = message.reply_to_message if message.reply_to_message else message
-    users = [
-        f"• <a href=tg://user?id={member.user.id}>{member.user.first_name} {member.user.last_name or ' '}</a>"
-        async for member in message.chat.get_members()
-        if not (member.user.is_bot or member.user.is_deleted)
-    ]
-    shuffle(users)
-    for output in [users[i : i + 5] for i in range(0, len(users), 5)]:
-        if message.chat.id not in tagallgcid:
-            break
-        anu = "\n".join(output)
+    users = []
+    async for member in client.get_chat_members(message.chat.id):
+        if not (member.user.is_bot or member.user.is_deleted):
+            if message.chat.id not in tagallgcid:
+                break
+            targetnya = f"• <a href=tg://user?id={member.user.id}>{member.user.first_name} {member.user.last_name or ' '}</a>"
+            users.append(targetnya)
+            if len(users) == 5:
+                shuffle(users)
+                anu = "\n".join(users)
+                try:
+                    await asyncio.sleep(2)
+                    await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>🛒 @{CHANNEL}</blockquote></b>", quote=False)
+                except FloodWait as e:
+                    await asyncio.sleep(e.value)
+                    await asyncio.sleep(2)
+                    await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>🛒 @{CHANNEL}</blockquote></b>", quote=False)
+                users = []
+    if users:
+        shuffle(users)
+        anu = "\n".join(users)
         try:
             await asyncio.sleep(2)
             await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>🛒 @{CHANNEL}</blockquote></b>", quote=False)
@@ -181,7 +196,7 @@ async def _(client, message):
         pass
 
 
-@USU.UBOT("batal")
+@USU.UBOT("cancel")
 @USU.GROUP
 async def _(client, message):
     sks = await EMO.SUKSES(client)
@@ -213,16 +228,27 @@ async def _(client, message):
     tagallgcid.append(message.chat.id)
     text = message.text.split(None, 1)[1] if len(message.text.split()) != 1 else (message.reply_to_message.text if message.reply_to_message else "")
     m = message.reply_to_message if message.reply_to_message else message
-    users = [
-        f"• <a href=tg://user?id={member.user.id}>{member.user.first_name} {member.user.last_name or ' '}</a>"
-        async for member in message.chat.get_members()
-        if not (member.user.is_bot or member.user.is_deleted)
-    ]
-    shuffle(users)
-    for output in [users[i : i + 5] for i in range(0, len(users), 5)]:
-        if message.chat.id not in tagallgcid:
-            break
-        anu = "\n".join(output)
+    users = []
+    async for member in client.get_chat_members(message.chat.id):
+        if not (member.user.is_bot or member.user.is_deleted):
+            if message.chat.id not in tagallgcid:
+                break
+            targetnya = f"• <a href=tg://user?id={member.user.id}>{member.user.first_name} {member.user.last_name or ' '}</a>"
+            users.append(targetnya)
+            if len(users) == 5:
+                shuffle(users)
+                anu = "\n".join(users)
+                try:
+                    await asyncio.sleep(2)
+                    await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>🛒 @{CHANNEL}</blockquote></b>", quote=False)
+                except FloodWait as e:
+                    await asyncio.sleep(e.value)
+                    await asyncio.sleep(2)
+                    await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>🛒 @{CHANNEL}</blockquote></b>", quote=False)
+                users = []
+    if users:
+        shuffle(users)
+        anu = "\n".join(users)
         try:
             await asyncio.sleep(2)
             await m.reply_text(f"<blockquote>{text}</blockquote>\n<blockquote><b>{anu}</b></blockquote>\n<b><blockquote>🛒 @{CHANNEL}</blockquote></b>", quote=False)
