@@ -41,7 +41,7 @@ async def _(c, m):
     await rach.edit(f"<i><b>{sks}Success reaction!</b></i>")
 
 
-@USU.UBOT("stopreact")
+@USU.UBOT("cancelreact")
 async def _(client, message):
     sks = await EMO.SUKSES(client)
     global reaction_progress
