@@ -225,7 +225,7 @@ INVITE = """Command for <b>Invite</b>
 <i>mengundang beberapa anggota dari group lain</i>
     <code>{0}inviteall</code> [username]
 <i>membatalkan perintah inviteall</i>
-    <code>{0}cancel</code>"""
+    <code>{0}cancelinvite</code>"""
 
 
 JOINLEAVE = """Command for <b>JoinLeave</b>
@@ -301,7 +301,7 @@ REACT = """Command for <b>Reaction</b>
    <code>{0}react</code> [username]
 
 <i>membatalkan proses reaction</i>
-   <code>{0}stopreact</code>
+   <code>{0}cancelreact</code>
    
 <b>Note</b>
 <i>hanya bisa emot bukan emoji dan dapat di lakukan menggunakan username group/user</i>"""
@@ -311,9 +311,9 @@ TAGALL = """Command for <b>TagAll</b>
 
 <b>Mentions</b>
  <i>mention semua anggota group</i>
-    <code>{0}tagall</code>
+    <code>{0}tagall or {0}all</code>
  <i>membatalkan perintah mention</i>
-    <code>{0}batal</code>"""
+    <code>{0}cancel</code>"""
 
 
 KASAR = """Command for <b>Animasi</b>
