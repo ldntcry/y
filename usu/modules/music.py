@@ -745,11 +745,12 @@ async def _(client, message):
     chat_id = message.chat.id
     a_calls = await client.assistant.calls
     if_chat = a_calls.get(chat_id)
+    jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}" or f"{message.sender_chat.title}"
     hasil = f"""<b>Title:</b> {title}
 <b>Duration:</b> {timedelta(seconds=duration)}
 <b>Views:</b> {views}
 <b>Channel:</b> {channel}
-<b>Requested By:</b> {message.from_user.first_name} {message.from_user.last_name or ''}"""
+<b>Requested By:</b> {jepret}"""
     try:
         try:
             get = await client.get_chat_member(message.chat.id, bot.usu.me.id)
@@ -974,11 +975,12 @@ async def _(client, message):
     chat_id = message.chat.id
     a_calls = await client.assistant.calls
     if_chat = a_calls.get(chat_id)
+    jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}" or f"{message.sender_chat.title}"
     hasil = f"""<b>Title:</b> {title}
 <b>Duration:</b> {timedelta(seconds=duration)}
 <b>Views:</b> {views}
 <b>Channel:</b> {channel}
-<b>Requested By:</b> {message.from_user.first_name} {message.from_user.last_name or ''}"""
+<b>Requested By:</b> {jepret}"""
     try:
         try:
             get = await client.get_chat_member(message.chat.id, bot.usu.me.id)
@@ -1074,6 +1076,7 @@ async def _(client, message):
     chat_id = message.chat.id
     a_calls = await client.assistant.calls
     if_chat = a_calls.get(chat_id)
+    jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}" or f"{message.sender_chat.title}"
     try:
         await message.delete()
     except Exception as e:
@@ -1086,7 +1089,7 @@ async def _(client, message):
         del playlist[message.chat.id]
     try:
         await client.assistant.leave_call(chat_id)
-        return await message.reply(f"<i><b>{sks}Streaming end by {message.from_user.first_name} {message.from_user.last_name or ''}</b></i>")      
+        return await message.reply(f"<i><b>{sks}Streaming end by {jepret}</b></i>")      
     except Exception as e:
         return await message.reply(f"<b>{ggl}Error:</b> {e}")
 
@@ -1104,6 +1107,7 @@ async def _(client, message):
     chat_id = message.chat.id
     a_calls = await client.assistant.calls
     if_chat = a_calls.get(chat_id)
+    jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}" or f"{message.sender_chat.title}"
     try:
         await message.delete()
     except Exception as e:
@@ -1116,7 +1120,7 @@ async def _(client, message):
 
     try:
         await client.assistant.pause_stream(chat_id)
-        await anu.edit(f"<i><b>{sks}Streaming di-pause {message.from_user.first_name} {message.from_user.last_name or ''}</b></i>")
+        await anu.edit(f"<i><b>{sks}Streaming di-pause {jepret}</b></i>")
         paused[chat_id] = True
     except Exception as e:
         return await anu.edit(f"<b>{ggl}Error:</b> {e}")
@@ -1135,6 +1139,7 @@ async def _(client, message):
     chat_id = message.chat.id
     a_calls = await client.assistant.calls
     if_chat = a_calls.get(chat_id)
+    jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}" or f"{message.sender_chat.title}"
     try:
         await message.delete()
     except Exception as e:
@@ -1147,7 +1152,7 @@ async def _(client, message):
 
     try:
         await client.assistant.resume_stream(chat_id)
-        await anu.edit(f"<i><b>{sks}Streaming di-resume by {message.from_user.first_name} {message.from_user.last_name or ''}</b></i>")
+        await anu.edit(f"<i><b>{sks}Streaming di-resume by {jepret}</b></i>")
         del paused[chat_id]
     except Exception as e:
         return await anu.edit(f"<b>{ggl}Error:</b> {e}")
@@ -1213,12 +1218,13 @@ async def pause(c, cq):
     if chat_id in paused:
         return await cq.answer(f"Streaming sudah dalam keadaan pause!", True)
     await c.assistant.pause_stream(chat_id)
-    await bot.send_message(chat_id, f"<i><b>Streaming di-pause by {cq.from_user.first_name} {cq.from_user.last_name or ''}</b></i>")
+    await bot.send_message(chat_id, f"<i><b>Streaming di-pause by {jepret}</b></i>")
     await cq.answer(f"Streaming di-pause!", True)
     paused[chat_id] = True
 
 @USU.CALLBACK("resume")
 async def resume(c, cq):
+    jepret = f"{cq.from_user.first_name} {cq.from_user.last_name or ''}" or f"{cq.message.sender_chat.title}"
     chat_id = cq.message.chat.id
     user_id = cq.from_user.id
     a_calls = await c.assistant.calls
@@ -1233,7 +1239,7 @@ async def resume(c, cq):
     if chat_id not in paused:
         return await cq.answer(f"Streaming sedang tidak di-pause!", True)
     await c.assistant.resume_stream(chat_id)
-    await bot.send_message(chat_id, f"<i><b>Streaming di-resume by {cq.from_user.first_name} {cq.from_user.last_name or ''}</b></i>")
+    await bot.send_message(chat_id, f"<i><b>Streaming di-resume by {jepret}</b></i>")
     await cq.answer(f"Streaming di-resume!", True)
     del paused[chat_id]
 
@@ -1268,6 +1274,7 @@ async def skip(c, cq):
 
 @USU.CALLBACK("stop")
 async def stop(c, cq):
+    jepret = f"{cq.from_user.first_name} {cq.from_user.last_name or ''}" or f"{cq.message.sender_chat.title}"
     chat_id = cq.message.chat.id
     user_id = cq.from_user.id
     a_calls = await c.assistant.calls
@@ -1282,7 +1289,7 @@ async def stop(c, cq):
     if chat_id in playlist:
         del playlist[chat_id]
     await c.assistant.leave_call(chat_id)
-    await bot.send_message(chat_id, f"<i><b>Streaming end by {cq.from_user.first_name} {cq.from_user.last_name or ''}</b></i>")   
+    await bot.send_message(chat_id, f"<i><b>Streaming end by {jepret}</b></i>")   
     return await cq.answer(f"Streaming end!", True)
 
 @USU.CALLBACK("^tutup")
