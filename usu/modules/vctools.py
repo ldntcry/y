@@ -532,7 +532,6 @@ async def tampilkan_peserta_obrolan_suara(c, m):
 
 @USU.BOT("activevc")
 @USU.SUDO
-@USU.DEVS
 async def tampilkan_peserta_obrolan_suara(c, m):
     chat = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
     hasil = []
