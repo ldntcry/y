@@ -83,7 +83,7 @@ async def _(client, message):
     text = f"""<i><b>{broad}Global Muted!
 {sks}Success: {done} chats
 {ggl}Failed: {failed} chats
-{ptr}User: <a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ""}</a></b></i>"""
+{ptr}User: <a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ''}</a></b></i>"""
     await message.reply(text)
     return await Tm.delete()
 
@@ -124,7 +124,7 @@ async def _(client, message):
     text = f"""<i><b>{broad}Global Unmuted!
 {sks}Success: {done} chats
 {ggl}Failed: {failed} chats
-{ptr}User: <a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ""}</a></b></i>"""
+{ptr}User: <a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ''}</a></b></i>"""
     await message.reply(text)
     return await Tm.delete()
 
@@ -169,7 +169,7 @@ async def _(client, message):
     text = f"""<i><b>{broad}Global Banned!
 {sks}Success: {done} chats
 {ggl}Failed: {failed} chats
-{ptr}User: <a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ""}</a></b></i>"""
+{ptr}User: <a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ''}</a></b></i>"""
     await message.reply(text)
     return await Tm.delete()
 
@@ -210,7 +210,7 @@ async def _(client, message):
     text = f"""<i><b>{broad}Global Unbanned!
 {sks}Success: {done} chats
 {ggl}Failed: {failed} chats
-{ptr}User: <a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ""}</a></b></i>"""
+{ptr}User: <a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ''}</a></b></i>"""
     await message.reply(text)
     return await Tm.delete()
 
@@ -257,7 +257,7 @@ async def _(client, message):
     text = f"""<i><b>{broad}Global Kicked!
 {sks}Success: {done} chats
 {ggl}Failed: {failed} chats
-{ptr}User: <a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ""}</a></b></i>"""
+{ptr}User: <a href='tg://user?id={user.id}'>{user.first_name} {user.last_name or ''}</a></b></i>"""
     await message.reply(text)
     return await Tm.delete()
 
