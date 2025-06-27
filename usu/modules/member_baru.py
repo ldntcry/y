@@ -110,73 +110,63 @@ async def member_baru(c, m):
 async def member_keluar(c, m):
     susers = await db.get_list_from_vars(bot.me.id, "SAVED_USERS")
     anjay = await db.get_vars(m.chat.id, "GOODBYE")
-    asw = None # Inisialisasi 'asw' di sini
-    try:
-        asw = await c.get_chat(m.chat.id)
-    except FloodWait as e:
-        await asyncio.sleep(e.value)
-        asw = await c.get_chat(m.chat.id)
-    except Exception as e:
-        pass
-    if asw:
-        haw = f"[{m.chat.title}]({asw.invite_link})" if asw.invite_link else f"[{m.chat.title}](https://t.me/{asw.username})" if asw.username else m.chat.title
-        hasil = f"""<i><b>Informasi!</b>
+    haw = m.chat.title
+    hasil = f"""<i><b>Informasi!</b>
 <b>Judul Obrolan:</b> {haw}
 <b>ID Obrolan:</b> {m.chat.id}
 <b>Status:</b> dikeluarkan</i>"""
-        user = [[InlineKeyboardButton(f"Keluar Oleh", url=f"tg://openmessage?user_id={m.from_user.id}")]]
-        if m.left_chat_member and m.left_chat_member.id == bot.me.id:
-            if m.chat.id in susers:
-                await db.remove_from_vars(bot.me.id, "SAVED_USERS", m.chat.id)
-            await bot.send_message(LOGS_CHAT, hasil, reply_markup=InlineKeyboardMarkup(user))
+    user = [[InlineKeyboardButton(f"Dikeluarkan Oleh", url=f"tg://openmessage?user_id={m.from_user.id}")]]
+    if m.left_chat_member and m.left_chat_member.id == bot.me.id:
+        if m.chat.id in susers:
+            await db.remove_from_vars(bot.me.id, "SAVED_USERS", m.chat.id)
+        await bot.send_message(LOGS_CHAT, hasil, reply_markup=InlineKeyboardMarkup(user))
 
-        if anjay:
-            user = m.left_chat_member
-            if user and user.id:
-                format = {
-                    "{mention}": f"{user.mention}",
-                    "{user_id}": f"{user.id}",
-                    "{username}": f"{user.username or ''}",
-                    "{chat_id}": f"{m.chat.id}",
-                    "{chat_title}": f"{m.chat.title}",
-                    "{first_name}": f"{user.first_name}",
-                    "{last_name}": f"{user.last_name or ''}",
+    if anjay:
+        user = m.left_chat_member
+        if user and user.id:
+            format = {
+                "{mention}": f"{user.mention}",
+                "{user_id}": f"{user.id}",
+                "{username}": f"{user.username or ''}",
+                "{chat_id}": f"{m.chat.id}",
+                "{chat_title}": f"{m.chat.title}",
+                "{first_name}": f"{user.first_name}",
+                "{last_name}": f"{user.last_name or ''}",
                 }
-                # Perbaikan: 'vars' digunakan di sini, padahal 'anjay' yang menyimpan data yang relevan
-                teks = anjay.get("text")
-                btn, teks = await format_button(teks)
-                for key, value in format.items():
-                    if key in teks:
-                        teks = teks.replace(key, value)
-                file = anjay.get("file") # Perbaikan: 'vars' digunakan di sini
-                if file:
-                    try:
-                        if btn is not None:
-                            usu = await bot.send_cached_media(m.chat.id, file, caption=teks, reply_markup=btn)
-                        else:
-                            usu = await bot.send_cached_media(m.chat.id, file, caption=teks)
-                    except FloodWait as e:
-                        await asyncio.sleep(e.value)
-                        if btn is not None:
-                            usu = await bot.send_cached_media(m.chat.id, file, caption=teks, reply_markup=btn)
-                        else:
-                            usu = await bot.send_cached_media(m.chat.id, file, caption=teks)
-                    except Exception as e:
-                        pass
-                elif teks:
-                    try:
-                        if btn is not None:
-                            usu = await bot.send_message(m.chat.id, teks, reply_markup=btn)
-                        else:
-                            usu = await bot.send_message(m.chat.id, teks)
-                    except FloodWait as e:
-                        await asyncio.sleep(e.value)
-                        if btn is not None:
-                            usu = await bot.send_message(m.chat.id, teks, reply_markup=btn)
-                        else:
-                            usu = await bot.send_message(m.chat.id, teks)
-                    except Exception as e:
-                        pass
-                if usu:
-                    await asyncio.sleep(60)
-                    await usu.delete()
+            teks = anjay.get("text")
+            btn, teks = await format_button(teks)
+            for key, value in format.items():
+                if key in teks:
+                    teks = teks.replace(key, value)
+            file = anjay.get("file")
+            if file:
+                try:
+                    if btn is not None:
+                        usu = await bot.send_cached_media(m.chat.id, file, caption=teks, reply_markup=btn)
+                    else:
+                        usu = await bot.send_cached_media(m.chat.id, file, caption=teks)
+                except FloodWait as e:
+                    await asyncio.sleep(e.value)
+                    if btn is not None:
+                        usu = await bot.send_cached_media(m.chat.id, file, caption=teks, reply_markup=btn)
+                    else:
+                        usu = await bot.send_cached_media(m.chat.id, file, caption=teks)
+                except Exception as e:
+                    pass
+            elif teks:
+                try:
+                    if btn is not None:
+                        usu = await bot.send_message(m.chat.id, teks, reply_markup=btn)
+                    else:
+                        usu = await bot.send_message(m.chat.id, teks)
+                except FloodWait as e:
+                    await asyncio.sleep(e.value)
+                    if btn is not None:
+                        usu = await bot.send_message(m.chat.id, teks, reply_markup=btn)
+                    else:
+                        usu = await bot.send_message(m.chat.id, teks)
+                except Exception as e:
+                    pass
+            if usu:
+                await asyncio.sleep(60)
+                await usu.delete()
