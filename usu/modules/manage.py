@@ -301,6 +301,11 @@ async def _(client, message):
 @USU.GROUP
 @USU.ADMIN
 async def _(client, message):
+    sks = await EMO.SUKSES(client)
+    ggl = await EMO.GAGAL(client)
+    prs = await EMO.PROSES(client)
+    broad = await EMO.BROADCAST(client)
+    ptr = await EMO.PUTARAN(client)
     user_id = await extract_user(message)
     if not user_id:
         return await message.reply_text(f"<b><i>{ggl}Pengguna tidak ditemukan!</i></b>")
