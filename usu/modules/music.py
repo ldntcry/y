@@ -745,7 +745,10 @@ async def _(client, message):
     chat_id = message.chat.id
     a_calls = await client.assistant.calls
     if_chat = a_calls.get(chat_id)
-    jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}" or f"{message.sender_chat.title}"
+    if message.from_user:
+        jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}"
+    else:
+        jepret = f"{message.sender_chat.title}"
     hasil = f"""<b>Title:</b> {title}
 <b>Duration:</b> {timedelta(seconds=duration)}
 <b>Views:</b> {views}
@@ -975,7 +978,10 @@ async def _(client, message):
     chat_id = message.chat.id
     a_calls = await client.assistant.calls
     if_chat = a_calls.get(chat_id)
-    jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}" or f"{message.sender_chat.title}"
+    if message.from_user:
+        jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}"
+    else:
+        jepret = f"{message.sender_chat.title}"
     hasil = f"""<b>Title:</b> {title}
 <b>Duration:</b> {timedelta(seconds=duration)}
 <b>Views:</b> {views}
@@ -1076,7 +1082,10 @@ async def _(client, message):
     chat_id = message.chat.id
     a_calls = await client.assistant.calls
     if_chat = a_calls.get(chat_id)
-    jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}" or f"{message.sender_chat.title}"
+    if message.from_user:
+        jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}"
+    else:
+        jepret = f"{message.sender_chat.title}"
     try:
         await message.delete()
     except Exception as e:
@@ -1107,7 +1116,10 @@ async def _(client, message):
     chat_id = message.chat.id
     a_calls = await client.assistant.calls
     if_chat = a_calls.get(chat_id)
-    jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}" or f"{message.sender_chat.title}"
+    if message.from_user:
+        jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}"
+    else:
+        jepret = f"{message.sender_chat.title}"
     try:
         await message.delete()
     except Exception as e:
@@ -1139,7 +1151,10 @@ async def _(client, message):
     chat_id = message.chat.id
     a_calls = await client.assistant.calls
     if_chat = a_calls.get(chat_id)
-    jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}" or f"{message.sender_chat.title}"
+    if message.from_user:
+        jepret = f"{message.from_user.first_name} {message.from_user.last_name or ''}"
+    else:
+        jepret = f"{message.sender_chat.title}"
     try:
         await message.delete()
     except Exception as e:
@@ -1204,6 +1219,10 @@ async def _(client, message):
 
 @USU.CALLBACK("pause")
 async def pause(c, cq):
+    if cq.from_user:
+        jepret = f"{cq.from_user.first_name} {cq.from_user.last_name or ''}"
+    else:
+        jepret = f"{cq.message.sender_chat.title}"
     chat_id = cq.message.chat.id
     user_id = cq.from_user.id
     a_calls = await c.assistant.calls
@@ -1224,7 +1243,10 @@ async def pause(c, cq):
 
 @USU.CALLBACK("resume")
 async def resume(c, cq):
-    jepret = f"{cq.from_user.first_name} {cq.from_user.last_name or ''}" or f"{cq.message.sender_chat.title}"
+    if cq.from_user:
+        jepret = f"{cq.from_user.first_name} {cq.from_user.last_name or ''}"
+    else:
+        jepret = f"{cq.message.sender_chat.title}"
     chat_id = cq.message.chat.id
     user_id = cq.from_user.id
     a_calls = await c.assistant.calls
@@ -1274,7 +1296,10 @@ async def skip(c, cq):
 
 @USU.CALLBACK("stop")
 async def stop(c, cq):
-    jepret = f"{cq.from_user.first_name} {cq.from_user.last_name or ''}" or f"{cq.message.sender_chat.title}"
+    if cq.from_user:
+        jepret = f"{cq.from_user.first_name} {cq.from_user.last_name or ''}"
+    else:
+        jepret = f"{cq.message.sender_chat.title}"
     chat_id = cq.message.chat.id
     user_id = cq.from_user.id
     a_calls = await c.assistant.calls
