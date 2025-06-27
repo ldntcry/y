@@ -556,7 +556,6 @@ async def _(client, message):
 
 @USU.BOT("gmute")
 @USU.SUDO
-@USU.DEVS
 async def _(client, message):
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
@@ -605,7 +604,6 @@ async def _(client, message):
 
 @USU.BOT("ungmute")
 @USU.SUDO
-@USU.DEVS
 async def _(client, message):
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
@@ -650,7 +648,6 @@ async def _(client, message):
 
 @USU.BOT("gban")
 @USU.SUDO
-@USU.DEVS
 async def _(client, message):
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
@@ -699,7 +696,6 @@ async def _(client, message):
 
 @USU.BOT("ungban")
 @USU.SUDO
-@USU.DEVS
 async def _(client, message):
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
@@ -744,7 +740,6 @@ async def _(client, message):
 
 @USU.BOT("gkick")
 @USU.SUDO
-@USU.DEVS
 async def _(client, message):
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
