@@ -96,21 +96,8 @@ async def _(client, message):
     if not command:
         return await msg.edit(f"<i><b>{ggl}Invalid!</b></i>")
     try:
-        if command == "shutdown":
-            await msg.delete()
-            await handle_shutdown(message)
-        elif command == "restart":
-            await msg.delete()
-            await handle_restart(message)
-        elif command == "update":
-            await msg.delete()
-            await handle_update(message)
-        elif command == "clean":
-            await msg.delete()
-            await handle_clean(message)
-        else:
-            await process_command(message, command)
-            await msg.delete()
+        await process_command(message, command)
+        await msg.delete()
     except Exception as error:
         await message.reply(error)
 
@@ -122,25 +109,16 @@ async def _(client, message):
     if not command:
         return await msg.edit(f"<i><b>Invalid!</b></i>")
     try:
-        if command == "shutdown":
-            await msg.delete()
-            await handle_shutdown(message)
-        elif command == "restart":
-            await msg.delete()
-            await handle_restart(message)
-        elif command == "update":
-            await msg.delete()
-            await handle_update(message)
-        elif command == "clean":
-            await msg.delete()
-            await handle_clean(message)
-        else:
-            await process_command(message, command)
-            await msg.delete()
+        await process_command(message, command)
+        await msg.delete()
     except Exception as error:
         await message.reply(error)
 
-async def handle_clean(message):
+@USU.UBOT("clean")
+@USU.DEVS
+async def handle_clean(client, message):
+    sks = await EMO.SUKSES(client)
+    ggl = await EMO.GAGAL(client)
     # Define paths to clean
     temp_dirs = ['/tmp', '/var/tmp', 'path_to_cache_directory']
 
@@ -162,22 +140,89 @@ async def handle_clean(message):
                 except Exception as e:
                     pass
 
-    await message.reply(f"<i><b>System cleaned!</b></i>", quote=True)
+    await message.reply(f"<i><b>{sks}System cleaned!</b></i>", quote=True)
+
+@USU.BOT("clean")
+@USU.DEVS
+async def handle_clean(client, message):
+    sks = await EMO.SUKSES(client)
+    ggl = await EMO.GAGAL(client)
+    # Define paths to clean
+    temp_dirs = ['/tmp', '/var/tmp', 'path_to_cache_directory']
+
+    deleted_files = 0
+    deleted_dirs = 0
+
+    for temp_dir in temp_dirs:
+        for root, dirs, files in os.walk(temp_dir):
+            for file in files:
+                try:
+                    os.remove(os.path.join(root, file))
+                    deleted_files += 1
+                except Exception as e:
+                    pass
+            for dir in dirs:
+                try:
+                    os.rmdir(os.path.join(root, dir))
+                    deleted_dirs += 1
+                except Exception as e:
+                    pass
+
+    await message.reply(f"<i><b>{sks}System cleaned!</b></i>", quote=True)
 
 
-async def handle_shutdown(message):
-    await message.reply(f"<i><b>System turned off!</b></i>", quote=True)
+@USU.UBOT("shutdown")
+@USU.DEVS
+async def handle_shutdown(client, message):
+    sks = await EMO.SUKSES(client)
+    ggl = await EMO.GAGAL(client)
+    await message.reply(f"<i><b>{sks}System turned off!</b></i>", quote=True)
     await stopped()
     os.system(f"kill -9 {os.getpid()}")
 
+@USU.BOT("shutdown")
+@USU.DEVS
+async def handle_shutdown(client, message):
+    sks = await EMO.SUKSES(client)
+    ggl = await EMO.GAGAL(client)
+    await message.reply(f"<i><b>{sks}System turned off!</b></i>", quote=True)
+    await stopped()
+    os.system(f"kill -9 {os.getpid()}")
 
-async def handle_restart(message):
-    await message.reply(f"<i><b>System restarted!</b></i>", quote=True)
+@USU.UBOT("restart")
+@USU.DEVS
+async def handle_restart(client, message):
+    sks = await EMO.SUKSES(client)
+    ggl = await EMO.GAGAL(client)
+    await message.reply(f"<i><b>{sks}System restarted!</b></i>", quote=True)
     await stopped()
     os.system(f"kill -9 {os.getpid()} && bash start.sh")
 
+@USU.BOT("restart")
+@USU.DEVS
+async def handle_restart(client, message):
+    sks = await EMO.SUKSES(client)
+    ggl = await EMO.GAGAL(client)
+    await message.reply(f"<i><b>{sks}System restarted!</b></i>", quote=True)
+    await stopped()
+    os.system(f"kill -9 {os.getpid()} && bash start.sh")
 
-async def handle_update(message):
+@USU.UBOT("update")
+@USU.DEVS
+async def handle_update(client, message):
+    out = subprocess.check_output(["git", "pull"]).decode("UTF-8")
+    if "Already up to date." in str(out):
+        return await message.reply(f"<pre>{out}</pre>", quote=True)
+    elif int(len(str(out))) > 4096:
+        await send_large_output(message, out)
+    else:
+        await message.reply(f"<pre>{out}</pre>", quote=True)
+    await stopped()
+    os.system(f"kill -9 {os.getpid()} && bash start.sh")
+
+@USU.BOT("update")
+@USU.DEVS
+async def handle_update(client, message):
     out = subprocess.check_output(["git", "pull"]).decode("UTF-8")
     if "Already up to date." in str(out):
         return await message.reply(f"<pre>{out}</pre>", quote=True)
