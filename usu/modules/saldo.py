@@ -14,6 +14,8 @@ info_data = {}
 async def saldo(c, cq):
     data = cq.data.split()
     user_id = cq.from_user.id
+    if user_id in info_data:
+        del info_data[user_id]
     btn = BTN.TOPUP()
     vars = await db.get_vars(user_id, "SALDO")
     saldo = vars if vars else 0
@@ -34,7 +36,7 @@ async def kode(c, cq):
 @USU.CALLBACK("isi")
 async def isi_saldo(c, cq):
     user_id = cq.from_user.id
-    batal = [[InlineKeyboardButton("Kembali", callback_data=f"saldo {user_id}")]]
+    batal = [[InlineKeyboardButton("Kembali", callback_data=f"saldo")]]
     try:
         anu = await c.ask(
             user_id,
@@ -59,10 +61,12 @@ async def isi_saldo(c, cq):
                 else:
                     return await c.send_message(user_id, f"<b><i>Tidak ada bukti transfer, silahkan coba /start kembali!</i></b>")
             except asyncio.TimeoutError:
+                del info_data[user_id]
                 return await c.send_message(user_id, f"<b><i>Pembelian dibatalkan otomatis!</b></i>")
         else:
             return await c.send_message(user_id, f"<b><i>Format berupa angka, silahkan coba /start kembali!</i></b>")
     except asyncio.TimeoutError:
+        del info_data[user_id]
         return await c.send_message(user_id, f"<b><i>Pembelian dibatalkan otomatis!</b></i>")
 
 
