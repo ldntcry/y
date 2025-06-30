@@ -257,15 +257,7 @@ async def _(client, message):
     jakarta_timezone = pytz.timezone("Asia/Jakarta")
     now = datetime.now(jakarta_timezone)
     expire_date = now + timedelta(days=int(get_day))
-    if user_id in ubot._ubot:
-        await db.set_expired_date(user_id, expire_date)
-        await msg.edit(f"""<i><b>Information!</b>
- <b>Name:</b> {user.mention}
- <b>ID:</b> {user.id}
- <b>Expired:</b> {get_day} hari</i>
-"""
-        )
-    elif user_id in await db.get_list_from_vars(client.me.id, "AKSES"):
+    if user_id in ubot._ubot or user_id in await db.get_list_from_vars(client.me.id, "AKSES"):
         await db.set_expired_date(user_id, expire_date)
         await msg.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {user.mention}
@@ -274,7 +266,7 @@ async def _(client, message):
 """
         )
     else:
-        await msg.edit(f"""<i><b>Not client!</b></i>
+        return await msg.edit(f"""<i><b>Not client!</b></i>
 """
         )
     try:
