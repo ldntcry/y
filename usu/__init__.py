@@ -166,12 +166,12 @@ class Bot(UsuInti):
 
     async def start(self):
         await super().start()
-        try:
-            with redirect_stdout(io.StringIO()):
-                await self.assistant.start()
-        except Exception as e:
-            logger.error(f"Error: {e}")
         if STRING:
+            try:
+                with redirect_stdout(io.StringIO()):
+                    await self.assistant.start()
+            except Exception as e:
+                logger.error(f"Error: {e}")
             try:
                 await self.send_message(LOGS_CHAT, f"<b><i>Bot music aktif!</i></b>")
                 await self.usu.send_message(LOGS_CHAT, f"<b><i>Assistant started!</i></b>")
