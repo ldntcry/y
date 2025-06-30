@@ -203,8 +203,8 @@ class Bot(UsuInti):
                         "mulai bot.",
                     ),
                     BotCommand(
-                        "restart",
-                        "restart jika bot error.",
+                        "reload",
+                        "reload jika bot error.",
                     ),
                     BotCommand(
                         "akses",
