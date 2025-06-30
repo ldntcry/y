@@ -281,7 +281,7 @@ async def _(client, message):
         for semua in DEVS:
             await bot.send_message(
                 semua,
-                f"<i><b>ID-Seller:</b> {message.from_user.id}\n<b>ID-Customer:</b> {user.id}\n<b>Masa Aktif -+</b> {get_day}</i>",
+                f"<i><b>ID-Seller:</b> {message.from_user.id}\n<b>ID-Customer:</b> {user.id}\n<b>Masa Aktif:</b> {get_day} hari</i>",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
