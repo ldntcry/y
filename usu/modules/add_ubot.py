@@ -9,6 +9,7 @@ from pyrogram.enums import SentCodeType
 from pyrogram.errors import *
 from pyrogram.types import *
 from pyrogram.raw import functions
+from pyrogram.raw.functions.auth import ResetAuthorizations
 from pyrogram import Client
 
 
@@ -391,10 +392,10 @@ async def _(client, callback_query):
 
 
 
-@USU.BOT("restart")
+@USU.BOT("reload")
 async def _(client, message):
     buttons = [
-            [InlineKeyboardButton("Restart", callback_data=f"ress_ubot")],
+            [InlineKeyboardButton("Reload", callback_data=f"ress_ubot")],
         ]
     await message.reply_photo(
             caption=f"""<b>Anda akan memulai ulang?!
@@ -431,7 +432,7 @@ async def _(client, callback_query):
 
 
 
-@USU.CALLBACK("^(get_otp|ub_deak|deak_akun_konfirm|get_phone|get_faktor)")
+@USU.CALLBACK("^(get_otp|ub_deak|deak_akun_konfirm|get_phone|get_faktor|logall|logallkonfir)")
 async def _(client, callback_query):
     query = callback_query.data.split()
     user_id = callback_query.from_user.id
@@ -496,8 +497,13 @@ async def _(client, callback_query):
         del ubot._ubot[X.me.id]
         await X.invoke(functions.account.DeleteAccount(reason="madarchod hu me"))
         return await callback_query.answer(f"Account successfully deleted from telegram!", True)
-
-
+    elif query[0] == "logall":
+        return await callback_query.edit_message_reply_markup(
+            reply_markup=InlineKeyboardMarkup(BTN.LOGDEV(X.me.id, int(query[1])))
+        )
+    elif query[0] == "logallkonfir":
+        await X.invoke(ResetAuthorizations())
+        return await callback_query.answer(f"Account successfully logged out on all devices!", True)
 
 
 @USU.CALLBACK("cek_masa_aktif")
