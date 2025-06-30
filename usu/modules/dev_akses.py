@@ -369,12 +369,32 @@ async def _(client, message):
     try:
         await db.remove_from_vars(bot.me.id, "AKSES", user.id)
         await db.rem_expired_date(user_id)
-        return await msg.edit(f"""<i><b>Information!</b>
+        await msg.edit(f"""<i><b>Information!</b>
  <b>Name:</b> {user.mention}
  <b>ID:</b> {user.id}
- <b>Status:</b> unactive</i>
+ <b>Status:</b> tidak aktif</i>
 """
         )
+        for semua in DEVS:
+            await bot.send_message(
+                semua,
+                f"<i><b>ID-Seller:</b> {message.from_user.id}\n<b>ID-Customer:</b> {user.id}\n<b>Status:</b> tidak aktif</i>",
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                            f"{message.from_user.first_name} {message.from_user.last_name or ''}",
+                            url=f"tg://openmessage?user_id={message.from_user.id}",
+                            ),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                f"{user.first_name} {user.last_name or ''}",     url=f"tg://openmessage?user_id={user.id}"
+                            ),
+                        ],
+                    ]
+                ),
+            )
     except Exception as error:
         return await msg.edit(error)
 
@@ -435,14 +455,14 @@ async def _(client, message):
  <b>Name:</b> {user.mention}
  <b>ID:</b> {user.id}
  <b>Expired:</b> {get_bulan} Month!
- <b>Status:</b> active
+ <b>Status:</b> aktif
  <b>Silahkan pencet [Install Userbot](https://t.me/{bot.me.username}?start=true)</b></i>
 """
         )
         for semua in DEVS:
             await bot.send_message(
                 semua,
-                f"<i><b>ID-Seller:</b> {message.from_user.id}\n\n<b>ID-Customer:</b> {user.id}</i>",
+                f"<i><b>ID-Seller:</b> {message.from_user.id}\n<b>ID-Customer:</b> {user.id}\n<b>Status:</b> aktif {get_bulan} bulan</i>",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -554,7 +574,7 @@ async def _(client, message):
         for semua in DEVS:
             await bot.send_message(
                 semua,
-                f"<i><b>ID-Seller:</b> {message.from_user.id}\n\n<b>Name:</b> {user.mention}\n<b>ID:</b> {user.id}\n<b>Saldo +</b> Rp {teks}\n<b>ID Transaksi:</b> {topup_id}</i>",
+                f"<i><b>ID-Seller:</b> {message.from_user.id}\n<b>Name:</b> {user.mention}\n<b>ID:</b> {user.id}\n<b>Saldo +</b> Rp {teks}\n<b>ID Transaksi:</b> {topup_id}</i>",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -633,7 +653,7 @@ async def _(client, message):
         for semua in DEVS:
             await bot.send_message(
                 semua,
-                f"<i><b>ID-Seller:</b> {message.from_user.id}\n\n<b>Name:</b> {user.mention}\n<b>ID:</b> {user.id}\n<b>Saldo -</b> Rp {teks}</i>",
+                f"<i><b>ID-Seller:</b> {message.from_user.id}\n<b>Name:</b> {user.mention}\n<b>ID:</b> {user.id}\n<b>Saldo -</b> Rp {teks}</i>",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
