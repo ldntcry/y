@@ -324,7 +324,29 @@ async def _(client, message):
         await msg.edit(f"""<i><b>{ggl}Not client!</b></i>
 """
         )
-
+    try:
+        for semua in DEVS:
+            await bot.send_message(
+                semua,
+                f"<i><b>ID-Seller:</b> {message.from_user.id}\n<b>ID-Customer:</b> {user.id}\n<b>Masa Aktif:</b> {get_day} hari</i>",
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                            f"{message.from_user.first_name} {message.from_user.last_name or ''}",
+                            url=f"tg://openmessage?user_id={message.from_user.id}",
+                            ),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                f"{user.first_name} {user.last_name or ''}",     url=f"tg://openmessage?user_id={user.id}"
+                            ),
+                        ],
+                    ]
+                ),
+            )
+    except Exception as error:
+        return await msg.edit(error)
 
 
 @USU.UBOT("getuser")
