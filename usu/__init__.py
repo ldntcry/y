@@ -137,12 +137,20 @@ class UsuInti(Client):
 class Bot(UsuInti):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.usu = Client(name="assistant", in_memory=True, api_id=API_ID, api_hash=API_HASH, session_string=str(STRING))
-        self.assistant = PyTgCalls(
-            self.usu
-        )
+        self.usu = None
+        self.assistant = None
         self.device_model = DEVICE_NAME
         self.app_version = DEVICE_VERSION
+
+        if STRING:
+            self.usu = Client(
+                name="assistant",
+                in_memory=True,
+                api_id=API_ID,
+                api_hash=API_HASH,
+                session_string=str(STRING)
+            )
+            self.assistant = PyTgCalls(self.usu)
 
     def on_message(self, filters=None, group=-1):
         def decorator(func):
@@ -164,33 +172,39 @@ class Bot(UsuInti):
             return func
         return decorator
 
+    async def start_assistant(self):
+        """Start assistant jika STRING tersedia."""
+        if not self.usu or not self.assistant:
+            logger.info("Assistant tidak dijalankan karena STRING kosong.")
+            return
+
+        try:
+            with redirect_stdout(io.StringIO()):
+                await self.usu.start()
+                await self.assistant.start()
+        except Exception as e:
+            logger.error(f"[Assistant Error] {e}")
+            return
+
+        try:
+            await self.send_message(LOGS_CHAT, "<b><i>Bot aktif!</i></b>")
+            await self.usu.send_message(LOGS_CHAT, "<b><i>Assistant aktif!</i></b>")
+            logger.info("Assistant started!")
+        except FloodWait as e:
+            await asyncio.sleep(e.value)
+            try:
+                await self.send_message(LOGS_CHAT, "<b><i>Bot utama aktif!</i></b>")
+                await self.usu.send_message(LOGS_CHAT, "<b><i>Assistant aktif!</i></b>")
+                logger.info("Assistant started!")
+            except:
+                logger.error("Tambahkan assistant dan bot ke LOGS_CHAT dan jadikan admin.")
+        except:
+            logger.error("Tambahkan assistant dan bot ke LOGS_CHAT dan jadikan admin.")
+            sys.exit()
+
     async def start(self):
         await super().start()
-        if STRING:
-            try:
-                with redirect_stdout(io.StringIO()):
-                    await self.assistant.start()
-            except Exception as e:
-                logger.error(f"Error: {e}")
-            try:
-                await self.send_message(LOGS_CHAT, f"<b><i>Bot music aktif!</i></b>")
-                await self.usu.send_message(LOGS_CHAT, f"<b><i>Assistant started!</i></b>")
-                logger.info(f"Assistant started!")
-            except FloodWait as e:
-                await asyncio.sleep(e.value)
-                try:
-                    await self.send_message(LOGS_CHAT, f"<b><i>Bot music started!</i></b>")
-                    await self.usu.send_message(LOGS_CHAT, f"<b><i>Assistant started!</i></b>")
-                    logger.info(f"Assistant - {self.usu.me.id} started!")
-                except:
-                    logger.error(
-                        f"Silahkan tambahkan assistant dan bot nya ke chat logs dan jangan lupa di adminkan "
-                    )
-            except:
-                logger.error(
-                    f"Silahkan tambahkan assistant dan bot nya ke chat logs dan jangan lupa di adminkan "
-                )
-                sys.exit()
+        await self.start_assistant()
         get = await self.get_chat_member(LOGS_CHAT, self.me.id)
         if get.status != ChatMemberStatus.ADMINISTRATOR:
             logger.error("Tolong promosikan bot sebagai admin di logs chat")
