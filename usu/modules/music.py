@@ -586,6 +586,8 @@ async def _(client, message):
 @USU.BOT("playlist")
 @USU.GC
 async def _(client, message):
+    if not bot.assistant:
+        return
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
     prs = await EMO.PROSES(client)
@@ -607,6 +609,8 @@ async def _(client, message):
 @USU.BOT("play")
 @USU.GC
 async def _(client, message):
+    if not bot.assistant:
+        return
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
     prs = await EMO.PROSES(client)
@@ -845,6 +849,8 @@ async def _(client, message):
 @USU.BOT("vplay")
 @USU.GC
 async def _(client, message):
+    if not bot.assistant:
+        return
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
     prs = await EMO.PROSES(client)
@@ -1074,6 +1080,8 @@ async def _(client, message):
 @USU.GC
 @USU.ADMIN
 async def _(client, message):
+    if not bot.assistant:
+        return
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
     prs = await EMO.PROSES(client)
@@ -1107,6 +1115,8 @@ async def _(client, message):
 @USU.GC
 @USU.ADMIN
 async def _(client, message):
+    if not bot.assistant:
+        return
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
     prs = await EMO.PROSES(client)
@@ -1142,6 +1152,8 @@ async def _(client, message):
 @USU.GC
 @USU.ADMIN
 async def _(client, message):
+    if not bot.assistant:
+        return
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
     prs = await EMO.PROSES(client)
@@ -1177,6 +1189,8 @@ async def _(client, message):
 @USU.GC
 @USU.ADMIN
 async def _(client, message):
+    if not bot.assistant:
+        return
     sks = await EMO.SUKSES(client)
     ggl = await EMO.GAGAL(client)
     prs = await EMO.PROSES(client)
