@@ -1,6 +1,11 @@
 import os
 import sys
 
+DEVICE_NAME = os.getenv("DEVICE_NAME", "ell ubot") #Nama device bebas di ubah sesuka hati
+
+DEVICE_VERSION = os.getenv("DEVICE_VERSION", "1.1.2") #Versi bebas di ubah sesuka hati
+
+HARGA_USERBOT = int(os.getenv("HARGA_USERBOT", "25")) #Harga bebas di ubah sesuka hati
 
 MAX_BOT = int(os.getenv("MAX_BOT", "9999"))
 
