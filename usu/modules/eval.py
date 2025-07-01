@@ -85,34 +85,7 @@ def usec() -> int:
     return int(time() * 1000000)
 
 
-@USU.UBOT("sh")
-@USU.DEVS
-async def _(client, message):
-    sks = await EMO.SUKSES(client)
-    ggl = await EMO.GAGAL(client)
-    prs = await EMO.PROSES(client)
-    command = get_arg(message)
-    msg = await message.reply(f"<i><b>{prs}Processing...</b></i>")
-    if not command:
-        return await msg.edit(f"<i><b>{ggl}Invalid!</b></i>")
-    try:
-        await process_command(message, command)
-        await msg.delete()
-    except Exception as error:
-        await message.reply(error)
 
-@USU.BOT("sh")
-@USU.DEVS
-async def _(client, message):
-    command = get_arg(message)
-    msg = await message.reply(f"<i><b>Processing...</b></i>")
-    if not command:
-        return await msg.edit(f"<i><b>Invalid!</b></i>")
-    try:
-        await process_command(message, command)
-        await msg.delete()
-    except Exception as error:
-        await message.reply(error)
 
 @USU.UBOT("clean")
 @USU.DEVS
