@@ -9,24 +9,24 @@ HARGA_USERBOT = int(os.getenv("HARGA_USERBOT", "25")) #Harga bebas di ubah sesuk
 
 MAX_BOT = int(os.getenv("MAX_BOT", "9999"))
 
-API_ID = int(os.getenv("API_ID", "28767825"))
+API_ID = int(os.getenv("API_ID", "24342100"))
 
-API_HASH = os.getenv("API_HASH", "92e40bda3ca8b6bc77fe9aabdcda6eda")
+API_HASH = os.getenv("API_HASH", "ae832e8716214d76653fa49287934265")
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "7113180777:AAHBM6T7ZGx1vlYE-91EAFQzL1Hoj-13TBw")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "7884852533:AAGQqIWqKRPpk1ksyDmugwkWCh-no3RHy3s")
 
-DEVS = list(map(int, os.getenv("DEVS", "7694024335 6935749105 1992950127 931708433").split()))
-OWNER_ID = int(os.getenv("OWNER_ID", "6935749105"))
+DEVS = list(map(int, os.getenv("DEVS", "1992950127 6653040255 6517834553").split()))
+OWNER_ID = int(os.getenv("OWNER_ID", "6653040255"))
 
 AUTO_JOIN = os.getenv("AUTO_JOIN", "LmodeStore ellubotsupport").split()
 
 AUTO_REACTION = os.getenv("AUTO_REACTION", "LmodeStore")
 
-USERNAME = os.getenv("USERNAME", "Gitu_aj")
+USERNAME = os.getenv("USERNAME", "petinggicntik")
 
 FSUB = os.getenv("FSUB", "LmodeStore ellubotsupport").split()
 
-LOGS_CHAT = int(os.getenv("LOGS_CHAT", "-1002658213833"))
+LOGS_CHAT = int(os.getenv("LOGS_CHAT", "-1002167927362"))
 
 BLACKLIST_CHAT = list(map(int, os.getenv("BLACKLIST_CHAT", "-1002579277466 -1002501848632 -1002167927362").split()))
 
