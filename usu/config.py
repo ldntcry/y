@@ -42,4 +42,4 @@ GEMINI_API = os.getenv("GEMINI_API", "AIzaSyAkHiriJ43kxfb4mIfxocF60mnN9wnIGZo")
 
 DATABASE = os.getenv("DATABASE", "ell")
 
-STRING = os.getenv("STRING", None) #String assistant anda
+STRING = os.getenv("STRING", "BQGR3jwAKTt-gF-jhE4ExvxES_XBGp7ypw404iXoNDzn2jSQtFXv4Puy3hXJvWDxDoOrbXl-zJ03ov6WtT450f0LhvOxXcNiocyJ5SsqVHlJpLRARHTKXUrN2V0lkzO8O6NRoBvSbDJjVEafI8KU8LiFmfGYPl37OMNEl3UTZhz4MFRZQ-EgC9XW_CX14GUgJHfryDSbU3Y7rnQbdbStnYdJ8nJm8enHNH3W4gBHukeX4IEAhkVaM8gy1AUSJEYyanxGdwr3qN_O5zatBY-gdTmRWfHaU7e3nOodxCL4JL9AJjdAFUHFgKCL5O5OjPIUpKl-VHrxNj01CYyIEbwWKCsE1vWCmgAAAAGEfkM5AA") #String assistant anda
