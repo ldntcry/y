@@ -7,7 +7,7 @@ DEVICE_VERSION = os.getenv("DEVICE_VERSION", "1.1.2") #Versi bebas di ubah sesuk
 
 HARGA_USERBOT = int(os.getenv("HARGA_USERBOT", "25")) #Harga bebas di ubah sesuka hati
 
-MAX_BOT = int(os.getenv("MAX_BOT", "9999"))
+MAX_BOT = int(os.getenv("MAX_BOT", "15"))
 
 API_ID = int(os.getenv("API_ID", "24342100"))
 
