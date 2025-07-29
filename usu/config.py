@@ -9,14 +9,14 @@ HARGA_USERBOT = int(os.getenv("HARGA_USERBOT", "25")) #Harga bebas di ubah sesuk
 
 MAX_BOT = int(os.getenv("MAX_BOT", "15"))
 
-API_ID = int(os.getenv("API_ID", "24342100"))
+API_ID = int(os.getenv("API_ID", "21871018"))
 
-API_HASH = os.getenv("API_HASH", "ae832e8716214d76653fa49287934265")
+API_HASH = os.getenv("API_HASH"d65d6dd5b129805544498b265c92f3c4")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "7884852533:AAGQqIWqKRPpk1ksyDmugwkWCh-no3RHy3s")
 
-DEVS = list(map(int, os.getenv("DEVS", "931708433 6653040255").split()))
-OWNER_ID = int(os.getenv("OWNER_ID", "6653040255"))
+DEVS = list(map(int, os.getenv("DEVS", "931708433 5492088564").split()))
+OWNER_ID = int(os.getenv("OWNER_ID", "5492088564"))
 
 AUTO_JOIN = os.getenv("AUTO_JOIN", "LmodeStore ellubotsupport").split()
 
