@@ -11,7 +11,7 @@ MAX_BOT = int(os.getenv("MAX_BOT", "15"))
 
 API_ID = int(os.getenv("API_ID", "21871018"))
 
-API_HASH = os.getenv("API_HASH"d65d6dd5b129805544498b265c92f3c4")
+API_HASH = os.getenv("API_HASH","d65d6dd5b129805544498b265c92f3c4")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "7884852533:AAGQqIWqKRPpk1ksyDmugwkWCh-no3RHy3s")
 
