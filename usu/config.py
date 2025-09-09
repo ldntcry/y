@@ -15,7 +15,7 @@ API_HASH = os.getenv("API_HASH","d65d6dd5b129805544498b265c92f3c4")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "7884852533:AAGQqIWqKRPpk1ksyDmugwkWCh-no3RHy3s")
 
-DEVS = list(map(int, os.getenv("DEVS", "931708433 5492088564").split()))
+DEVS = list(map(int, os.getenv("DEVS", "1404077683 890425915").split()))
 OWNER_ID = int(os.getenv("OWNER_ID", "1404077683"))
 
 AUTO_JOIN = os.getenv("AUTO_JOIN", "LmodeStore ellubotsupport").split()
