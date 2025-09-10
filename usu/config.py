@@ -9,11 +9,11 @@ HARGA_USERBOT = int(os.getenv("HARGA_USERBOT", "25")) #Harga bebas di ubah sesuk
 
 MAX_BOT = int(os.getenv("MAX_BOT", "999"))
 
-API_ID = int(os.getenv("API_ID", "21871018"))
+API_ID = int(os.getenv("API_ID", "22902583"))
 
-API_HASH = os.getenv("API_HASH","d65d6dd5b129805544498b265c92f3c4")
+API_HASH = os.getenv("API_HASH","19748edc9e9898c9360878f8fc371c8d")
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "7884852533:AAGQqIWqKRPpk1ksyDmugwkWCh-no3RHy3s")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8208399495:AAFWnwXwgmK78ZlYXo2-p4sGD4VraAjifLo")
 
 DEVS = list(map(int, os.getenv("DEVS", "1404077683 890425915").split()))
 OWNER_ID = int(os.getenv("OWNER_ID", "1404077683"))
